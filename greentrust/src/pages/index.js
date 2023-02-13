@@ -50,7 +50,7 @@ export default function Home({}) {
     <>
       <div className="bg-white w-full overflow-hidden h-screen">
         <NavBar />
-        <div className="flex flex-col md:flex-row justify-around items-center min-h-screen -mt-10">
+        <div className="flex flex-col md:flex-row justify-center md:justify-around items-center min-h-screen -mt-10">
           <p className="h-32 font-bold text-6xl text-primary font-comfortaa mt-20 md:mt-0 text-left mr-16 md:mr-0">
             Get <br></br>Verified
           </p>

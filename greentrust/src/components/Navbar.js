@@ -1,7 +1,7 @@
 export default function NavBar() {
   return (
     <div>
-      <nav className="hidden md:block bg-white border-gray-200 px-2 px-4 py-2.5 rounded-full shadow-xl mx-[13%] mt-[25px] h-[88px]">
+      <nav className="hidden md:block bg-white border-gray-200 px-2 px-4 py-2.5 rounded-full shadow-xl mx-[13%] mt-[1.566rem] h-[88px]">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <div>
             <a>

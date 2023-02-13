@@ -37,7 +37,7 @@ export default function FarmInfo({ farmName, StakedDetails }) {
 
   return (
     <div >
-      <div className="mt-10 mx-[13%]">
+      <div className="mt-10 ">
             <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
                 Farm Info
             </p>

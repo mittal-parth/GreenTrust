@@ -11,22 +11,7 @@ export default function FarmInfo({ farmName, StakedDetails }) {
   ]);
   var area = 100;
   var location="Assam"
-  var cropDetailsList = [
-    cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,cropDetails,
-    cropDetails,
-    cropDetails,
-    cropDetails,
-  ];
+  var cropDetailsList = Array(7).fill(cropDetails);
 
   var element = cropDetailsList.map((cropDetails) => {
     return <CropCard cropDetails={cropDetails} />;

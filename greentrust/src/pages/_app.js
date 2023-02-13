@@ -13,6 +13,7 @@ export default function App({ Component, pageProps }) {
     <Layout>
 
     <ProvideAuth provider={provider}>
+      
       <Component {...pageProps} />
     </ProvideAuth>
     </Layout>

@@ -19,6 +19,13 @@ export default function FarmInfo({ farmName, StakedDetails }) {
     cropDetails,
     cropDetails,
     cropDetails,
+    cropDetails,cropDetails,
+    cropDetails,
+    cropDetails,
+    cropDetails,cropDetails,
+    cropDetails,
+    cropDetails,
+    cropDetails,
   ];
 
   var element = cropDetailsList.map((cropDetails) => {
@@ -34,8 +41,11 @@ export default function FarmInfo({ farmName, StakedDetails }) {
             <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
                 Farm Info
             </p>
-        <div className="flex">
-            <img src="./images/farmer.png" className="mr-10  object-none"></img>
+        <div className="flex mb-10">
+            <div className="">
+            <img src="./images/farmer.png" className="mr-10 my-auto object-none"></img>
+
+            </div>
             <div>
                 <div>
                     <div>

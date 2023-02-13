@@ -15,9 +15,11 @@ module.exports = {
         secondary: "#3F7D20",
         dimWhite: "rgba(255, 255, 255, 0.7)",
         darkGray: "#454955",
+        darkPrimary: "#3F7D20",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
+        comfortaa: ["Comfortaa", "cursive"],
       },
     },
     screens: {

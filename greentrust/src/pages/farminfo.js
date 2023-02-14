@@ -33,7 +33,7 @@ export default function FarmInfo({ farmName, StakedDetails }) {
           </div>
           <div>
             <div>
-              <p className="w-fit font-bold text-2xl text-center text-primary font-comfortaa pt-6">
+              <p className="w-fit font-bold text-3xl text-center text-primary font-comfortaa pt-6">
                 Serene Farm
               </p>
               <div className="flex my-5">
@@ -57,7 +57,7 @@ export default function FarmInfo({ farmName, StakedDetails }) {
                 </div>
               </div>
             </div>
-            <div className="my-20">
+            <div className="my-10">
               <FarmerDefaultCard
                 farmerName={"Dibyam Kumar"}
                 farmerEmail={"Dibyam999@gmail.com"}

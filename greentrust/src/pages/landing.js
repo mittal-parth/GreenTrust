@@ -10,10 +10,10 @@ const Landing = () => {
 
         <div
           id="home"
-          className={`flex md:flex-row flex-col ${classes.paddingY}`}
+          className={`flex md:flex-row flex-col ${classes.paddingY} ${classes.paddingX} `}
         >
           <div
-            className={`flex-1 ${classes.flexStart} flex-col xl:px-0 sm:px-16 px-6 md:ml-12`}
+            className={`flex ${classes.flexStart} flex-col xl:px-0 sm:px-16 px-6`}
           >
             {/* Hero text */}
             <div className="flex flex-row justify-between items-center w-full text-primary">
@@ -46,8 +46,8 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className="w-1/3 hidden md:block">
-        <img src="./images/landing.svg" alt="landing" />
+      <div className="w-1/3 hidden md:block ">
+        <img src="./images/landing.svg" alt="landing" className="object-cover h-screen"/>
       </div>
     </div>
   );

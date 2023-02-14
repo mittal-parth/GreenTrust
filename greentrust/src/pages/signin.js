@@ -7,7 +7,7 @@ export default function SignIn() {
   const auth = useAuth();
 
   useEffect(() => {
-    if (auth?.isLoggedIn){
+    if (auth?.isLoggedIn) {
       router.push("/");
     }
   }, [auth?.isLoggedIn]);
@@ -15,7 +15,7 @@ export default function SignIn() {
   const onLogin = async () => {
     console.log(auth.user)
   };
-  const logout = async()=>{
+  const logout = async () => {
     await auth.logout();
   }
   return (
@@ -24,12 +24,12 @@ export default function SignIn() {
         "Loading"
       ) : auth.isLoggedIn ? (
         <div>
-        Logged In
-        <button onClick={logout}>Logout</button>
+          Logged In
+          <button onClick={logout}>Logout</button>
         </div>
       ) : (
         <div>
-          <Auth externalWallet={true} theme={"light"} onLogin={onLogin}/>
+          <Auth externalWallet={true} theme={"light"} onLogin={onLogin} />
         </div>
       )}
     </>

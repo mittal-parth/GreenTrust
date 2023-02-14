@@ -10,7 +10,7 @@ import {
   faQrcode,
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import PendingChallenge from "@/components/pendingChallenge";
 
 const Crop = () => {

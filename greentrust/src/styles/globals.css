@@ -135,3 +135,24 @@ a {
   border-radius: 14px;
   border: 3px solid var(--scrollbar-primary);
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  opacity: 1;
+  filter: invert(0.8);
+}
+input::file-selector-button {
+  font-weight: bold;
+  background-color: white;
+  color: darkgray;
+  padding: 0.5em;
+  border: thin solid white;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 0.5em;
+  font-size: 1em;
+  
+  
+}

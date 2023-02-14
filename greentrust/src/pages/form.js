@@ -15,9 +15,11 @@ export default function Form() {
           Fill up the details asked and upload supporting documents
         </p>
       </div>
-      <div className="flex flex-row justify-center flex-1">
+      <div className="flex flex-col justify-center flex-1">
         <Input />
+    
       </div>
+      
     </div>
   );
 }

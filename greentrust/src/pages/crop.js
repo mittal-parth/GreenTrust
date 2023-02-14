@@ -2,16 +2,19 @@ import SensorCard from "@/components/SensorCard";
 import FarmerDefaultCard from "@/components/FarmerInfoCard";
 
 import classes from "../style";
-import { BiRupee } from "@react-icons/all-files/bi/BiRupee";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
   faChartPie,
   faQrcode,
   faCircleXmark,
+  faHandshake,
+  faPrayingHands,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import PendingChallenge from "@/components/pendingChallenge";
+import StakeHolders from "@/components/StakeHolders";
 
 const Crop = () => {
   var stateAmount = 100;
@@ -21,36 +24,37 @@ const Crop = () => {
   ]);
   var area = 100;
   var location = "Assam";
-  var sensorDetailsList = Array(10).fill(sensorDetails);
-  var stakedHolders = Array(10).fill(
-    <img src="./images/jonathan.png" className="rounded-full mr-2"></img>
-  );
+  var sensorDetailsList = Array(8).fill(sensorDetails);
+
   var element = sensorDetailsList.map((sensorDetails) => {
     return <SensorCard sensorDetails={sensorDetails} />;
   });
 
-  var sensorList = <div className="grid grid-cols-4  w-fit ">{element}</div>;
+  var sensorList = (
+    <div className="grid grid-cols-2 md:grid-cols-4 sm:grid-cols-3">
+      {element}
+    </div>
+  );
   var location = "Assam";
   var area = "100";
   return (
     <div>
-      <div className="mt-10 ">
-        <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
-          Farm Info
+      <div className="mt-10">
+        <p className="font-comfortaa font-bold text-4xl text-darkPrimary pb-15">
+          Crop Info
         </p>
-        <div className="flex mb-10">
-          <div className="">
-            <img
-              src="./images/plant.png"
-              className="mr-10 my-auto object-none"
-            ></img>
-          </div>
-          <div>
+        <div className="flex flex-col md:flex-row mb-10 justify-around">
+          <img
+            src="./images/plant.png"
+            className="mr-10 my-auto object-none hidden md:block"
+          ></img>
+
+          <div className="mt-4">
             <div>
               <div className="flex justify-between items-center pt-4">
                 <div className="flex items-center">
-                  <p className="w-fit mx-3 font-bold text-4xl text-center text-primary font-comfortaa   ">
-                    Barley
+                  <p className=" font-bold text-3xl text-center text-primary font-comfortaa">
+                    Barley &nbsp;
                   </p>
                   <FontAwesomeIcon
                     icon={faQrcode}
@@ -72,7 +76,7 @@ const Crop = () => {
                     icon={faLocationDot}
                     style={{ color: "brown" }}
                   />
-                  <p className="text-darkGray font-comfortaa px-3 ">
+                  <p className="text-darkGray font-comfortaa px-3">
                     {location}
                   </p>
                 </div>
@@ -81,13 +85,13 @@ const Crop = () => {
                     icon={faChartPie}
                     style={{ color: "grey" }}
                   />
-                  <p className="text-darkGray font-comfortaa px-3 ">
+                  <p className="text-darkGray font-comfortaa px-3">
                     {area} Acres
                   </p>
                 </div>
               </div>
             </div>
-            <div className="my-20">
+            <div className="my-10">
               <FarmerDefaultCard
                 farmerName={"Dibyam Kumar"}
                 farmerEmail={"Dibyam999@gmail.com"}
@@ -97,37 +101,24 @@ const Crop = () => {
               Crops
             </p>
             {sensorList}
-            <p className="w-fit mx-3 mt-10 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">
-              Stakeholders
-            </p>
-            <div className="flex mt-2 items-center  ">
-              <BiRupee className="text-primary" />
-              &nbsp;
-              <p className={`${classes.paragraph}`}>{stateAmount} </p>
-            </div>
-
-            <div>
-              <div className="flex my-3">{stakedHolders}</div>
-              <div className="flex mt-10 space-x-10">
-                <Button
-                  text="Stake"
-                  icon={faCircleXmark}
-                  color={"bg-primary"}
-                />
+            <StakeHolders />
+            <div className="mx-3">
+              <div className="flex mt-10">
+                <Button text="Stake" icon={faHandshake} color={"bg-primary"} />
                 <Button
                   text="Request Stakes"
-                  icon={faCircleXmark}
+                  icon={faPrayingHands}
                   color={"bg-primary"}
                 />
               </div>
             </div>
           </div>
         </div>
-        <div>
-        <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
-          Pending Challenges
-        </p>
-        <PendingChallenge />
+        <div className="mb-8 mt-16">
+          <p className="font-comfortaa font-bold text-3xl text-darkPrimary pb-15 my-10">
+            Pending Challenges
+          </p>
+          <PendingChallenge />
         </div>
       </div>
     </div>

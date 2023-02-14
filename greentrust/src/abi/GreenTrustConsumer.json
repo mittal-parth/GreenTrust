@@ -1,0 +1,295 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "challengeId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "challenged",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "challenger",
+        "type": "address"
+      }
+    ],
+    "name": "challengeAccepted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "challenged",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "challenger",
+        "type": "address"
+      }
+    ],
+    "name": "challengeAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "consumerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "consumerRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "consumerAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "consumerUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "defaultChallengeStatus",
+    "outputs": [
+      {
+        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_challengeId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchChallengeDetails",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "verifierId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "challenger",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "challenged",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustConsumer.Challenge",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_consumerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchConsumerDetails",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustConsumer.Consumer",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fetchConsumerProfile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustConsumer.Consumer",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "name": "updateConsumerProfile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustConsumer.Consumer",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

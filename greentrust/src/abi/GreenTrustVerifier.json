@@ -1,0 +1,209 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "verifierAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "verifierRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "verifierAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "verifierUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_verifierId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchVerifierDetails",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "currentAddress",
+            "type": "string"
+          },
+          {
+            "internalType": "string[]",
+            "name": "idCards",
+            "type": "string[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustVerifier.Verifier",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fetchVerifierProfile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "currentAddress",
+            "type": "string"
+          },
+          {
+            "internalType": "string[]",
+            "name": "idCards",
+            "type": "string[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustVerifier.Verifier",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_currentAddress",
+        "type": "string"
+      },
+      {
+        "internalType": "string[]",
+        "name": "_idCards",
+        "type": "string[]"
+      }
+    ],
+    "name": "updateVerifierProfile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "currentAddress",
+            "type": "string"
+          },
+          {
+            "internalType": "string[]",
+            "name": "idCards",
+            "type": "string[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustVerifier.Verifier",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

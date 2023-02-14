@@ -17,7 +17,7 @@ const Landing = () => {
           >
             {/* Hero text */}
             <div className="flex flex-row justify-between items-center w-full text-primary">
-              <h1 className="flex-1 font-comfortaa font-semibold ss:text-[50px] text-[40px] text-darkGray ss:leading-[80px] leading-[80px]">
+              <h1 className="flex-1 font-comfortaa font-semibold ss:text-[44px] text-[40px] text-darkGray ss:leading-[70px] leading-[80px]">
                 Register with
               </h1>
             </div>
@@ -26,7 +26,7 @@ const Landing = () => {
               <span className="text-primary font-900 ">Green </span>{" "}
               <span className="text-darkGray font-poppins">TRUST</span>
             </h1>
-            <h1 className="flex-1 font-comfortaa font-semibold ss:text-[50px] text-[40px] text-darkGray ss:leading-[80px] leading-[80px]">
+            <h1 className="flex-1 font-comfortaa font-semibold ss:text-[44px] text-[40px] text-darkGray ss:leading-[70px] leading-[80px]">
               today!
             </h1>
             <p

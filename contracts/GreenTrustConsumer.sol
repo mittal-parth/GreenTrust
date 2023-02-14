@@ -111,4 +111,21 @@ contract GreenTrustConsumer {
         );
         return challenges[_challengeId];
     }
+
+    function getChallengeStatusLabel(ChallengeStatus _status)
+        public
+        pure
+        returns (string memory)
+    {
+        if (_status == ChallengeStatus.OPEN) {
+            return "Open";
+        } else if (_status == ChallengeStatus.ALLOTTED) {
+            return "Accepted";
+        } else if (_status == ChallengeStatus.REJECTED) {
+            return "Rejected";
+        } else if (_status == ChallengeStatus.SUCCESSFUL) {
+            return "Resolved";
+        }
+        return "Invalid";
+    }
 }

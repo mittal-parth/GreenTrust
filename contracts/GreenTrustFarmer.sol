@@ -186,7 +186,7 @@ contract GreenTrustFarmer {
         return sensors[_sensorId];
     }
 
-    function FetchFarmerFarms(uint256 _farmerId)
+    function fetchFarmerFarms(uint256 _farmerId)
         public
         view
         returns (Farm[] memory)
@@ -213,6 +213,7 @@ contract GreenTrustFarmer {
         for (uint256 i = 0; i < farms.length; i++) {
             if (farms[i].farmerId == queryFarmer && farms[i].isValid) {
                 temp[j] = farms[i];
+                j++;
             }
         }
         return temp;
@@ -230,16 +231,42 @@ contract GreenTrustFarmer {
         return crops[_cropId];
     }
 
-    function fetchFarmDetails(uint256 _farmId)
+    function fetchFarmCrops(uint256 _farmId)
         public
         view
-        returns (Farm memory)
+        returns (Crop[] memory)
     {
         require(
             _farmId > 0 && _farmId <= farms.length && farms[_farmId].isValid,
             "Farm does not exist"
         );
-        return farms[_farmId];
+        uint256 numCrops;
+        uint256 j;
+        for (uint256 i = 0; i < crops.length; i++) {
+            if (crops[i].farmId == _farmId && crops[i].isValid) {
+                numCrops++;
+            }
+        }
+        Crop[] memory temp;
+        for (uint256 i = 0; i < crops.length; i++) {
+            if (crops[i].farmId == _farmId && crops[i].isValid) {
+                temp[j] = crops[i];
+                j++;
+            }
+        }
+        return temp;
+    }
+
+    function fetchFarmDetails(uint256 _farmId)
+        public
+        view
+        returns (Farm memory, Farmer memory, Crop[] memory)
+    {
+        require(
+            _farmId > 0 && _farmId <= farms.length && farms[_farmId].isValid,
+            "Farm does not exist"
+        );
+        return (farms[_farmId], farmers[farms[_farmId].farmerId], fetchFarmCrops(_farmId));
     }
 
     function fetchFarmerDetails(uint256 _farmerId)
@@ -282,5 +309,77 @@ contract GreenTrustFarmer {
             "Stake does not exist"
         );
         return stakes[_stakeId];
+    }
+
+    function fetchFarmerStakes()
+        public
+        view
+        returns (Stake[] memory)
+    {
+        require(
+            addressToFarmerIds[msg.sender] != 0,
+            "Only registered farmers can view their stakes"
+        );
+        uint numStakes;
+        uint j;
+        for (uint256 i = 0; i < stakes.length; i++) {
+            if (stakes[i].stakeholder == msg.sender && stakes[i].isValid) {
+                numStakes++;
+            }
+        }
+        Stake[] memory temp;
+        for (uint256 i = 0; i < farms.length; i++) {
+            if (stakes[i].stakeholder == msg.sender && stakes[i].isValid) {
+                temp[j] = stakes[i];
+                j++;
+            }
+        }
+        return temp;
+    }
+
+    function fetchFarmerDashboardDetails()
+        public
+        view
+        returns (Farmer memory, Farm[] memory, Stake[] memory)
+    {
+        require(
+            addressToFarmerIds[msg.sender] != 0,
+            "Only registered farmers can view their dashboard"
+        );
+        return (
+            fetchFarmerProfile(),
+            fetchFarmerFarms(addressToFarmerIds[msg.sender]),
+            fetchFarmerStakes()
+        );
+    }
+
+    function getCropStatusLabel(CropStatus _status)
+        public
+        pure
+        returns (string memory)
+    {
+        if (_status == CropStatus.OPEN) {
+            return "Open";
+        } else if (_status == CropStatus.LOCKED) {
+            return "Accepted";
+        } else if (_status == CropStatus.CLOSED) {
+            return "Rejected";
+        }
+        return "Invalid";
+    }
+
+    function getStakeStatusLabel(StakeStatus _status)
+        public
+        pure
+        returns (string memory)
+    {
+        if (_status == StakeStatus.STAKED) {
+            return "Staked";
+        } else if (_status == StakeStatus.RELEASED) {
+            return "Released";
+        } else if (_status == StakeStatus.UNSUCCESSFUL) {
+            return "Unsuccessful";
+        }
+        return "Invalid";
     }
 }

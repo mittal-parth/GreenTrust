@@ -1,13 +1,16 @@
-import "@/styles/globals.css";
+import { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/router";
+
 import { AuthProvider, CHAIN } from "@arcana/auth";
 import { ProvideAuth } from "@arcana/auth-react";
-import { appAddress } from "@/config";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+
+import { appAddress } from "@/config";
 import Layout from "@/components/Layout";
-import { useRouter } from 'next/router'
-import { useEffect, useState, useContext } from "react";
+import "@/styles/globals.css";
 import {AuthContext} from "@/context/authContext";
+
 
 config.autoAddCss = false;
 
@@ -42,17 +45,17 @@ export default function App({ Component, pageProps }) {
   }, [])
 
   const router = useRouter();
-
+  
   return (
     <>
       <ProvideAuth provider={authProvider}>
         <AuthContext.Provider value={{loadingAuth, authProvider}}>
-          {router.pathname === "/auth/login" || router.pathname === "/"
-            ? (<Component {...pageProps} />)
-            : (<Layout>
-              <Component {...pageProps} />
-            </Layout>)
-          } 
+              {router.pathname === "/auth/login" || router.pathname === "/"
+                ? (<Component {...pageProps} />)
+                : (<Layout>
+                  <Component {...pageProps} />
+                </Layout>)
+              }
         </AuthContext.Provider>
       </ProvideAuth>
     </>

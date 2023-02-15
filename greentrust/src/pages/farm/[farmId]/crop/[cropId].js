@@ -1,3 +1,6 @@
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+
 import { BiRupee } from "@react-icons/all-files/bi/BiRupee";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,15 +9,51 @@ import {
     faQrcode,
     faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "@arcana/auth-react";
 
 import SensorCard from "@/components/SensorCard";
 import FarmerDefaultCard from "@/components/FarmerInfoCard";
 import Button from "@/components/button";
 import PendingChallenge from "@/components/pendingChallenge";
 import classes from "@/style";
+import { contractCall } from "@/utils";
+import Spinner from "@/components/Spinner";
+import { SnackbarContext } from "@/context/snackbarContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 
 const Crop = () => {
+    const router = useRouter();
+
+    const { farmId, cropId } = router.query;
+
+    const auth = useAuth();
+
+    const [crop, setCrop] = useState(null);
+
+    const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
+
+    const { loading, setLoading } = useContext(LoaderContext);
+
+    async function getCropDetails() {
+        console.log("Loading...")
+        setLoading(true);
+        const res = await contractCall(auth, 'fetchCropDetails', [cropId]);
+        if (res.status == 200) {
+            setCrop(res.data[1]);
+        }
+        else {
+            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: Fetch failed` })
+        }
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        if (auth.user) {
+            getCropDetails();
+        }
+    }, [auth.user, auth.loading])
+
     var stateAmount = 100;
     var sensorDetails = new Map([
         ["sensorName", "NPK"],
@@ -33,7 +72,7 @@ const Crop = () => {
     var sensorList = <div className="grid grid-cols-4  w-fit ">{element}</div>;
     var location = "Assam";
     var area = "100";
-    return (
+    return (<>{crop && (
         <div>
             <div className="mt-10 ">
                 <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
@@ -106,7 +145,6 @@ const Crop = () => {
                             &nbsp;
                             <p className={`${classes.paragraph}`}>{stateAmount} </p>
                         </div>
-
                         <div>
                             <div className="flex my-3">{stakedHolders}</div>
                             <div className="flex mt-10 space-x-10">
@@ -132,7 +170,7 @@ const Crop = () => {
                 </div>
             </div>
         </div>
-    );
+    )}</>);
 };
 
 export default Crop;

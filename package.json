@@ -30,6 +30,8 @@
     "solidity-coverage": "^0.8.2"
   },
   "dependencies": {
-    "@polywrap/client-js": "^0.9.5"
+    "@polywrap/client-js": "^0.9.5",
+    "dotenv": "^16.0.3",
+    "hardhat-contract-sizer": "^2.8.0"
   }
 }

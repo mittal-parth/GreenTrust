@@ -1,6 +1,32 @@
-export default function NavBar() {
+import { useState } from "react";
+
+import { ArcanaAuth } from './Layout';
+import Logo from "./Logo";
+
+
+export default function Navar() {
   return (
     <div>
+<<<<<<< HEAD
+      <nav className="hidden bg-white border-gray-200 px-[80px] py-[12px] rounded-full drop-shadow-2xl w-full max-w-[1400px] md:flex flex-row items-center justify-between mx-auto">
+        <Logo />
+        <div className="flex flex-row">
+          {/* <div>
+            <div class="flex items-center pointer-events-none">
+            <svg
+            aria-hidden="true"
+            class="w-5 h-5 text-gray-500 dark:text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            >
+            <path
+            fill-rule="evenodd"
+            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+            clip-rule="evenodd"
+            ></path>
+            </svg>
+=======
       <nav className="hidden md:block bg-white border-gray-200 px-2 px-4 py-2.5 rounded-full shadow-xl mx-[13%] mt-[1.566rem] h-[88px]">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <div>
@@ -40,13 +66,23 @@ export default function NavBar() {
               <button className="bg-primary text-white text-md rounded-full px-4 py-2.5 w-[156px] h-[44px]">
                 Sign In
               </button>
+>>>>>>> deeadf5edab2d6a1fa26db0bde98e246b628c1c8
             </div>
-          </div>
+            <input
+            type="text"
+            id="simple-search"
+            class="bg-white border-2 border-black-300 text-gray-900 text-md rounded-full w-[311px] pl-10 p-2.5"
+            placeholder="Search"
+            required
+            ></input>
+          </div> */}
+          <ArcanaAuth />
         </div>
       </nav>
 
+        
       {/* For mobile devices only */}
-      <nav className="block md:hidden flex justify-between bg-white border-gray-200 px-2 md:px-4 py-2.5 shadow-xl m-auto w-full h-[64px]">
+      <nav className="md:hidden flex justify-between bg-white border-gray-200 px-2 md:px-4 py-2.5 shadow-xl m-auto w-full h-[64px]">
         <div>
           <div>
             <a>
@@ -79,22 +115,4 @@ export default function NavBar() {
 
     </div>
   );
-}
-
-//  SVG for after sign in
-{
-  // After Sign in
-  /* <svg
-      width="44"
-      height="44"
-      viewBox="0 0 44 44"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect width="44" height="44" rx="22" fill="#72B01D" />
-      <path
-        d="M22 15.25C22.5563 15.25 23.1 15.415 23.5625 15.724C24.0251 16.033 24.3855 16.4723 24.5984 16.9862C24.8113 17.5001 24.867 18.0656 24.7585 18.6112C24.6499 19.1568 24.3821 19.6579 23.9887 20.0512C23.5954 20.4446 23.0943 20.7124 22.5487 20.821C22.0031 20.9295 21.4376 20.8738 20.9237 20.6609C20.4098 20.448 19.9705 20.0876 19.6615 19.625C19.3525 19.1625 19.1875 18.6188 19.1875 18.0625C19.1875 17.3166 19.4838 16.6012 20.0113 16.0738C20.5387 15.5463 21.2541 15.25 22 15.25ZM22 14.125C21.2212 14.125 20.46 14.3559 19.8124 14.7886C19.1649 15.2212 18.6602 15.8362 18.3622 16.5557C18.0642 17.2752 17.9862 18.0669 18.1382 18.8307C18.2901 19.5945 18.6651 20.2961 19.2158 20.8467C19.7664 21.3974 20.468 21.7724 21.2318 21.9243C21.9956 22.0763 22.7873 21.9983 23.5068 21.7003C24.2263 21.4023 24.8413 20.8976 25.2739 20.2501C25.7066 19.6025 25.9375 18.8413 25.9375 18.0625C25.9375 17.0182 25.5227 16.0167 24.7842 15.2783C24.0458 14.5398 23.0443 14.125 22 14.125ZM27.625 29.875H26.5V27.0625C26.5 26.6932 26.4273 26.3274 26.2859 25.9862C26.1446 25.645 25.9374 25.3349 25.6762 25.0738C25.4151 24.8126 25.105 24.6054 24.7638 24.4641C24.4226 24.3227 24.0568 24.25 23.6875 24.25H20.3125C19.5666 24.25 18.8512 24.5463 18.3238 25.0738C17.7963 25.6012 17.5 26.3166 17.5 27.0625V29.875H16.375V27.0625C16.375 26.0182 16.7898 25.0167 17.5283 24.2783C18.2667 23.5398 19.2682 23.125 20.3125 23.125H23.6875C24.7318 23.125 25.7333 23.5398 26.4717 24.2783C27.2102 25.0167 27.625 26.0182 27.625 27.0625V29.875Z"
-        fill="white"
-      />
-    </svg> */
 }

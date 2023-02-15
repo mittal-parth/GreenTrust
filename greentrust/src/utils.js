@@ -1,6 +1,7 @@
 import { ethers, BrowserProvider } from "ethers";
 import GreenTrustABI from "@/abi/GreenTrust.json";
 import { contractAddress } from "@/config";
+import * as PushAPI from "@pushprotocol/restapi";
 
 export const getContract = (auth) => {
     const provider = new BrowserProvider(auth.provider);

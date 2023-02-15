@@ -17,10 +17,12 @@ async function main() {
 
     // Register farmer
     try {
-        const tx = await greenTrustContract.registerFarmer(farmer["profile"], farmer["idCards"]);
+        const tx = await greenTrustContract.registerFarmer(JSON.stringify(farmer["profile"]), farmer["idCards"]);
         await tx.wait();
     } catch (error) {
         console.log(error);
+        const tx = await greenTrustContract.updateFarmerProfile(JSON.stringify(farmer["profile"]), farmer["idCards"]);
+        await tx.wait();
     }
 
     // Add all farms
@@ -33,7 +35,7 @@ async function main() {
     // Add all crops
     for (let i = 0; i < crops.length; i++) {
         const crop = crops[i];
-        const tx = await greenTrustContract.addCrop(crop["details"], crop["farmId"]);
+        const tx = await greenTrustContract.addCrop(JSON.stringify(crop["details"]), crop["farmId"]);
         await tx.wait();
     }
 

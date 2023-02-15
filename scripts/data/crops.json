@@ -1,10 +1,24 @@
 [
-    {
-        "details": "{'name': 'Tomato','createdOn': '2021-09-01','sowedOn': '2021-09-01','harvestedOn': '2021-09-01','duration': '100','size': '100'}",
-        "farmId": 1
+  {
+    "details": {
+      "name": "Tomato",
+      "createdOn": "2021-09-01",
+      "sowedOn": "2021-09-01",
+      "harvestedOn": "2021-09-01",
+      "duration": "100",
+      "size": "100"
     },
-    {
-        "details": "{'name': 'Potato','createdOn': '2021-09-01','sowedOn': '2021-09-01','harvestedOn': '2021-09-01','duration': '100','size': '100'}",
-        "farmId": 1
-    }
+    "farmId": 1
+  },
+  {
+    "details": {
+      "name": "Potato",
+      "createdOn": "2021-09-01",
+      "sowedOn": "2021-09-01",
+      "harvestedOn": "2021-09-01",
+      "duration": "100",
+      "size": "100"
+    },
+    "farmId": 1
+  }
 ]

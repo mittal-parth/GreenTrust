@@ -173,12 +173,6 @@
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "stakeholder",
         "type": "address"
@@ -274,11 +268,6 @@
         "internalType": "uint256",
         "name": "_cropId",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_amount",
-        "type": "uint256"
       }
     ],
     "name": "AddStake",
@@ -343,11 +332,6 @@
         "internalType": "uint256",
         "name": "_cropId",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_data",
-        "type": "string"
       }
     ],
     "name": "addSensor",
@@ -487,6 +471,11 @@
           },
           {
             "internalType": "uint256",
+            "name": "stakeAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
             "name": "farmId",
             "type": "uint256"
           },
@@ -504,6 +493,93 @@
         "internalType": "struct GreenTrustFarmer.Crop",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_cropId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchCropSensors",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cropId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "data",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Sensor[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_cropId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchCropStakes",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cropId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "stakeholder",
+            "type": "address"
+          },
+          {
+            "internalType": "enum GreenTrustFarmer.StakeStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Stake[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -533,128 +609,8 @@
           },
           {
             "internalType": "uint256",
-            "name": "farmId",
+            "name": "stakeAmount",
             "type": "uint256"
-          },
-          {
-            "internalType": "enum GreenTrustFarmer.CropStatus",
-            "name": "status",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Crop[]",
-        "name": "cropList",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_farmId",
-        "type": "uint256"
-      }
-    ],
-    "name": "fetchFarmDetails",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "size",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "latitude",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "longitude",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "location",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "farmerId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "documents",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Farm",
-        "name": "farm",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "profile",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "idCards",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Farmer",
-        "name": "farmer",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "details",
-            "type": "string"
           },
           {
             "internalType": "uint256",
@@ -742,6 +698,11 @@
             "internalType": "uint256",
             "name": "id",
             "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
           },
           {
             "internalType": "string",
@@ -840,11 +801,6 @@
           },
           {
             "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
             "name": "cropId",
             "type": "uint256"
           },
@@ -928,11 +884,6 @@
           {
             "internalType": "uint256",
             "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
             "type": "uint256"
           },
           {

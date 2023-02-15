@@ -130,7 +130,7 @@ contract GreenTrustFarmer {
         crops[numCrops + 1].isValid = true;
         numCrops++;
     }
-
+    // remove _data
     function addSensor(uint256 _cropId, string memory _data) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0S");
         require(crops[_cropId].isValid, "Cr0");

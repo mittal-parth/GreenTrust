@@ -7,11 +7,12 @@ contract GreenTrustVerifier {
         address payable walletAddress;
         string name;
         string currentAddress;
-        string[] idCards;
+        string idCards;
         bool isValid;
     }
     mapping(address => uint256) internal addressToVerifierIds;
-    Verifier[] verifiers;
+    mapping(uint256 => Verifier) internal verifiers;
+    uint256 numVerifiers;
     event verifierRegistered(
         address indexed verifierAddress,
         string name,
@@ -25,37 +26,25 @@ contract GreenTrustVerifier {
 
     // Functions for verifiers
     function fetchVerifierProfile() public view returns (Verifier memory) {
-        require(
-            addressToVerifierIds[msg.sender] != 0,
-            "Verifier not registered with this wallet"
-        );
-        return verifiers[addressToVerifierIds[msg.sender] - 1];
+        require(addressToVerifierIds[msg.sender] != 0, "V0");
+        return verifiers[addressToVerifierIds[msg.sender]];
     }
 
     function updateVerifierProfile(
         string memory _name,
         string memory _currentAddress,
-        string[] memory _idCards
-    ) public returns (Verifier memory) {
-        require(
-            addressToVerifierIds[msg.sender] != 0,
-            "Verifier not registered with this wallet"
-        );
-        Verifier memory temp = Verifier(
-            addressToVerifierIds[msg.sender],
-            payable(msg.sender),
-            _name,
-            _currentAddress,
-            _idCards,
-            true
-        );
-        verifiers[addressToVerifierIds[msg.sender] - 1] = temp;
+        string memory _idCards
+    ) public {
+        require(addressToVerifierIds[msg.sender] != 0, "V0");
+        verifiers[addressToVerifierIds[msg.sender]].name = _name;
+        verifiers[addressToVerifierIds[msg.sender]]
+            .currentAddress = _currentAddress;
+        verifiers[addressToVerifierIds[msg.sender]].idCards = _idCards;
         emit verifierUpdated(
             msg.sender,
             _name,
             addressToVerifierIds[msg.sender]
         );
-        return verifiers[addressToVerifierIds[msg.sender] - 1];
     }
 
     function fetchVerifierDetails(uint256 _verifierId)
@@ -65,9 +54,9 @@ contract GreenTrustVerifier {
     {
         require(
             _verifierId > 0 &&
-                _verifierId <= verifiers.length &&
+                _verifierId <= numVerifiers &&
                 verifiers[_verifierId].isValid,
-            "Verifier does not exist"
+            "V0"
         );
         return verifiers[_verifierId];
     }

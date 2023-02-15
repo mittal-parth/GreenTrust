@@ -1,17 +1,12 @@
-import { ethers, BrowserProvider } from "ethers";
-import GreenTrustABI from "@/abi/GreenTrust.json";
-import { contractAddress } from "@/config";
-import * as PushAPI from "@pushprotocol/restapi";
+import {ethers, BrowserProvider} from 'ethers'
+import { contractAddress } from '@/config';
+import GreenTrustABI from '@/abi/GreenTrust.json'
 
 export const getContract = (auth) => {
     const provider = new BrowserProvider(auth.provider);
-    const GreenTrust = new ethers.Contract(
-        contractAddress,
-        GreenTrustABI,
-        provider
-    );
+    const GreenTrust = new ethers.Contract(contractAddress, GreenTrustABI, provider);
     return GreenTrust;
-};
+}
 
 export const contractCall = async (auth, func, params = null) => {
     if (!auth?.isLoggedIn)

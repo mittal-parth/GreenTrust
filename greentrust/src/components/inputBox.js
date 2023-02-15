@@ -4,7 +4,7 @@ export default function InputBox({ label, onChange, placeHolder, type }) {
         <div className="mb-6 font-comfortaa">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-1"
-            for="grid-first-name"
+            htmlFor="grid-first-name"
           >
             {label}
           </label>

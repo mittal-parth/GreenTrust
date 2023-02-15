@@ -6,11 +6,12 @@ export default function DropDown({ optionsList, name, onClick, label }) {
       <div className="mb-6">
         <label
           className="block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-1"
-          for="grid-first-name"
+          htmlFor="grid-first-name"
         >
           {label}
         </label>
         <select
+          key={name}
           name={name}
           onChange={onClick}
           className={

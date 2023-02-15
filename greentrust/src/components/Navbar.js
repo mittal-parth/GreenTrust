@@ -1,13 +1,60 @@
 import { useState } from "react";
-
+import {ethers} from 'ethers'
 import { ArcanaAuth } from './Layout';
+import { useAuth } from "@arcana/auth-react";
 import Logo from "./Logo";
-
+import { useEffect } from "react";
+import * as PushAPI from "@pushprotocol/restapi";
+import { EmbedSDK } from "@pushprotocol/uiembed";
 
 export default function Navar() {
+  const auth = useAuth();
+
+  async function pushSubscribe ()  {
+    const provider = new ethers.providers.Web3Provider(auth.provider);
+    await PushAPI.channels.subscribe({
+      signer: provider,
+      channelAddress: 'eip155:5:0xB7E99669e9eDdD2975511FBF059d01969f43D409', // channel address in CAIP
+      userAddress: 'eip155:5:' + auth.user.address, // user address in CAIP
+      onSuccess: () => {
+       console.log('opt in success');
+      },
+      onError: () => {
+        console.error('opt in error');
+      },
+      env: 'staging'
+    })
+  }
+
+  useEffect(async () => {
+  
+    
+    
+    if (auth.user && auth.user.address) { // 'your connected wallet address'
+     await pushSubscribe();
+      EmbedSDK.init({
+        headerText: 'Welcome to GreenTrust', // optional
+        targetID: 'sdk-trigger-id', // mandatory
+        appName: 'GreenTrust', // mandatory
+        user: auth.user.address, // mandatory
+        chainId: 5, // mandatory
+        viewOptions: {
+            type: 'sidebar', // optional [default: 'sidebar', 'modal']
+            showUnreadIndicator: true, // optional
+            unreadIndicatorColor: '#cc1919',
+            unreadIndicatorPosition: 'bottom-right',
+        },
+        theme: 'dark',
+        onOpen: () => {
+          console.log('-> client dApp onOpen callback');
+        },
+        onClose: () => {
+          console.log('-> client dApp onClose callback');
+        }
+      });
+    }},[auth.user]);
   return (
     <div>
-<<<<<<< HEAD
       <nav className="hidden bg-white border-gray-200 px-[80px] py-[12px] rounded-full drop-shadow-2xl w-full max-w-[1400px] md:flex flex-row items-center justify-between mx-auto">
         <Logo />
         <div className="flex flex-row">
@@ -26,7 +73,6 @@ export default function Navar() {
             clip-rule="evenodd"
             ></path>
             </svg>
-=======
       <nav className="hidden md:block bg-white border-gray-200 px-2 px-4 py-2.5 rounded-full shadow-xl mx-[13%] mt-[1.566rem] h-[88px]">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <div>
@@ -66,7 +112,6 @@ export default function Navar() {
               <button className="bg-primary text-white text-md rounded-full px-4 py-2.5 w-[156px] h-[44px]">
                 Sign In
               </button>
->>>>>>> deeadf5edab2d6a1fa26db0bde98e246b628c1c8
             </div>
             <input
             type="text"
@@ -76,6 +121,7 @@ export default function Navar() {
             required
             ></input>
           </div> */}
+          <button className="ml-6 text-black px-2 bg-green-400 rounded" id="sdk-trigger-id">Push Notifs</button>
           <ArcanaAuth />
         </div>
       </nav>

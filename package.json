@@ -31,7 +31,12 @@
   },
   "dependencies": {
     "@polywrap/client-js": "^0.9.5",
+<<<<<<< HEAD
     "react-spinners": "^0.13.8",
     "spinners-react": "^1.0.7"
+=======
+    "dotenv": "^16.0.3",
+    "hardhat-contract-sizer": "^2.8.0"
+>>>>>>> deeadf5edab2d6a1fa26db0bde98e246b628c1c8
   }
 }

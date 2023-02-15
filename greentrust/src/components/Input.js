@@ -2,9 +2,16 @@ import React, { useState } from "react";
 
 import DropDown from "./dropDown";
 import InputBox from "./inputBox";
+import { AuthContext } from "@/context/authContext";
+import { useAuth } from "@arcana/auth-react";
+import { contractCall } from "@/utils";
+
 export default function Input() {
-  var errorMessage = "Please fill out this field";
-  //  create an input with validation
+  
+  const auth = useAuth();
+  
+
+  
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
   const [createdOnDate, setCreatedOnDate] = useState("");
@@ -13,6 +20,7 @@ export default function Input() {
   const [duration, setDuration] = useState("");
   const [latitute, setLatitute] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [harvestedOn, setHarvestedOnDate] = useState("");
 
   const cropStatusList = ["Open", "Locked", "Closed"];
 
@@ -22,8 +30,27 @@ export default function Input() {
       setLongitude(position.coords.longitude);
     });
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+   
     e.preventDefault();
+   console.log(auth.user);
+    var details = {
+      name: name,
+      size: size,
+      createdOnDate: createdOnDate,
+      sowedOnDate: sowedOnDate,
+      harvestedOn : harvestedOn,
+      duration: duration,
+    };
+    console.log(details); 
+    details = JSON.stringify(details);
+    if(auth.user){
+      contractCall(auth, "addFarm", [details,1]).then((res) => {
+        console.log(res);
+      });
+      var res = await contractCall(auth, "addFarm", [details,1]);
+      console.log(res);
+    }
   };
 
   const [file, setFile] = useState("");
@@ -34,25 +61,7 @@ export default function Input() {
     }
   };
 
-  const handleUploadClick = () => {
-    if (!file) {
-      return;
-    }
-
-    // 👇 Uploading the file using the fetch API to the server
-    fetch("https://httpbin.org/post", {
-      method: "POST",
-      body: file,
-      // 👇 Set headers manually for single file upload
-      headers: {
-        "content-type": file.type,
-        "content-length": `${file.size}`, // 👈 Headers need to be a string
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  };
+ 
 
   return (
     <div>
@@ -82,21 +91,27 @@ export default function Input() {
             placeHolder={"Sowed On"}
             type={"date"}
           />
-          <DropDown
+          <InputBox
+            label="Harvested On"
+            onChange={(e) => setHarvestedOnDate(e.target.value)}
+            placeHolder={"Harvested On"}
+            type={"date"}
+          />
+          {/* <DropDown
             optionsList={cropStatusList}
             name={"Crop Status"}
             onClick={(e) =>
               setCropStatus(cropStatusList.indexOf(e.target.value))
             }
             label={"Crop Status"}
-          />
+          /> */}
           <InputBox
-            label="Duration"
+            label="sads "
             onChange={(e) => setDuration(e.target.value)}
             placeHolder={"Duration"}
             type={"number"}
           />
-          <div>
+          {/* <div>
             <button
               onClick={getLocation}
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-3"
@@ -104,16 +119,16 @@ export default function Input() {
             >
               Get Location
             </button>
-          </div>
+          </div> */}
 
           {/* Currently not showing the location but the latitute and longitude get stored on click the button */}
-            <div>
+            {/* <div>
               <input
                 type="file" multiple
                 onChange={handleFileChange}
                 className="block w-fit bg-transparent text-gray-700 border border-darkGray rounded-xl rounded py-1 px-4 mb-2 leading-tight focus:bg-white"
               />
-            </div>
+            </div> */}
           <div>
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-3"

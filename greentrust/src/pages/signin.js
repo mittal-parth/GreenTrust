@@ -8,16 +8,15 @@ export default function SignIn() {
 
   useEffect(() => {
     if (auth?.isLoggedIn) {
-      router.push("/");
+      // router.push("/");
     }
   }, [auth?.isLoggedIn]);
 
   const onLogin = async () => {
-    console.log(auth.user)
+    console.log("onLogin");
+    // router.push("/");
   };
-  const logout = async () => {
-    await auth.logout();
-  }
+
   return (
     <>
       {auth.loading ? (
@@ -25,7 +24,7 @@ export default function SignIn() {
       ) : auth.isLoggedIn ? (
         <div>
           Logged In
-          <button onClick={logout}>Logout</button>
+          <button onClick={() => auth.logout()} className="bg-red-300">Logout</button>
         </div>
       ) : (
         <div>

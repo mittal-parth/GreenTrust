@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Logo() {
-    return (<a>
+    return (<a href="/">
         <div className="flex flex-row gap-[12px]">
             <Image src="/logo.png" width={64} height={64}></Image>
             <div>

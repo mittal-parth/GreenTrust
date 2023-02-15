@@ -11,14 +11,18 @@
   "dependencies": {
     "@arcana/auth": "^1.0.1",
     "@arcana/auth-react": "0.0.3",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/material": "^5.11.9",
     "@next/font": "13.1.6",
     "@react-icons/all-files": "^4.1.0",
     "ethers": "^6.0.3",
     "next": "13.1.6",
     "next-pwa": "^5.6.0",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {

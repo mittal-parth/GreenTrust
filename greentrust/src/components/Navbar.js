@@ -6,6 +6,8 @@ import Logo from "./Logo";
 import { useEffect } from "react";
 import * as PushAPI from "@pushprotocol/restapi";
 import { EmbedSDK } from "@pushprotocol/uiembed";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Navar() {
   const auth = useAuth();
@@ -26,12 +28,9 @@ export default function Navar() {
     })
   }
 
-  useEffect(async () => {
-  
-    
-    
+  useEffect( () => { 
     if (auth.user && auth.user.address) { // 'your connected wallet address'
-     await pushSubscribe();
+     pushSubscribe();
       EmbedSDK.init({
         headerText: 'Welcome to GreenTrust', // optional
         targetID: 'sdk-trigger-id', // mandatory
@@ -51,13 +50,20 @@ export default function Navar() {
         onClose: () => {
           console.log('-> client dApp onClose callback');
         }
+        
+   
       });
-    }},[auth.user]);
+    }
+      return () => {
+        EmbedSDK.cleanup();
+      };
+    },[]);
+
   return (
     <div>
       <nav className="hidden bg-white border-gray-200 px-[80px] py-[12px] rounded-full drop-shadow-2xl w-full max-w-[1400px] md:flex flex-row items-center justify-between mx-auto">
         <Logo />
-        <div className="flex flex-row">
+        <div className="flex flex-row ">
           {/* <div>
             <div class="flex items-center pointer-events-none">
             <svg
@@ -121,7 +127,9 @@ export default function Navar() {
             required
             ></input>
           </div> */}
-          <button className="ml-6 text-black px-2 bg-green-400 rounded" id="sdk-trigger-id">Push Notifs</button>
+          <button  id="sdk-trigger-id">
+            <FontAwesomeIcon icon={faBell} className="text-2xl mx-3" color="gray" />
+          </button>
           <ArcanaAuth />
         </div>
       </nav>

@@ -16,7 +16,7 @@
       },
       {
         "indexed": false,
-        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "internalType": "enum GreenTrust.ChallengeStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -47,7 +47,7 @@
       },
       {
         "indexed": false,
-        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "internalType": "enum GreenTrust.ChallengeStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -59,56 +59,6 @@
       }
     ],
     "name": "challengeAdded",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "consumerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "consumerRegistered",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "consumerAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
-    "name": "consumerUpdated",
     "type": "event"
   },
   {
@@ -141,12 +91,6 @@
       },
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": false,
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -163,12 +107,6 @@
         "internalType": "address",
         "name": "farmerAddress",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
       },
       {
         "indexed": false,
@@ -308,45 +246,7 @@
       }
     ],
     "name": "AcceptChallenge",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "verifierId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "challenger",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "challenged",
-            "type": "uint256"
-          },
-          {
-            "internalType": "enum GreenTrustConsumer.ChallengeStatus",
-            "name": "status",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustConsumer.Challenge",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -358,204 +258,13 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "internalType": "enum GreenTrust.ChallengeStatus",
         "name": "_status",
         "type": "uint8"
       }
     ],
     "name": "AddChallenge",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "verifierId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "challenger",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "challenged",
-            "type": "uint256"
-          },
-          {
-            "internalType": "enum GreenTrustConsumer.ChallengeStatus",
-            "name": "status",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustConsumer.Challenge",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_size",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_location",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string[]",
-        "name": "_documents",
-        "type": "string[]"
-      }
-    ],
-    "name": "AddFarm",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "location",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "farmerId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string[]",
-            "name": "documents",
-            "type": "string[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Farm",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_cropId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_data",
-        "type": "string"
-      }
-    ],
-    "name": "AddSensor",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "cropId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "data",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Sensor",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_sensorId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_data",
-        "type": "string"
-      }
-    ],
-    "name": "AddSensorData",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "cropId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "data",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Sensor",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -573,45 +282,58 @@
       }
     ],
     "name": "AddStake",
-    "outputs": [
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "cropId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "stakeholder",
-            "type": "address"
-          },
-          {
-            "internalType": "enum GreenTrustFarmer.StakeStatus",
-            "name": "status",
-            "type": "uint8"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Stake",
-        "name": "",
-        "type": "tuple"
+        "internalType": "string",
+        "name": "_details",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_farmId",
+        "type": "uint256"
       }
     ],
+    "name": "addCrop",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_size",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_latitude",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_longitude",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_location",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_documents",
+        "type": "string"
+      }
+    ],
+    "name": "addFarm",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -619,51 +341,36 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_farmerId",
+        "name": "_cropId",
         "type": "uint256"
-      }
-    ],
-    "name": "FetchFarmerFarms",
-    "outputs": [
+      },
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "location",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "farmerId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string[]",
-            "name": "documents",
-            "type": "string[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Farm[]",
-        "name": "",
-        "type": "tuple[]"
+        "internalType": "string",
+        "name": "_data",
+        "type": "string"
       }
     ],
-    "stateMutability": "view",
+    "name": "addSensor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_sensorId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_data",
+        "type": "string"
+      }
+    ],
+    "name": "addSensorData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -671,7 +378,7 @@
     "name": "defaultChallengeStatus",
     "outputs": [
       {
-        "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+        "internalType": "enum GreenTrust.ChallengeStatus",
         "name": "",
         "type": "uint8"
       }
@@ -738,7 +445,7 @@
             "type": "uint256"
           },
           {
-            "internalType": "enum GreenTrustConsumer.ChallengeStatus",
+            "internalType": "enum GreenTrust.ChallengeStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -748,83 +455,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct GreenTrustConsumer.Challenge",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_consumerId",
-        "type": "uint256"
-      }
-    ],
-    "name": "fetchConsumerDetails",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustConsumer.Consumer",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "fetchConsumerProfile",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustConsumer.Consumer",
+        "internalType": "struct GreenTrust.Challenge",
         "name": "",
         "type": "tuple"
       }
@@ -850,33 +481,13 @@
             "type": "uint256"
           },
           {
-            "internalType": "uint256",
-            "name": "createdOn",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "sowedOn",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "farmId",
-            "type": "uint256"
-          },
-          {
             "internalType": "string",
-            "name": "cropName",
+            "name": "details",
             "type": "string"
           },
           {
             "internalType": "uint256",
-            "name": "duration",
+            "name": "farmId",
             "type": "uint256"
           },
           {
@@ -906,6 +517,52 @@
         "type": "uint256"
       }
     ],
+    "name": "fetchFarmCrops",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "farmId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum GreenTrustFarmer.CropStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Crop[]",
+        "name": "cropList",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_farmId",
+        "type": "uint256"
+      }
+    ],
     "name": "fetchFarmDetails",
     "outputs": [
       {
@@ -916,14 +573,24 @@
             "type": "uint256"
           },
           {
-            "internalType": "uint256",
+            "internalType": "string",
             "name": "size",
-            "type": "uint256"
+            "type": "string"
           },
           {
-            "internalType": "uint256",
+            "internalType": "string",
+            "name": "latitude",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "longitude",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
             "name": "location",
-            "type": "uint256"
+            "type": "string"
           },
           {
             "internalType": "uint256",
@@ -931,9 +598,9 @@
             "type": "uint256"
           },
           {
-            "internalType": "string[]",
+            "internalType": "string",
             "name": "documents",
-            "type": "string[]"
+            "type": "string"
           },
           {
             "internalType": "bool",
@@ -942,8 +609,72 @@
           }
         ],
         "internalType": "struct GreenTrustFarmer.Farm",
-        "name": "",
+        "name": "farm",
         "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "walletAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "profile",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "idCards",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Farmer",
+        "name": "farmer",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "details",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "farmId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum GreenTrustFarmer.CropStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Crop[]",
+        "name": "cropList",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -973,28 +704,13 @@
           },
           {
             "internalType": "string",
-            "name": "name",
+            "name": "profile",
             "type": "string"
           },
           {
             "internalType": "string",
-            "name": "currentAddress",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "farmerId",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "govtId",
-            "type": "string"
-          },
-          {
-            "internalType": "string[]",
             "name": "idCards",
-            "type": "string[]"
+            "type": "string"
           },
           {
             "internalType": "bool",
@@ -1005,6 +721,67 @@
         "internalType": "struct GreenTrustFarmer.Farmer",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_farmerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchFarmerFarms",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "size",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "latitude",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "longitude",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "location",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "farmerId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "documents",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Farm[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -1028,28 +805,13 @@
           },
           {
             "internalType": "string",
-            "name": "name",
+            "name": "profile",
             "type": "string"
           },
           {
             "internalType": "string",
-            "name": "currentAddress",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "farmerId",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "govtId",
-            "type": "string"
-          },
-          {
-            "internalType": "string[]",
             "name": "idCards",
-            "type": "string[]"
+            "type": "string"
           },
           {
             "internalType": "bool",
@@ -1060,6 +822,51 @@
         "internalType": "struct GreenTrustFarmer.Farmer",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fetchFarmerStakes",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cropId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address payable",
+            "name": "stakeholder",
+            "type": "address"
+          },
+          {
+            "internalType": "enum GreenTrustFarmer.StakeStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Stake[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -1203,9 +1010,9 @@
             "type": "string"
           },
           {
-            "internalType": "string[]",
+            "internalType": "string",
             "name": "idCards",
-            "type": "string[]"
+            "type": "string"
           },
           {
             "internalType": "bool",
@@ -1248,9 +1055,9 @@
             "type": "string"
           },
           {
-            "internalType": "string[]",
+            "internalType": "string",
             "name": "idCards",
-            "type": "string[]"
+            "type": "string"
           },
           {
             "internalType": "bool",
@@ -1270,121 +1077,17 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_name",
-        "type": "string"
-      }
-    ],
-    "name": "registerConsumer",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustConsumer.Consumer",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_name",
+        "name": "_profile",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "_currentAddress",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_farmerId",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_govtId",
-        "type": "string"
-      },
-      {
-        "internalType": "string[]",
         "name": "_idCards",
-        "type": "string[]"
+        "type": "string"
       }
     ],
     "name": "registerFarmer",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "currentAddress",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "farmerId",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "govtId",
-            "type": "string"
-          },
-          {
-            "internalType": "string[]",
-            "name": "idCards",
-            "type": "string[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Farmer",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1401,51 +1104,13 @@
         "type": "string"
       },
       {
-        "internalType": "string[]",
+        "internalType": "string",
         "name": "_idCards",
-        "type": "string[]"
+        "type": "string"
       }
     ],
     "name": "registerVerifier",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "currentAddress",
-            "type": "string"
-          },
-          {
-            "internalType": "string[]",
-            "name": "idCards",
-            "type": "string[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustVerifier.Verifier",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1453,121 +1118,17 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "_name",
-        "type": "string"
-      }
-    ],
-    "name": "updateConsumerProfile",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustConsumer.Consumer",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "_name",
+        "name": "_profile",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "_currentAddress",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_farmerId",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_govtId",
-        "type": "string"
-      },
-      {
-        "internalType": "string[]",
         "name": "_idCards",
-        "type": "string[]"
+        "type": "string"
       }
     ],
     "name": "updateFarmerProfile",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "currentAddress",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "farmerId",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "govtId",
-            "type": "string"
-          },
-          {
-            "internalType": "string[]",
-            "name": "idCards",
-            "type": "string[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustFarmer.Farmer",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -1584,51 +1145,13 @@
         "type": "string"
       },
       {
-        "internalType": "string[]",
+        "internalType": "string",
         "name": "_idCards",
-        "type": "string[]"
+        "type": "string"
       }
     ],
     "name": "updateVerifierProfile",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address payable",
-            "name": "walletAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "currentAddress",
-            "type": "string"
-          },
-          {
-            "internalType": "string[]",
-            "name": "idCards",
-            "type": "string[]"
-          },
-          {
-            "internalType": "bool",
-            "name": "isValid",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct GreenTrustVerifier.Verifier",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   }

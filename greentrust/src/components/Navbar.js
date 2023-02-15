@@ -7,7 +7,6 @@ import Logo from "./Logo";
 export default function Navar() {
   return (
     <div>
-<<<<<<< HEAD
       <nav className="hidden bg-white border-gray-200 px-[80px] py-[12px] rounded-full drop-shadow-2xl w-full max-w-[1400px] md:flex flex-row items-center justify-between mx-auto">
         <Logo />
         <div className="flex flex-row">
@@ -26,47 +25,6 @@ export default function Navar() {
             clip-rule="evenodd"
             ></path>
             </svg>
-=======
-      <nav className="hidden md:block bg-white border-gray-200 px-2 px-4 py-2.5 rounded-full shadow-xl mx-[13%] mt-[1.566rem] h-[88px]">
-        <div className="container flex flex-wrap items-center justify-between mx-auto">
-          <div>
-            <a>
-              <div className="flex flex-col items-center gap-[0px] pl-10  font-comfortaa">
-                <b className="text-primary text-[24px]">GREEN</b>
-                <b className="text-black tracking-[.25em]">TRUST</b>
-              </div>
-            </a>
-          </div>
-          <div className="flex flex-row">
-            <div className="relative w-full pr-[40px]">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3  pointer-events-none">
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              <input
-                type="text"
-                id="simple-search"
-                className="bg-white border-2 border-black-300 text-gray-900 text-md rounded-full w-[311px] pl-10 p-2.5"
-                placeholder="Search"
-                required
-              ></input>
-            </div>
-            <div className="flex flex-row items-center gap-[20px]">
-              <button className="bg-primary text-white text-md rounded-full px-4 py-2.5 w-[156px] h-[44px]">
-                Sign In
-              </button>
->>>>>>> deeadf5edab2d6a1fa26db0bde98e246b628c1c8
             </div>
             <input
             type="text"

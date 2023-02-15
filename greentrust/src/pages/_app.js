@@ -7,7 +7,6 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import Layout from "@/components/Layout";
 import { useRouter } from 'next/router'
 import { useEffect, useState, useContext } from "react";
-import Spinner from "@/components/Spinner";
 import {AuthContext} from "@/context/authContext";
 
 config.autoAddCss = false;
@@ -48,7 +47,7 @@ export default function App({ Component, pageProps }) {
     <>
       <ProvideAuth provider={authProvider}>
         <AuthContext.Provider value={{loadingAuth, authProvider}}>
-          {router.pathname === "/auth/login"
+          {router.pathname === "/auth/login" || router.pathname === "/"
             ? (<Component {...pageProps} />)
             : (<Layout>
               <Component {...pageProps} />

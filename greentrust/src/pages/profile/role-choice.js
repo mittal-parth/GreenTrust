@@ -53,8 +53,8 @@ export default function Home({}) {
             Get <br></br>Verified
           </p>
           <div className="flex space-x-[20px] flex-col md:flex-row">
-            <RoleCard name={"Farmer"} imagePath={"farmer-woman.png"} />
-            <RoleCard name={"Licensed Inspector"} imagePath={"sheriff.png"} />
+            <RoleCard name={"Farmer"} imagePath={"/farmer-woman.png"} />
+            <RoleCard name={"Licensed Inspector"} imagePath={"/sheriff.png"} />
           </div>
         </div>
       

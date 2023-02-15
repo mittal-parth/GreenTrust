@@ -8,15 +8,14 @@ import Layout from "@/components/Layout";
 import { useRouter } from 'next/router'
 import { useEffect, useState, useContext } from "react";
 import Spinner from "@/components/Spinner";
-import AuthContext from "@/context/authLoadingContext";
-import { AuthLoading } from "@/context/authLoadingContext";
+import {AuthContext} from "@/context/authContext";
 
 config.autoAddCss = false;
 
 
 export default function App({ Component, pageProps }) {
-  const [authLoading, setAuthLoading] = useContext(AuthLoading);
-  
+  const [loadingAuth, setLoadingAuth] = useState(true);
+
   const authProvider = new AuthProvider(`${appAddress}`, {
     theme: "light",
     alwaysVisible: false,
@@ -28,15 +27,14 @@ export default function App({ Component, pageProps }) {
   });
 
   async function initAuth() {
-    setAuthLoading(true);
     try {
       await authProvider.init();
     }
     catch (err) {
-      console.log(err);
+      console.log('Error initializing authProvider:', err);
     }
     finally {
-      setAuthLoading(false);
+      setLoadingAuth(false);
     }
   }
   
@@ -48,19 +46,16 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      {authLoading
-        ? <Spinner></Spinner>
-        : (<ProvideAuth provider={authProvider}>
-          <AuthContext>
+      <ProvideAuth provider={authProvider}>
+        <AuthContext.Provider value={{loadingAuth, authProvider}}>
           {router.pathname === "/auth/login"
             ? (<Component {...pageProps} />)
             : (<Layout>
               <Component {...pageProps} />
             </Layout>)
           } 
-          </AuthContext>
-        </ProvideAuth>)
-      }
+        </AuthContext.Provider>
+      </ProvideAuth>
     </>
   );
 }

@@ -4,21 +4,18 @@ import { useContext } from "react";
 
 import { Auth, useAuth } from "@arcana/auth-react";
 
-import { AuthLoading } from "@/context/authLoadingContext";
+import { AuthContext } from "@/context/authContext";
+import Spinner from "@/components/Spinner";
 
 export default function Login({ children }) {
     const auth = useAuth();
-    console.log(auth, "test");
 
-    const { authLoading, setAuthLoading } = useContext(AuthLoading);
-
-    console.log(authLoading, "authLoading")
+    const { loadingAuth } = useContext(AuthContext);
 
     const router = useRouter();
 
     useEffect(() => {
         if (auth?.isLoggedIn) {
-            alert(authLoading);
             router.push('/');
         }
       }, [auth?.isLoggedIn]);
@@ -29,7 +26,7 @@ export default function Login({ children }) {
 
     return (
         <>
-            {authLoading
+            {loadingAuth
                 ? <Spinner></Spinner>
                 : <div className="bg-white h-screen flex items-center justify-center">
                     <div>

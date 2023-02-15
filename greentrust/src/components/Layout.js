@@ -9,13 +9,13 @@ import { CircularProgress } from "@mui/material";
 import Navbar from "./Navbar";
 import classes from "../style";
 import Spinner from "./Spinner";
-import { AuthLoading } from "@/context/authLoadingContext";
+import { AuthContext } from "@/context/authContext";
 
 export function ArcanaAuth() {
   const router = useRouter();
   const auth = useAuth();
 
-  const { authLoading, setAuthLoading } = useContext(AuthLoading);
+  const { loadingAuth, authProvider } = useContext(AuthContext);
   
   // useEffect(() => {
   //   if (auth?.isLoggedIn) {
@@ -35,24 +35,40 @@ export function ArcanaAuth() {
   //   console.log(auth.user)
   // };
 
+  useEffect(() => {
+    console.log(loadingAuth, 'loadingAuth');
+  }, [loadingAuth])
+
+  useEffect(() => {
+    console.log(auth?.loading, 'auth.loading');
+  }, [auth?.loading])
+
+  useEffect(() => {
+    console.log(auth?.isLoggedIn, 'auth.isLoggedIn');
+  }, [auth?.isLoggedIn])
+
 
   return (
     <>
-      {auth.loading
+      {loadingAuth || auth.loading
         ? <CircularProgress size={24} co/>
-        : <button
-          className="bg-primary text-white text-xl font-medium rounded-full w-[160px] py-[8px] whitespace-normal"
-          onClick={async () => {if(auth.isLoggedIn) {
-              // await auth.init();
-              auth.logout()
-            }
-            else {
-              router.push('/auth/login')
-            }
-          }}
-        >
-          {auth.isLoggedIn ? "Logout" : "Sign In"}
-        </button>
+        : auth?.isLoggedIn
+          ? <button
+            className="bg-primary text-white text-xl font-medium rounded-full w-[160px] py-[8px] whitespace-normal"
+            onClick={async () => {
+              await authProvider.init();
+              auth.logout();
+              router.push('/');
+            }}
+          >
+            Logout
+          </button>
+          : <button
+            className="bg-primary text-white text-xl font-medium rounded-full w-[160px] py-[8px] whitespace-normal"
+            onClick={() => router.push('/auth/login')}
+          >
+            Sign In
+          </button>
       }
       {/* {isArcanaOpen ? <>
         <div

@@ -640,6 +640,72 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "_farmId",
+        "type": "uint256"
+      }
+    ],
+    "name": "fetchFarmDetails",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "size",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "latitude",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "longitude",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "location",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "farmerId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "documents",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isValid",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct GreenTrustFarmer.Farm",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "_farmerId",
         "type": "uint256"
       }

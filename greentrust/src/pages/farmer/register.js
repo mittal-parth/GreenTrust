@@ -22,23 +22,24 @@ export default function Register() {
     console.log("Hello Frands")
 
     setFarmerProfile({ ...farmerProfile, profilePic: "HardCoding 1" });
-
     var profile = farmerProfile;
-    profile = JSON.stringify(profile);
+    profile = JSON.stringify({ ...farmerProfile, profilePic: "HardCoding 1" });
+    console.log(profile);
+
     if (auth.user) {
-      postFarmerInfo();
+      postFarmerInfo(profile);
     }
   };
 
-  const postFarmerInfo = async () => {
+  const postFarmerInfo = async (profile) => {
     setLoading(true);
 
     try {
       const res = await contractCall(auth, "registerFarmer", [
-        farmerProfile,
+        profile,
         idCards,
       ]);
-
+      
       router.replace('/dashboard');
     }
     catch (err) {

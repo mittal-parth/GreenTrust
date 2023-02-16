@@ -1,80 +1,100 @@
-// For Dashboard
-import FarmCard from "@/components/FarmCard";
-import CropDetailCard from "@/components/CropDetailCard";
-import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
+import { useState, useEffect, useContext } from "react";
+import { contractCall } from "@/utils";
+import { useAuth } from "@arcana/auth-react";
+import { SnackbarContext } from "@/context/snackbarContext";
+import { LoaderContext } from "@/context/loaderContext";
+import FarmerDashboard from "@/components/FarmerDashboard";
 
-import classes from "@/style";
+export default function Dashboard() {
+  const auth = useAuth();
+  const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
+  const { loading, setLoading } = useContext(LoaderContext);
 
+  const [userType, setUserType] = useState(null);
+  const [farms, setFarms] = useState(null);
+  const [stakes, setStakes] = useState(null);
 
-const Dashboard = () => {
-  return (
-    <div>
-      <h2 className={`${classes.title} mt-12`}>
-        My Farms <AiFillPlusCircle className="inline mb-1 text-darkGray" />
-      </h2>
-      <div className="flex mt-6 flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8 p-6">
-        <FarmCard
-          image={"images/farm.png"}
-          name={"Serene"}
-          location={"Assam, India"}
-        />
-        <FarmCard
-          image={"images/farm2.png"}
-          name={"Myriad"}
-          location={"Perth, Australia"}
-        />
-        <FarmCard
-          image={"images/farm3.png"}
-          name={"Magic"}
-          location={"Bhutan, India"}
-        />
-        <FarmCard
-          image={"images/farm2.png"}
-          name={"Serene"}
-          location={"Assam, India"}
-        />
-        <FarmCard
-          image={"images/farm2.png"}
-          name={"Serene"}
-          location={"Assam, India"}
-        />
-        <FarmCard
-          image={"images/farm2.png"}
-          name={"Serene"}
-          location={"Assam, India"}
-        />
-      </div>
+  const fetchDashboardDetails = async () => {
+    setLoading(true);
+    const res = await contractCall(auth, "fetchUserType");
+    if (res.status == 200) {
+      setUserType(res.data);
+      if (res.data == "farmer") {
+        const profileRes = await contractCall(auth, "fetchFarmerProfile");
+        if (profileRes.status == 200) {
+          const farmsRes = await contractCall(auth, "fetchFarmerFarms", [
+            profileRes.data.id,
+          ]);
+          if (farmsRes.status == 200) {
+            setFarms(farmsRes.data);
+          } else {
+            console.log(farmsRes.error, "Fetch failed");
+            setSnackbarInfo({
+              ...snackbarInfo,
+              open: true,
+              message: `Error ${farmsRes.status}: Failed to fetch farms`,
+            });
+          }
+          const stakesRes = await contractCall(auth, "fetchFarmerStakes");
+          if (stakesRes.status == 200) {
+            let stakes = [];
+            for (let i = 0; i < stakesRes.data.length; i++) {
+              const stake = stakesRes.data[i];
+              const cropRes = await contractCall(auth, "fetchCropDetails", [
+                stake.cropId,
+              ]);
+              if (cropRes.status == 200) {
+                stakes.push({
+                  ...stake,
+                  crop: cropRes.data,
+                });
+              } else {
+                console.log(cropRes.error, "Fetch failed");
+                setSnackbarInfo({
+                  ...snackbarInfo,
+                  open: true,
+                  message: `Error ${cropRes.status}: Failed to fetch crop details`,
+                });
+              }
+            }
 
-      <h2 className={`${classes.title} mt-12`}>Staked Crops</h2>
+          } else {
+            console.log(stakesRes.error, "Fetch failed");
+            setSnackbarInfo({
+              ...snackbarInfo,
+              open: true,
+              message: `Error ${stakesRes.status}: Failed to fetch stakes`,
+            });
+          }
+        } else {
+          console.log(profileRes.error, "Fetch failed");
+          setSnackbarInfo({
+            ...snackbarInfo,
+            open: true,
+            message: `Error ${profileRes.status}: Failed to fetch farmer profile`,
+          });
+        }
+      }
+    } else {
+      console.log(res.error, "Fetch failed");
+      setSnackbarInfo({
+        ...snackbarInfo,
+        open: true,
+        message: `Error ${res.status}: Fetch failed`,
+      });
+    }
+    setLoading(false);
+  };
 
-      <div className="flex mt-6 flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-12 p-6">
-        <CropDetailCard
-          cropName={"Barley"}
-          farmName={"Sila's State Farm"}
-          stakeAmount={"5000"}
-          date={"Feb 13th, 2020"}
-          timeToMature={"13 Months"}
-          location={"Assam, India"}
-        />
-        <CropDetailCard
-          cropName={"Apple"}
-          farmName={"Pranav's Farm"}
-          stakeAmount={"6000"}
-          date={"Sept 22nd, 2021"}
-          timeToMature={"10 Months"}
-          location={"Mangaluru, India"}
-        />
-        <CropDetailCard
-          cropName={"Wheat"}
-          farmName={"Mehul's Farm"}
-          stakeAmount={"500"}
-          date={"Feb 13th, 2021"}
-          timeToMature={"11 Months"}
-          location={"Bengaluru, India"}
-        />
-      </div>
-    </div>
-  );
-};
+  useEffect(() => {
+    if (auth.user) {
+      fetchDashboardDetails();
+    }
+  }, [auth?.user]);
 
-export default Dashboard;
+  if (userType == "farmer") {
+    return <FarmerDashboard farms={farms} stakes={stakes} />;
+  }
+
+  return <></>;
+}

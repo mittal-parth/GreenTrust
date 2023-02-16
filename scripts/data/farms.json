@@ -1,6 +1,7 @@
 [
     {
         "size": "100",
+        "name": "Farm 1",
         "latitude": "40.7128",
         "longitude": "74.0060",
         "location": "New York, NY",
@@ -8,6 +9,7 @@
     },
     {
         "size": "200",
+        "name": "Farm 2",
         "latitude": "40.7128",
         "longitude": "74.0060",
         "location": "New York, NY",

@@ -29,6 +29,7 @@ export default function Navar() {
   }
 
   useEffect( () => { 
+    console.log(auth.user)
     if (auth.user && auth.user.address) { // 'your connected wallet address'
      pushSubscribe();
       EmbedSDK.init({
@@ -128,7 +129,7 @@ export default function Navar() {
             ></input>
           </div> */}
           <button  id="sdk-trigger-id">
-            <FontAwesomeIcon icon={faBell} className="text-2xl mx-3" color="gray" />
+            <FontAwesomeIcon id="sdk-trigger-id" icon={faBell} className="text-2xl mx-3" color="gray" />
           </button>
           <ArcanaAuth />
         </div>

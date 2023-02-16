@@ -21,8 +21,6 @@ export default function Register() {
     e.preventDefault();
     console.log("Handling Inputs")
 
-    var profile = verifierProfile;
-    profile = JSON.stringify(profile);
     if (auth.user) {
       postVerifierInfo();
     }

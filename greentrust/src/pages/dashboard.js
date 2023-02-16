@@ -16,79 +16,44 @@ export default function Dashboard() {
 
   const fetchDashboardDetails = async () => {
     setLoading(true);
-    const res = await contractCall(auth, "fetchUserType");
-    if (res.status == 200) {
+    try {
+      const res = await contractCall(auth, "fetchUserType");
       setUserType(res.data);
       if (res.data == "farmer") {
-        const profileRes = await contractCall(auth, "fetchFarmerProfile");
-        if (profileRes.status == 200) {
-          const farmsRes = await contractCall(auth, "fetchFarmerFarms", [
-            profileRes.data.id,
-          ]);
-          if (farmsRes.status == 200) {
-            setFarms(farmsRes.data);
-          } else {
-            console.log(farmsRes.error, "Fetch failed");
-            setSnackbarInfo({
-              ...snackbarInfo,
-              open: true,
-              message: `Error ${farmsRes.status}: Failed to fetch farms`,
-            });
-          }
-          const stakesRes = await contractCall(auth, "fetchFarmerStakes");
-          if (stakesRes.status == 200) {
-            let stakes = [];
-            for (let i = 0; i < stakesRes.data.length; i++) {
-              const stake = stakesRes.data[i];
-              const cropRes = await contractCall(auth, "fetchCropDetails", [
-                stake.cropId,
-              ]);
-              if (cropRes.status == 200) {
-                stakes.push({
-                  ...stake,
-                  crop: cropRes.data,
-                });
-              } else {
-                console.log(cropRes.error, "Fetch failed");
-                setSnackbarInfo({
-                  ...snackbarInfo,
-                  open: true,
-                  message: `Error ${cropRes.status}: Failed to fetch crop details`,
-                });
-              }
-            }
-
-          } else {
-            console.log(stakesRes.error, "Fetch failed");
-            setSnackbarInfo({
-              ...snackbarInfo,
-              open: true,
-              message: `Error ${stakesRes.status}: Failed to fetch stakes`,
-            });
-          }
-        } else {
-          console.log(profileRes.error, "Fetch failed");
-          setSnackbarInfo({
-            ...snackbarInfo,
-            open: true,
-            message: `Error ${profileRes.status}: Failed to fetch farmer profile`,
+        const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
+          auth.user.address,
+        ]);
+        const farmsRes = await contractCall(auth, "fetchFarmerFarms", [
+          farmerIdRes.data,
+        ]);
+        setFarms(farmsRes.data);
+        const stakesRes = await contractCall(auth, "fetchFarmerStakes", [farmerIdRes.data]);
+        let farmerStakes = [];
+        for (let i = 0; i < stakesRes.data.length; i++) {
+          const stake = stakesRes.data[i];
+          const cropRes = await contractCall(auth, "crops", [stake.cropId]);
+          const farmRes = await contractCall(auth, "farms", [cropRes.data.farmId])
+          farmerStakes.push({
+            ...stake,
+            crop: cropRes.data,
+            farm: farmRes.data
           });
         }
+        setStakes(farmerStakes);
       }
-    } else {
-      console.log(res.error, "Fetch failed");
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: `Error ${res.status}: Fetch failed`,
-      });
+    } catch (err) {
+      setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
     setLoading(false);
   };
 
   useEffect(() => {
+    try{
     if (auth.user) {
       fetchDashboardDetails();
+    }
+      }catch(err){
+        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
   }, [auth?.user]);
 

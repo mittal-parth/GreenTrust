@@ -7,9 +7,9 @@ export default function Logo() {
         <div className="flex flex-row gap-[12px]">
             <img src="/logo.png" width={64} height={64} />
             <div>
-                <p className="text-center">
-                    <span className="text-primary font-extrabold text-3xl font-poppins block">Green</span>
-                    <span className="text-darkGray block uppercase font-bold text-xl tracking-widest">Trust</span>
+                <p className="text-center font-poppins">
+                    <span className="text-primary font-extrabold text-3xl block">Green</span>
+                    <span className="text-gray block uppercase font-medium text-xl tracking-widest">Trust</span>
                 </p>
             </div>
         </div>

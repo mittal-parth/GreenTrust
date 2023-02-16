@@ -5,41 +5,39 @@ import Button from "@/components/Button";
 const Landing = () => {
   return (
     <div className="bg-white w-full overflow-hidden flex h-screen">
-      <div className="w-2/3">
+      <div className="md:w-2/3 w-full">
         <LandingNavbar />
-
         <div
           id="home"
-          className={`flex md:flex-row flex-col ${classes.paddingY} ${classes.paddingX} `}
+          className="flex flex-col items-center h-full md:pt-[160px] py-[40px]"
         >
-          <div
-            className={`flex ${classes.flexStart} flex-col xl:px-0 sm:px-16 px-6`}
-          >
-            {/* Hero text */}
-            <div className="flex flex-row justify-between items-center w-full text-primary">
-              <h1 className="flex-1 font-comfortaa font-semibold ss:text-[44px] text-[40px] text-darkGray ss:leading-[70px] leading-[80px]">
-                Register with
-              </h1>
-            </div>
+          <div className="flex md:hidden">
+            <img src="/images/farmer.png" alt="landing" className=""/>
+          </div>
 
-            <h1 className="font-comfortaa font-semibold ss:text-[68px] text-[52px] text-primary ss:leading-[80px] leading-[80px] w-full">
-              <span className="text-primary font-900 ">Green </span>{" "}
-              <span className="text-darkGray font-poppins">TRUST</span>
-            </h1>
-            <h1 className="flex-1 font-comfortaa font-semibold ss:text-[44px] text-[40px] text-darkGray ss:leading-[70px] leading-[80px]">
-              today!
-            </h1>
+          <div className="px-[10%] md:px-0 w-fit">
+            <div>
+              <p className="font-comfortaa font-bold ss:text-[44px] text-[40px] text-darkGray">
+                Register with
+              </p>
+
+              <h1 className="font-poppins ss:text-[68px] text-[52px] text-primary leading-[120%] w-full">
+                <span className="text-primary font-extrabold">Green </span>
+                <span className="text-gray font-medium">TRUST</span>
+              </h1>
+              <p className="flex-1 font-comfortaa font-semibold ss:text-[44px] text-[40px] text-darkGray">
+                today!
+              </p>
+            </div>
+            
             <p
-              className={`text-2xl text-gray-800 font-normal font-comfortaa max-w-[470px] mt-5`}
+              className={`text-3xl text-gray font-bold font-comfortaa max-w-[470px] mt-5`}
             >
-              Secure <span className="text-red-500">seamless</span>,{" "}
-              <span className="text-red-500">hassle-free</span> and{" "}
-              <span className="text-red-500">trusted</span> certification for
-              your organic produce.
+              Secure <span className="text-red">seamless</span>, <span className="text-red">hassle-free</span> and <span className="text-red">trusted</span> certification for your <span className="text-primary">organic produce</span>.
             </p>
 
             <div className="mt-6">
-                <Button text={"Get Started"} color={"bg-primary"}/>
+                <Button text={"Get Started"} styles={"!py-[12px] text-3xl"}/>
             </div>
 
           </div>

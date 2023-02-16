@@ -103,8 +103,7 @@ export default function FarmInfo() {
             </div>
             <div className="my-10">
               {farmer && <FarmerDefaultCard
-                farmerName={"Dibyam Kumar"}
-                farmerEmail={"Dibyam999@gmail.com"}
+                profile={farmer.profile}
               />}
             </div>
             {crops?.length > 0 && <p className="w-fit font-bold text-2xl text-center text-primary font-comfortaa">

@@ -7,7 +7,7 @@ const Landing = () => {
   const router = useRouter();
 
   return (
-    <div className="bg-white w-full overflow-hidden flex h-screen">
+    <div className="bg-white w-full overflow-hidden flex">
       <div className="md:w-2/3 w-full">
         <LandingNavbar />
         <div

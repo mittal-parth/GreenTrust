@@ -74,17 +74,16 @@ export default function Layout({ children }) {
           {snackbarInfo.message}
         </Alert>
       </Snackbar>
-      <div className="bg-white pt-6 relative min-h-[100vh]">
+      <div className="bg-white relative min-h-[100vh]">
         <SnackbarContext.Provider value={{snackbarInfo, setSnackbarInfo}}>
           <header>
             <Navbar />
           </header>
           {loading && <Spinner></Spinner>}
           <LoaderContext.Provider value={{ loading, setLoading }}>
-
-            <main>
-              <div className="px-6 md:px-[12%] mt-8">
-                <div className={`${classes.boxWidth}`}>{children}</div>
+            <main className="h-full">
+              <div className="px-6 md:px-[12%] mt-8 h-full">
+                {children}
               </div>
             </main>
           </LoaderContext.Provider>

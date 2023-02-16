@@ -12,8 +12,8 @@ import {
 import { useAuth } from "@arcana/auth-react";
 
 import SensorCard from "@/components/SensorCard";
-import FarmerDefaultCard from "@/components/FarmerInfoCard";
-import Button from "@/components/button";
+import FarmerCard from "@/components/FarmerInfoCard";
+import Button from "@/components/Button";
 import PendingChallenge from "@/components/pendingChallenge";
 import classes from "@/style";
 import { contractCall } from "@/utils";
@@ -29,22 +29,42 @@ const Crop = () => {
 
     const auth = useAuth();
 
-    const [crop, setCrop] = useState(null);
+    const [data, setData] = useState(null);
+
+    const [farm, setFarm] = useState(null);
 
     const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
     const { loading, setLoading } = useContext(LoaderContext);
 
     async function getCropDetails() {
-        console.log("Loading...")
         setLoading(true);
-        const res = await contractCall(auth, 'fetchCropDetails', [cropId]);
+
+        const data = {};
+
+        let res = await contractCall(auth, 'fetchCropDetails', [cropId]);
         if (res.status == 200) {
-            setCrop(res.data[1]);
+            data.crop = JSON.parse(res.data.details);
+            data.farmId = Number(res.data.farmId);
         }
         else {
-            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: Fetch failed` })
+            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
         }
+
+        // res = await contractCall(auth, 'fetchFarmDetails', [data.farmId]);
+        // if (res.status == 200) {
+        //     data.farm = res.data.farm;
+            
+        //     data.farmerProfile = res.data.farmer.profile;
+        //     console.log(data.farmerProfile);
+        // }
+        // else {
+        //     setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
+        // }
+
+        // // setData(data);
+        // console.log(data);
+
         setLoading(false);
     }
 
@@ -72,11 +92,11 @@ const Crop = () => {
     var sensorList = <div className="grid grid-cols-4  w-fit ">{element}</div>;
     var location = "Assam";
     var area = "100";
-    return (<>{crop && (
+    return (<>{data && (
         <div>
             <div className="mt-10 ">
                 <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
-                    Farm Info
+                    Crop Info
                 </p>
                 <div className="flex mb-10">
                     <div className="">
@@ -90,11 +110,11 @@ const Crop = () => {
                             <div className="flex justify-between items-center pt-4">
                                 <div className="flex items-center">
                                     <p className="w-fit mx-3 font-bold text-4xl text-center text-primary font-comfortaa   ">
-                                        Barley
+                                        {data.crop.name}
                                     </p>
                                     <FontAwesomeIcon
                                         icon={faQrcode}
-                                        style={{ color: "black" }}
+                                        style={{ color: "darkGray" }}
                                         size="2x"
                                     />
                                 </div>
@@ -113,7 +133,7 @@ const Crop = () => {
                                         style={{ color: "brown" }}
                                     />
                                     <p className="text-darkGray font-comfortaa px-3 ">
-                                        {location}
+                                        {data.farm.location}
                                     </p>
                                 </div>
                                 <div className="flex items-center mx-3">
@@ -122,19 +142,18 @@ const Crop = () => {
                                         style={{ color: "grey" }}
                                     />
                                     <p className="text-darkGray font-comfortaa px-3 ">
-                                        {area} Acres
+                                        {data.crop.size} Acres
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div className="my-20">
-                            <FarmerDefaultCard
-                                farmerName={"Dibyam Kumar"}
-                                farmerEmail={"Dibyam999@gmail.com"}
+                            <FarmerCard
+                                profile={data.farmerProfile}
                             />
                         </div>
                         <p className="w-fit mx-3 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">
-                            Crops
+                            Sensor
                         </p>
                         {sensorList}
                         <p className="w-fit mx-3 mt-10 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">

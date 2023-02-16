@@ -1,19 +1,20 @@
-const API_KEY = process.env.ALCHEMY_API_KEY;
-const PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY;
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
+const { ethers } = require('ethers');
 
 const contract = require("../artifacts/contracts/GreenTrust.sol/GreenTrust.json");
 const farmer = require("./data/farmer.json");
 const crops = require("./data/crops.json");
 const farms = require("./data/farms.json");
 
+const API_KEY = process.env.ALCHEMY_API_KEY;
+const PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY;
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
+
 const provider = new ethers.providers.AlchemyProvider(network = "goerli", API_KEY);
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
-const greenTrustContract = new ethers.Contract(CONTRACT_ADDRESS, contract.abi, signer);
 
-async function main() {
-
-    console.log("Adding dummy data...");
+async function mockData(address, abi) {
+    console.log("Adding mock data...");
+    const greenTrustContract = new ethers.Contract(address  ?? CONTRACT_ADDRESS, abi ?? contract.abi, signer);
 
     // Register farmer
     try {
@@ -41,14 +42,18 @@ async function main() {
 
     console.log("Done!");
 
-    // call fetchFarmerProfile
+    // Call fetchFarmerProfile
     const message = await greenTrustContract.fetchFarmerProfile();
     console.log(message);
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+// mockData()
+//   .then(() => process.exit(0))
+//   .catch((error) => {
+//     console.error(error);
+//     process.exit(1);
+//   });
+
+module.exports = {
+    mockData
+}

@@ -11,10 +11,10 @@ const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
 const provider = new ethers.providers.AlchemyProvider(network = "goerli", API_KEY);
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
-const greenTrustContract = new ethers.Contract(CONTRACT_ADDRESS, contract.abi, signer);
 
-async function mockData() {
+async function mockData(address, abi) {
     console.log("Adding mock data...");
+    const greenTrustContract = new ethers.Contract(address  ?? CONTRACT_ADDRESS, abi ?? contract.abi, signer);
 
     // Register farmer
     try {

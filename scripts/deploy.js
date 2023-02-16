@@ -52,7 +52,7 @@ async function main() {
   });
   
   try {
-    await mockData();
+    await mockData(greenTrust.address, abi);
   } catch (err) {
     console.log(err);
   }

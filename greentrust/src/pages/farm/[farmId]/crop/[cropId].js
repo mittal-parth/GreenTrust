@@ -51,19 +51,19 @@ const Crop = () => {
             setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
         }
 
-        res = await contractCall(auth, 'fetchFarmDetails', [data.farmId]);
-        if (res.status == 200) {
-            data.farm = res.data.farm;
+        // res = await contractCall(auth, 'fetchFarmDetails', [data.farmId]);
+        // if (res.status == 200) {
+        //     data.farm = res.data.farm;
             
-            data.farmerProfile = res.data.farmer.profile;
-            console.log(data.farmerProfile);
-        }
-        else {
-            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
-        }
+        //     data.farmerProfile = res.data.farmer.profile;
+        //     console.log(data.farmerProfile);
+        // }
+        // else {
+        //     setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
+        // }
 
-        // setData(data);
-        console.log(data);
+        // // setData(data);
+        // console.log(data);
 
         setLoading(false);
     }

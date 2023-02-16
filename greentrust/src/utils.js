@@ -1,10 +1,12 @@
-import {ethers, BrowserProvider} from 'ethers'
-import { contractAddress } from '@/config';
-import GreenTrustABI from '@/abi/GreenTrust.json'
+import {ethers, BrowserProvider} from 'ethers';
+
+import { CONTRACT_ADDRESS } from '@/config';
+import GreenTrustABI from '@/abi/GreenTrust.json';
 
 export const getContract = (auth) => {
     const provider = new BrowserProvider(auth.provider);
-    const GreenTrust = new ethers.Contract(contractAddress, GreenTrustABI, provider);
+    console.log('debug: ', provider, CONTRACT_ADDRESS, GreenTrustABI);
+    const GreenTrust = new ethers.Contract(CONTRACT_ADDRESS, GreenTrustABI, provider);
     return GreenTrust;
 }
 

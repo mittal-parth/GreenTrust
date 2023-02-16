@@ -6,36 +6,33 @@ import { BiRupee } from "@react-icons/all-files/bi/BiRupee";
 import { BiCalendar } from "@react-icons/all-files/bi/BiCalendar";
 import { AiOutlineHistory } from "@react-icons/all-files/ai/AiOutlineHistory";
 import { HiLocationMarker } from "@react-icons/all-files/hi/HiLocationMarker";
+import { STAKE_DURATION } from "@/config";
 
-const CropDetailCard = ({
-  cropName,
-  farmName,
-  stakeAmount,
-  date,
-  location,
-  timeToMature,
-}) => {
+const CropDetailCard = ({stake}) => {
+  let cropDetails = JSON.parse(stake.crop.details);
+  let sowedOn = new Date(cropDetails.sowedOn * 1000).toLocaleDateString();
+  let timeToMature = sowedOn.setMonth(sowedOn.getMonth() + cropDetails.duration + STAKE_DURATION)
   return (
     <div className="w-72 flex-none bg-white rounded-lg shadow-lg mr-6 p-4">
       <div className="flex flex-col justify-evenly">
         <div className="flex justify-between">
           <p className="text-xl font-bold text-gray-800 font-comfortaa">
-            {farmName}
+            {stake.farm.name}
           </p>
           <IoAlertCircleSharp className="text-red-600"/>
         </div>
         <hr className="mt-2"/>
         <div className="flex mt-2">
           <RiPlantLine className="text-yellow-900" />&nbsp;
-          <p className={`${classes.heading2}`}>{cropName}</p>
+          <p className={`${classes.heading2}`}>{cropDetails.name}</p>
         </div>
         <div className="flex mt-2">
           <BiRupee className="text-primary" />&nbsp;
-          <p className={`${classes.paragraph}`}>{stakeAmount} </p>
+          <p className={`${classes.paragraph}`}>{crop.stakeAmount} </p>
         </div>
         <div className="flex mt-2">
           <BiCalendar className="text-darkGray" />&nbsp;
-          <p className={`${classes.paragraph}`}>{date}</p>
+          <p className={`${classes.paragraph}`}>{sowedOn}</p>
         </div>
         <div className="flex mt-2">
           <AiOutlineHistory className="text-darkGray" />&nbsp;
@@ -43,7 +40,7 @@ const CropDetailCard = ({
         </div>
         <div className="flex mt-2">
           <HiLocationMarker className="text-red-600" />&nbsp;
-          <p className={`${classes.paragraph}`}>{location}</p>
+          <p className={`${classes.paragraph}`}>{farm.location}</p>
         </div>
       </div>
     </div>

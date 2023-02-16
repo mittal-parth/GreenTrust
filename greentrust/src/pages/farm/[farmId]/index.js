@@ -47,6 +47,7 @@ export default function FarmInfo() {
 
   useEffect(() => {
     if (auth.user) {
+      console.log(auth.user, "test")
       fetchFarmInfo();
     }
   }, [auth?.user])

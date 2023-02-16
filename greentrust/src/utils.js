@@ -10,7 +10,7 @@ export const getContract = (auth) => {
     return GreenTrust;
 }
 
-export const contractCall = async (auth, func, params = null) => {
+export const contractCall = async (auth, func, params = []) => {
     if (!auth?.isLoggedIn) {
         const error = Error("Unauthorized");
         error.code = 401;

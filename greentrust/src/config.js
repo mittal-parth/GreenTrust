@@ -1,2 +1,3 @@
 export const APP_ADDRESS = "851e2f9b3e599f9ea4f8f1a3c2c9012d3543dc2b";
 export const CONTRACT_ADDRESS = "0xBEFc7c5b14e1bfF6Bde88A3DBC093Ffc2D7ED878";
+export const STAKE_DURATION = 6;

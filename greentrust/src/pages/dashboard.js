@@ -48,8 +48,12 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    try{
     if (auth.user) {
       fetchDashboardDetails();
+    }
+      }catch(err){
+        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
   }, [auth?.user]);
 

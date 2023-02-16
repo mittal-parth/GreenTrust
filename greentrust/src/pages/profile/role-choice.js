@@ -6,6 +6,7 @@ import { Auth, useAuth } from "@arcana/auth-react";
 import { useEffect } from "react";
 import NavBar from "@/components/Navbar";
 import RoleCard from "@/components/RoleCard";
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,8 +54,16 @@ export default function Home({}) {
             Get <br></br>Verified
           </p>
           <div className="flex space-x-[20px] flex-col md:flex-row">
+          <Link href={"/farmer/register"}>
             <RoleCard name={"Farmer"} imagePath={"/farmer-woman.png"} />
+          </Link>
+          <Link href={"/verifier/register"}>
             <RoleCard name={"Licensed Inspector"} imagePath={"/sheriff.png"} />
+          </Link>
+          <Link href={"/farmer"}>
+            <RoleCard name={"Guest"} imagePath={"/sheriff.png"} />
+          </Link>
+          
           </div>
         </div>
       

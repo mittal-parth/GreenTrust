@@ -32,6 +32,7 @@ export default function AddFarm(){
   const handleFileChange = (e) => {
     if (e.target.files) {
       setFile(e.target.files);
+      console.log(e.target.files);
     }
   };
      

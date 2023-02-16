@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 
 import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
-
+// import { useRouter } from "next/router";
+import Link from 'next/link'
 const Landing = () => {
   const router = useRouter();
 
@@ -37,10 +38,11 @@ const Landing = () => {
             >
               Secure <span className="text-red">seamless</span>, <span className="text-red">hassle-free</span> and <span className="text-red">trusted</span> certification for your <span className="text-primary">organic produce</span>.
             </p>
-
-            <div className="mt-6">
-              <Button text={"Get Started"} styles={"!py-2 text-2xl"} onClick={() => {router.push('/auth/login')}} />
-            </div>
+            <Link href={"/auth/login"}>
+                <div className="mt-6">
+                    <Button text={"Get Started"} color={"bg-primary"}/>
+                </div>
+            </Link>
 
           </div>
         </div>

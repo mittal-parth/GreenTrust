@@ -18,7 +18,6 @@ export default function Dashboard() {
     setLoading(true);
     try {
       const res = await contractCall(auth, "fetchUserType");
-      setUserType(res.data);
       if (res.data == "farmer") {
         const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
           auth.user.address,
@@ -42,6 +41,8 @@ export default function Dashboard() {
         setStakes(farmerStakes);
       }
     } catch (err) {
+      console.log(err);
+
       setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
     setLoading(false);

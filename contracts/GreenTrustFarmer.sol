@@ -45,6 +45,7 @@ contract GreenTrustFarmer {
 
     struct Crop {
         uint256 id;
+        uint256 harvestedOn;
         string details;
         uint256 stakeAmount;
         uint256 farmId;
@@ -110,13 +111,14 @@ contract GreenTrustFarmer {
         emit farmAdded(numFarms, addressToFarmerIds[msg.sender]);
     }
 
-    function addCrop(string memory _details, uint256 _farmId, uint256 _stakeAmount) public {
+    function addCrop(string memory _details, uint256 _harvestedOn, uint256 _farmId, uint256 _stakeAmount) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0C");
         require(
             farms[_farmId].farmerId == addressToFarmerIds[msg.sender],
             "F0C"
         );
         crops[numCrops + 1].id = numCrops + 1;
+        crops[numCrops + 1].harvestedOn = _harvestedOn;
         crops[numCrops + 1].stakeAmount = _stakeAmount;
         crops[numCrops + 1].details = _details;
         crops[numCrops + 1].farmId = _farmId;

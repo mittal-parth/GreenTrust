@@ -2,25 +2,25 @@
   {
     "details": {
       "name": "Tomato",
-      "createdOn": "2021-09-01",
-      "sowedOn": "2021-09-01",
-      "harvestedOn": "2021-09-01",
-      "duration": "100",
+      "createdOn": "1623864737",
+      "sowedOn": "1623864737",
+      "duration": "8",
       "size": "100"
     },
+    "harvestedOn": "1645032737",
     "farmId": 1,
-    "stakeAmount": 100
+    "stakeAmount": 1000000
   },
   {
     "details": {
       "name": "Potato",
-      "createdOn": "2021-09-01",
-      "sowedOn": "2021-09-01",
-      "harvestedOn": "2021-09-01",
-      "duration": "100",
+      "createdOn": "1645032737",
+      "sowedOn": "1645032737",
+      "duration": "10",
       "size": "100"
     },
+    "harvestedOn": "1671211937",
     "farmId": 1,
-    "stakeAmount": 100
+    "stakeAmount": 1000000
   }
 ]

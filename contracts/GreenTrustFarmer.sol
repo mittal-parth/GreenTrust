@@ -74,11 +74,7 @@ contract GreenTrustFarmer {
     }
     mapping(uint256 => Stake) stakes;
     uint256 numStakes;
-    event stakeAdded(
-        uint256 id,
-        uint256 cropId,
-        address stakeholder
-    );
+    event stakeAdded(uint256 id, uint256 cropId, address stakeholder);
 
     // Functions for farmers
     function fetchFarmerProfile() public view returns (Farmer memory) {
@@ -86,10 +82,9 @@ contract GreenTrustFarmer {
         return farmers[addressToFarmerIds[msg.sender]];
     }
 
-    function updateFarmerProfile(
-        string memory _profile,
-        string memory _idCards
-    ) public {
+    function updateFarmerProfile(string memory _profile, string memory _idCards)
+        public
+    {
         require(addressToFarmerIds[msg.sender] != 0, "F0");
         farmers[addressToFarmerIds[msg.sender]].profile = _profile;
         farmers[addressToFarmerIds[msg.sender]].idCards = _idCards;
@@ -129,6 +124,7 @@ contract GreenTrustFarmer {
         crops[numCrops + 1].isValid = true;
         numCrops++;
     }
+
     // generate random id
     function addSensor(uint256 _cropId) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0S");
@@ -207,7 +203,7 @@ contract GreenTrustFarmer {
         return crops[_cropId];
     }
 
-    function fetchCropSensors(uint256  _cropId)
+    function fetchCropSensors(uint256 _cropId)
         public
         view
         returns (Sensor[] memory)
@@ -233,7 +229,7 @@ contract GreenTrustFarmer {
         return temp;
     }
 
-    function fetchCropStakes(uint256  _cropId)
+    function fetchCropStakes(uint256 _cropId)
         public
         view
         returns (Stake[] memory)
@@ -257,6 +253,18 @@ contract GreenTrustFarmer {
             }
         }
         return temp;
+    }
+
+    function fetchFarmDetails(uint256 _farmId)
+        public
+        view
+        returns (Farm memory)
+    {
+        require(
+            _farmId > 0 && _farmId <= numFarms && farms[_farmId].isValid,
+            "F0"
+        );
+        return farms[_farmId];
     }
 
     function fetchFarmCrops(uint256 _farmId)

@@ -104,7 +104,7 @@ contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
         emit challengeAdded(numChallenges, _challenged, _status, msg.sender);
     }
 
-    function AddStake(uint256 _cropId, uint256 _amount) public {
+    function AddStake(uint256 _cropId) public {
         require(
             addressToFarmerIds[msg.sender] != 0 ||
                 addressToVerifierIds[msg.sender] != 0,
@@ -118,13 +118,12 @@ contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
             "F0St"
         );
         stakes[numStakes + 1].id = numStakes + 1;
-        stakes[numStakes + 1].amount = _amount;
         stakes[numStakes + 1].cropId = _cropId;
         stakes[numStakes + 1].stakeholder = payable(msg.sender);
         stakes[numStakes + 1].status = defaultStakeStatus;
         stakes[numStakes + 1].isValid = true;
         numStakes++;
-        emit stakeAdded(numStakes, _cropId, _amount, msg.sender);
+        emit stakeAdded(numStakes, _cropId, msg.sender);
     }
 
     function AcceptChallenge(uint256 _challengeId) public {

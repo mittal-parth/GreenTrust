@@ -28,9 +28,9 @@ contract GreenTrustFarmer {
     uint256 numFarmers;
     event farmerRegistered(address indexed farmerAddress, uint256 id);
     event farmerUpdated(address indexed farmerAddress, uint256 id);
-
     struct Farm {
         uint256 id;
+        string name;
         string size;
         string latitude;
         string longitude;
@@ -46,6 +46,7 @@ contract GreenTrustFarmer {
     struct Crop {
         uint256 id;
         string details;
+        uint256 stakeAmount;
         uint256 farmId;
         CropStatus status;
         bool isValid;
@@ -66,7 +67,6 @@ contract GreenTrustFarmer {
 
     struct Stake {
         uint256 id;
-        uint256 amount;
         uint256 cropId;
         address payable stakeholder;
         StakeStatus status;
@@ -74,12 +74,7 @@ contract GreenTrustFarmer {
     }
     mapping(uint256 => Stake) stakes;
     uint256 numStakes;
-    event stakeAdded(
-        uint256 id,
-        uint256 cropId,
-        uint256 amount,
-        address stakeholder
-    );
+    event stakeAdded(uint256 id, uint256 cropId, address stakeholder);
 
     // Functions for farmers
     function fetchFarmerProfile() public view returns (Farmer memory) {
@@ -87,10 +82,9 @@ contract GreenTrustFarmer {
         return farmers[addressToFarmerIds[msg.sender]];
     }
 
-    function updateFarmerProfile(
-        string memory _profile,
-        string memory _idCards
-    ) public {
+    function updateFarmerProfile(string memory _profile, string memory _idCards)
+        public
+    {
         require(addressToFarmerIds[msg.sender] != 0, "F0");
         farmers[addressToFarmerIds[msg.sender]].profile = _profile;
         farmers[addressToFarmerIds[msg.sender]].idCards = _idCards;
@@ -131,7 +125,8 @@ contract GreenTrustFarmer {
         numCrops++;
     }
 
-    function addSensor(uint256 _cropId, string memory _data) public {
+    // generate random id
+    function addSensor(uint256 _cropId) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0S");
         require(crops[_cropId].isValid, "Cr0");
         require(
@@ -141,7 +136,6 @@ contract GreenTrustFarmer {
         );
         sensors[numSensors + 1].id = numSensors + 1;
         sensors[numSensors + 1].cropId = _cropId;
-        sensors[numSensors + 1].data = _data;
         sensors[numSensors + 1].isValid = true;
         numSensors++;
         emit sensorAdded(numSensors, _cropId);
@@ -209,7 +203,70 @@ contract GreenTrustFarmer {
         return crops[_cropId];
     }
 
-    // used
+    function fetchCropSensors(uint256 _cropId)
+        public
+        view
+        returns (Sensor[] memory)
+    {
+        require(
+            _cropId > 0 && _cropId <= numCrops && crops[_cropId].isValid,
+            "Cr0"
+        );
+        uint256 tempNumSensors;
+        uint256 j;
+        for (uint256 i = 1; i <= numSensors; i++) {
+            if (sensors[i].cropId == _cropId && sensors[i].isValid) {
+                tempNumSensors++;
+            }
+        }
+        Sensor[] memory temp = new Sensor[](tempNumSensors);
+        for (uint256 i = 1; i <= numSensors; i++) {
+            if (sensors[i].cropId == _cropId && sensors[i].isValid) {
+                temp[j] = sensors[i];
+                j++;
+            }
+        }
+        return temp;
+    }
+
+    function fetchCropStakes(uint256 _cropId)
+        public
+        view
+        returns (Stake[] memory)
+    {
+        require(
+            _cropId > 0 && _cropId <= numCrops && crops[_cropId].isValid,
+            "Cr0"
+        );
+        uint256 tempNumStakes;
+        uint256 j;
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (stakes[i].cropId == _cropId && stakes[i].isValid) {
+                tempNumStakes++;
+            }
+        }
+        Stake[] memory temp = new Stake[](tempNumStakes);
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (stakes[i].cropId == _cropId && stakes[i].isValid) {
+                temp[j] = stakes[i];
+                j++;
+            }
+        }
+        return temp;
+    }
+
+    function fetchFarmDetails(uint256 _farmId)
+        public
+        view
+        returns (Farm memory)
+    {
+        require(
+            _farmId > 0 && _farmId <= numFarms && farms[_farmId].isValid,
+            "F0"
+        );
+        return farms[_farmId];
+    }
+
     function fetchFarmCrops(uint256 _farmId)
         public
         view
@@ -234,27 +291,6 @@ contract GreenTrustFarmer {
             }
         }
         return temp;
-    }
-
-    // used
-    function fetchFarmDetails(uint256 _farmId)
-        public
-        view
-        returns (
-            Farm memory farm,
-            Farmer memory farmer,
-            Crop[] memory cropList
-        )
-    {
-        require(
-            _farmId > 0 && _farmId <= numFarms && farms[_farmId].isValid,
-            "F0"
-        );
-        return (
-            farms[_farmId],
-            farmers[farms[_farmId].farmerId],
-            fetchFarmCrops(_farmId)
-        );
     }
 
     function fetchFarmerDetails(uint256 _farmerId)

@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { Auth, useAuth } from "@arcana/auth-react";
 import { CircularProgress } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 import Navbar from "./Navbar";
 import classes from "../style";
@@ -14,11 +15,16 @@ import { AuthContext } from "@/context/authContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
 
+
 export function ArcanaAuth() {
   const router = useRouter();
   const auth = useAuth();
 
   const { loadingAuth, authProvider } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log('user debug:', auth?.user);
+  }, [auth?.isLoggedIn])
 
   return (
     <>
@@ -66,10 +72,12 @@ export default function Layout({ children }) {
       <Snackbar
         open={snackbarInfo.open}
         onClose={handleClose}
-        message={snackbarInfo.message}
-        severity={snackbarInfo.severity}
         autoHideDuration={6000}
-      />
+      >
+        <Alert severity={snackbarInfo.severity}>
+          {snackbarInfo.message}
+        </Alert>
+      </Snackbar>
       <div className="bg-white pt-6 relative min-h-[100vh]">
         <SnackbarContext.Provider value={{snackbarInfo, setSnackbarInfo}}>
           <header>

@@ -27,8 +27,8 @@ export const contractCall = async (auth, func, params = null) => {
         };
     } catch (e) {
         console.log('contractCall debug:', e);
-        const msg = String(e.message).match(/reason="[A-Za-z0-9]+"/g)[0];
-        const error = Error(msg);
+        // const msg = String(e.message).match(/reason="[A-Za-z0-9]+"/g)[0];
+        const error = Error("Something went wrong");
         error.code = 500;
         throw error;
     }

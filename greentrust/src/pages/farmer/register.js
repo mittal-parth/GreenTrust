@@ -31,30 +31,24 @@ export default function Register() {
   };
 
   const postFarmerInfo = async () => {
-
     setLoading(true);
-    console.log("Registering Farmer");
-    console.log(auth.user)  
-    const res = await contractCall(auth, "registerFarmer", [
-      farmerProfile,
-      idCards,
-    ]);
-    if (res.status == 200) {
-      console.log(res.data, "Response");
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: `Registered Successfully`,
-      });
+
+    try {
+      const res = await contractCall(auth, "registerFarmer", [
+        farmerProfile,
+        idCards,
+      ]);
+
       router.replace('/dashboard');
-    } else {
-      console.log(res);
+    }
+    catch (err) {
       setSnackbarInfo({
         ...snackbarInfo,
         open: true,
-        message: `Error ${res.status}: Registration failed`,
+        message: `Registered failed`,
       });
     }
+    
     setLoading(false);
   };
 

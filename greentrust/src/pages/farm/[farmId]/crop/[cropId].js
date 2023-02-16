@@ -57,6 +57,9 @@ const Crop = () => {
 
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
             console.log('debug: ', res.data);
+
+            res = await contractCall(auth, 'fetchFarmerProfile', []);
+            console.log('registration debug: ', res.data);
             
             setData(data);
             console.log('debug:', data);

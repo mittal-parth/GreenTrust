@@ -2,10 +2,9 @@
 pragma solidity >=0.8.2 <0.9.0;
 
 import "./GreenTrustFarmer.sol";
-import "./GreenTrustVerifier.sol";
 import "./GreenLeaves.sol";
 
-contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
+contract GreenTrust is GreenTrustFarmer {
     enum ChallengeStatus {
         OPEN,
         ALLOTTED,
@@ -23,7 +22,7 @@ contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
         ChallengeStatus status;
         bool isValid;
     }
-    mapping(uint256 => Challenge) internal challenges;
+    mapping(uint256 => Challenge) public challenges;
     uint256 internal numChallenges;
     event challengeAdded(
         uint256 id,
@@ -36,6 +35,28 @@ contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
         uint256 challenged,
         ChallengeStatus status,
         address challenger
+    );
+
+    struct Verifier {
+        uint256 id;
+        address payable walletAddress;
+        string name;
+        string currentAddress;
+        string idCards;
+        bool isValid;
+    }
+    mapping(address => uint256) public addressToVerifierIds;
+    mapping(uint256 => Verifier) public verifiers;
+    uint256 internal numVerifiers;
+    event verifierRegistered(
+        address indexed verifierAddress,
+        string name,
+        uint256 id
+    );
+    event verifierUpdated(
+        address indexed verifierAddress,
+        string name,
+        uint256 id
     );
 
     // Open to all Functions
@@ -56,6 +77,23 @@ contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
         addressToVerifierIds[msg.sender] = numVerifiers + 1;
         numVerifiers++;
         emit verifierRegistered(msg.sender, _name, numVerifiers);
+    }
+
+    function updateVerifierProfile(
+        string memory _name,
+        string memory _currentAddress,
+        string memory _idCards
+    ) public {
+        require(addressToVerifierIds[msg.sender] != 0, "V0");
+        verifiers[addressToVerifierIds[msg.sender]].name = _name;
+        verifiers[addressToVerifierIds[msg.sender]]
+            .currentAddress = _currentAddress;
+        verifiers[addressToVerifierIds[msg.sender]].idCards = _idCards;
+        emit verifierUpdated(
+            msg.sender,
+            _name,
+            addressToVerifierIds[msg.sender]
+        );
     }
 
     function registerFarmer(string memory _profile, string memory _idCards)
@@ -118,12 +156,14 @@ contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
                 addressToFarmerIds[msg.sender],
             "F0St"
         );
+        require(hasStaked[_cropId][msg.sender] != true, "St1");
         stakes[numStakes + 1].id = numStakes + 1;
         stakes[numStakes + 1].cropId = _cropId;
         stakes[numStakes + 1].stakeholder = payable(msg.sender);
         stakes[numStakes + 1].status = defaultStakeStatus;
         stakes[numStakes + 1].isValid = true;
         numStakes++;
+        hasStaked[_cropId][msg.sender] = true;
         emit stakeAdded(numStakes, _cropId, msg.sender);
     }
 

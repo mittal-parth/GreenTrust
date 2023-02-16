@@ -23,9 +23,9 @@ contract GreenTrustFarmer {
         string idCards;
         bool isValid;
     }
-    mapping(address => uint256) internal addressToFarmerIds;
-    mapping(uint256 => Farmer) internal farmers;
-    uint256 numFarmers;
+    mapping(address => uint256) public addressToFarmerIds;
+    mapping(uint256 => Farmer) public farmers;
+    uint256 internal numFarmers;
     event farmerRegistered(address indexed farmerAddress, uint256 id);
     event farmerUpdated(address indexed farmerAddress, uint256 id);
     struct Farm {
@@ -39,8 +39,8 @@ contract GreenTrustFarmer {
         string documents;
         bool isValid;
     }
-    mapping(uint256 => Farm) farms;
-    uint256 numFarms;
+    mapping(uint256 => Farm) public farms;
+    uint256 internal numFarms;
     event farmAdded(uint256 farmId, uint256 farmerId);
 
     struct Crop {
@@ -51,8 +51,9 @@ contract GreenTrustFarmer {
         CropStatus status;
         bool isValid;
     }
-    mapping(uint256 => Crop) crops;
-    uint256 numCrops;
+    mapping(uint256 => Crop) public crops;
+    mapping(uint256 =>  mapping(address => bool)) public hasStaked;
+    uint256 internal numCrops;
 
     struct Sensor {
         uint256 id;
@@ -61,8 +62,8 @@ contract GreenTrustFarmer {
         string data;
         bool isValid;
     }
-    mapping(uint256 => Sensor) sensors;
-    uint256 numSensors;
+    mapping(uint256 => Sensor) public sensors;
+    uint256 internal numSensors;
     event sensorAdded(uint256 id, uint256 cropId);
     event sensorDataAdded(uint256 sensorId, string data);
 
@@ -74,8 +75,8 @@ contract GreenTrustFarmer {
         StakeStatus status;
         bool isValid;
     }
-    mapping(uint256 => Stake) stakes;
-    uint256 numStakes;
+    mapping(uint256 => Stake) public stakes;
+    uint256 internal numStakes;
     event stakeAdded(uint256 id, uint256 cropId, address stakeholder);
 
     function updateFarmerProfile(string memory _profile, string memory _idCards)
@@ -187,18 +188,6 @@ contract GreenTrustFarmer {
         return temp;
     }
 
-    function fetchCropDetails(uint256 _cropId)
-        public
-        view
-        returns (Crop memory)
-    {
-        require(
-            _cropId > 0 && _cropId <= numCrops && crops[_cropId].isValid,
-            "Cr0"
-        );
-        return crops[_cropId];
-    }
-
     function fetchCropSensors(uint256 _cropId)
         public
         view
@@ -251,18 +240,6 @@ contract GreenTrustFarmer {
         return temp;
     }
 
-    function fetchFarmDetails(uint256 _farmId)
-        public
-        view
-        returns (Farm memory)
-    {
-        require(
-            _farmId > 0 && _farmId <= numFarms && farms[_farmId].isValid,
-            "F0"
-        );
-        return farms[_farmId];
-    }
-
     function fetchFarmCrops(uint256 _farmId)
         public
         view
@@ -287,48 +264,6 @@ contract GreenTrustFarmer {
             }
         }
         return temp;
-    }
-
-    function fetchFarmerDetails(uint256 _farmerId)
-        public
-        view
-        returns (Farmer memory)
-    {
-        require(
-            (_farmerId > 0 && _farmerId <= numFarmers) ||
-                addressToFarmerIds[msg.sender] != 0,
-            "F0"
-        );
-        if (_farmerId == 0) {
-            _farmerId = addressToFarmerIds[msg.sender];
-        }
-        return farmers[_farmerId];
-    }
-
-    function fetchSensorDetails(uint256 _sensorId)
-        public
-        view
-        returns (Sensor memory)
-    {
-        require(
-            _sensorId > 0 &&
-                _sensorId <= numSensors &&
-                sensors[_sensorId].isValid,
-            "S0"
-        );
-        return sensors[_sensorId];
-    }
-
-    function fetchStakeDetails(uint256 _stakeId)
-        public
-        view
-        returns (Stake memory)
-    {
-        require(
-            _stakeId > 0 && _stakeId <= numStakes && stakes[_stakeId].isValid,
-            "St0"
-        );
-        return stakes[_stakeId];
     }
 
     function fetchFarmerStakes(uint256 _farmerId)

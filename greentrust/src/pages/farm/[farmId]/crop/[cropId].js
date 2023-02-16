@@ -43,26 +43,36 @@ const Crop = () => {
         let res;
 
         try {
-            res = await contractCall(auth, 'fetchCropDetails', [cropId]);
+            res = await contractCall(auth, 'crops', [cropId]);
             data.crop = JSON.parse(res.data.details);
             data.farmId = Number(res.data.farmId);
             
             res = await contractCall(auth, 'fetchCropStakes', [cropId]);
 
-            res = await contractCall(auth, 'fetchFarmDetails', [data.farmId]);
+            res = await contractCall(auth, 'farms', [data.farmId]);
             data.farm = res.data;
 
-            res = await contractCall(auth, 'fetchFarmerDetails', [data.farm.farmerId]);
+            res = await contractCall(auth, 'farmers', [data.farm.farmerId]);
             data.farmerProfile = res.data.profile;
 
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
-            console.log('debug: ', res.data);
+            data.sensors = res.data;
 
-            res = await contractCall(auth, 'fetchFarmerProfile', []);
-            console.log('registration debug: ', res.data);
-            
+            res = await contractCall(auth, 'fetchCropStakes', [cropId]);
+            data.stakes = res.data;
+
+            data.stakeholders = [];
+            for (let stake of data.stakes) {
+                res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
+                const farmerId = parseInt(res.data._hex);
+
+                res = await contractCall(auth, 'farmers', [farmerId]);
+                console.log('stakes debug:', res.data)
+                data.stakeholders.push(res.data);
+            }
+            console.log('stakeholders debug:', data.stakeholders);
+
             setData(data);
-            console.log('debug:', data);
         }
         catch (err) {
             setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
@@ -158,7 +168,11 @@ const Crop = () => {
                         <p className="w-fit mx-3 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">
                             Sensor
                         </p>
-                        {sensorList}
+                        <div className="grid grid-cols-4 w-fit ">
+                            {data.sensors.map((sensor) => <>
+                                <SensorCard details={sensor} />
+                            </>)}
+                        </div>
                         <p className="w-fit mx-3 mt-10 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">
                             Stakeholders
                         </p>
@@ -168,7 +182,9 @@ const Crop = () => {
                             <p className={`${classes.paragraph}`}>{stateAmount} </p>
                         </div>
                         <div>
-                            <div className="flex my-3">{stakedHolders}</div>
+                            <div className="flex my-3">{[1, 2].map((stakeholder) => (
+                                <FarmerCard profile={data.farmerProfile} onlyPic={true} />
+                            ))}</div>
                             <div className="flex mt-10 space-x-10">
                                 <Button
                                     text="Stake"

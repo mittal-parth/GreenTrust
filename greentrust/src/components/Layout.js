@@ -22,10 +22,6 @@ export function ArcanaAuth() {
 
   const { loadingAuth, authProvider } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log('user debug:', auth?.user);
-  }, [auth?.isLoggedIn])
-
   return (
     <>
       {loadingAuth || auth.loading

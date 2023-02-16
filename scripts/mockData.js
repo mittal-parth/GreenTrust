@@ -65,8 +65,9 @@ async function mockData(address, abi) {
     console.log("Done!");
 
     // Call fetchFarmerProfile
-    const message = await greenTrustContract.fetchFarmerDetails();
-    console.log(message);
+    const farmerId = await greenTrustContract.addressToFarmerIds(signer.address);
+    const farmerProfile = await greenTrustContract.farmers(farmerId);
+    console.log(farmerProfile);
 }
 
 // mockData()

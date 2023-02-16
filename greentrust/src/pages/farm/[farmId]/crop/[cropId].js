@@ -13,7 +13,7 @@ import { useAuth } from "@arcana/auth-react";
 
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import PendingChallenge from "@/components/pendingChallenge";
 import classes from "@/style";
 import { contractCall } from "@/utils";

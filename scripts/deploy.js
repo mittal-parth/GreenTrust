@@ -25,7 +25,6 @@ function setEnvValue(key, value) {
   }
   
   async function main() {
-    await hre.run('compile')
     
     const [deployer] = await hre.ethers.getSigners();
     
@@ -36,8 +35,11 @@ function setEnvValue(key, value) {
     const greenTrust = await GreenTrust.deploy();
     
     console.log(`GreenTrust deployed at ${greenTrust.address}`);
-    
-    mockData();
+    try{
+       await mockData();
+    } catch (err) {
+      console.log(err);
+    }
     
     setEnvValue('CONTRACT_ADDRESS', greenTrust.address);
 

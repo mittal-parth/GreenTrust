@@ -5,18 +5,20 @@ import GreenTrustABI from '@/abi/GreenTrust.json';
 
 export const getContract = (auth) => {
     const provider = new ethers.providers.Web3Provider(auth.provider);
-    console.log('debug: ', provider, CONTRACT_ADDRESS, GreenTrustABI);
     const GreenTrust = new ethers.Contract(CONTRACT_ADDRESS, GreenTrustABI, provider);
     return GreenTrust;
 }
 
 export const contractCall = async (auth, func, params = null) => {
-    if (!auth?.isLoggedIn)
-        return {
+    if (!auth?.isLoggedIn) {
+        throw Error({
             status: 401,
-            error: "Unauthorized",
-        };
+            message: "Unauthorized",
+        });
+    }
+    
     const contract = getContract(auth);
+    
     try {
         let data = await eval(`contract.${func}`)(...params);
         return {
@@ -24,10 +26,10 @@ export const contractCall = async (auth, func, params = null) => {
             data: data,
         };
     } catch (e) {
-        return {
-            status: 500,
-            error: e,
-        };
+        const msg = String(e.message).match(/reason="[A-Za-z0-9]+"/g)[0];
+        const error = Error(msg);
+        error.code = 500;
+        throw error;
     }
 };
 

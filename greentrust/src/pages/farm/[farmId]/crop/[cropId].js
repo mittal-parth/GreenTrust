@@ -37,33 +37,39 @@ const Crop = () => {
 
     const { loading, setLoading } = useContext(LoaderContext);
 
+
     async function getCropDetails() {
         setLoading(true);
 
         const data = {};
 
-        let res = await contractCall(auth, 'fetchCropDetails', [cropId]);
-        if (res.status == 200) {
+        let res;
+
+        try {
+            res = await contractCall(auth, 'fetchCropDetails', [cropId]);
             data.crop = JSON.parse(res.data.details);
             data.farmId = Number(res.data.farmId);
-        }
-        else {
-            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
-        }
-
-        // res = await contractCall(auth, 'fetchFarmDetails', [data.farmId]);
-        // if (res.status == 200) {
-        //     data.farm = res.data.farm;
             
-        //     data.farmerProfile = res.data.farmer.profile;
-        //     console.log(data.farmerProfile);
-        // }
-        // else {
-        //     setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: ${res.error.message}` })
-        // }
+            res = await contractCall(auth, 'fetchCropStakes', [cropId]);
 
-        // // setData(data);
-        // console.log(data);
+            res = await contractCall(auth, 'fetchFarmDetails', [data.farmId]);
+            data.farm = res.data;
+
+            res = await contractCall(auth, 'fetchFarmerDetails', [data.farm.farmerId]);
+            data.farmerProfile = res.data.profile;
+
+            res = await contractCall(auth, 'fetchCropSensors', [cropId]);
+            console.log('debug: ', res.data);
+        }
+        catch (err) {
+            console.log('debug:', err)
+            setLoading(false);
+            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
+            return;
+        }
+
+        setData(data);
+        console.log('debug:', data);
 
         setLoading(false);
     }

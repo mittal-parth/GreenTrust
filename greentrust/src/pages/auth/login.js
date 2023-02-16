@@ -16,7 +16,7 @@ export default function Login({ children }) {
 
     useEffect(() => {
         if (auth?.isLoggedIn) {
-            router.push('/');
+            router.push('/dashboard');
         }
       }, [auth?.isLoggedIn]);
     

@@ -1,8 +1,11 @@
-import classes from "../style";
+import { useRouter } from "next/router";
+
 import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
 
 const Landing = () => {
+  const router = useRouter();
+
   return (
     <div className="bg-white w-full overflow-hidden flex h-screen">
       <div className="md:w-2/3 w-full">
@@ -37,7 +40,7 @@ const Landing = () => {
             </p>
 
             <div className="mt-6">
-                <Button text={"Get Started"} styles={"!py-[12px] text-3xl"}/>
+              <Button text={"Get Started"} styles={"!py-[12px] text-3xl"} onClick={() => {router.push('/auth/login')}} />
             </div>
 
           </div>

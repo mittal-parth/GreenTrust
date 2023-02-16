@@ -42,7 +42,7 @@ async function mockData(address, abi) {
     console.log("Adding crops...")
     for (let i = 0; i < crops.length; i++) {
         const crop = crops[i];
-        const tx = await greenTrustContract.addCrop(JSON.stringify(crop["details"]), crop["farmId"], crop["stakeAmount"]);
+        const tx = await greenTrustContract.addCrop(JSON.stringify(crop["details"]), crop["harvestedOn"], crop["farmId"], crop["stakeAmount"]);
         await tx.wait();
     }
 

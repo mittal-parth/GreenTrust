@@ -3,6 +3,7 @@ pragma solidity >=0.8.2 <0.9.0;
 
 import "./GreenTrustFarmer.sol";
 import "./GreenTrustVerifier.sol";
+import "./GreenLeaves.sol";
 
 contract GreenTrust is GreenTrustFarmer, GreenTrustVerifier {
     enum ChallengeStatus {

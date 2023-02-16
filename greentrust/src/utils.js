@@ -3,8 +3,9 @@ import { contractAddress } from '@/config';
 import GreenTrustABI from '@/abi/GreenTrust.json'
 
 export const getContract = (auth) => {
-    const provider = new BrowserProvider(auth.provider);
-    const GreenTrust = new ethers.Contract(contractAddress, GreenTrustABI, provider);
+    const provider = new ethers.providers.Web3Provider(auth.provider);
+    const signer = provider.getSigner()
+    const GreenTrust = new ethers.Contract(contractAddress, GreenTrustABI, signer);
     return GreenTrust;
 }
 

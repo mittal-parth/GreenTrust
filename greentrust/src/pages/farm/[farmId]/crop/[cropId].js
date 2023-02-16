@@ -17,7 +17,6 @@ import Button from "@/components/Button";
 import PendingChallenge from "@/components/pendingChallenge";
 import classes from "@/style";
 import { contractCall } from "@/utils";
-import Spinner from "@/components/Spinner";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 
@@ -30,8 +29,6 @@ const Crop = () => {
     const auth = useAuth();
 
     const [data, setData] = useState(null);
-
-    const [farm, setFarm] = useState(null);
 
     const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
@@ -60,16 +57,13 @@ const Crop = () => {
 
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
             console.log('debug: ', res.data);
+            
+            setData(data);
+            console.log('debug:', data);
         }
         catch (err) {
-            console.log('debug:', err)
-            setLoading(false);
             setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
-            return;
         }
-
-        setData(data);
-        console.log('debug:', data);
 
         setLoading(false);
     }
@@ -177,6 +171,18 @@ const Crop = () => {
                                     text="Stake"
                                     icon={faCircleXmark}
                                     color={"bg-primary"}
+                                    onClick={async () => {
+                                        setLoading(true);
+                                        
+                                        try {
+                                            await contractCall(auth, 'AddStake', [cropId])
+                                        }
+                                        catch (err) {
+                                            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
+                                        }
+                                        
+                                        setLoading(false);
+                                    }}
                                 />
                                 <Button
                                     text="Request Stakes"

@@ -11,10 +11,9 @@ export const getContract = (auth) => {
 
 export const contractCall = async (auth, func, params = null) => {
     if (!auth?.isLoggedIn) {
-        throw Error({
-            status: 401,
-            message: "Unauthorized",
-        });
+        const error = Error("Unauthorized");
+        error.code = 401;
+        throw error;
     }
     
     const contract = getContract(auth);
@@ -26,6 +25,7 @@ export const contractCall = async (auth, func, params = null) => {
             data: data,
         };
     } catch (e) {
+        console.log('contractCall debug:', e);
         const msg = String(e.message).match(/reason="[A-Za-z0-9]+"/g)[0];
         const error = Error(msg);
         error.code = 500;

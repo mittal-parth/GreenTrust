@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Button({ text, icon, color, styles }) {
+export default function Button({ text, icon, color, styles, onClick }) {
   return (
-    <div>
+    <div onClick={onClick}>
       <a
         role="button"
         class={

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import DropDown from "./dropDown";
+import DropDown from "./DropDown";
 import InputBox from "./inputBox";
 import { AuthContext } from "@/context/authContext";
 import { useAuth } from "@arcana/auth-react";

@@ -83,7 +83,7 @@ export default function Layout({ children }) {
           <LoaderContext.Provider value={{ loading, setLoading }}>
 
             <main>
-              <div className={`${classes.paddingX} ${classes.flexCenter} mt-8`}>
+              <div className="px-6 md:px-[12%] mt-8">
                 <div className={`${classes.boxWidth}`}>{children}</div>
               </div>
             </main>

@@ -61,8 +61,8 @@ export default function Navar() {
     },[]);
 
   return (
-    <div>
-      <nav className="hidden bg-white border-gray-200 px-[80px] py-[12px] rounded-full drop-shadow-2xl w-full max-w-[1400px] md:flex flex-row items-center justify-between mx-auto">
+    <div className="px-0 md:px-[10%]">
+      <nav className="hidden bg-white border-gray-200 px-[80px] py-[12px] rounded-full drop-shadow-2xl w-full max-w-[1400px] md:flex flex-row items-center justify-between">
         <Logo />
         <div className="flex flex-row ">
           {/* <div>

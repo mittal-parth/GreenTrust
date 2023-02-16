@@ -8,6 +8,7 @@ import { useAuth } from "@arcana/auth-react";
 import { useRouter } from 'next/router'
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
+import Info from "@/components/Info";
 
 export default function FarmInfo() {
   const auth = useAuth();
@@ -22,32 +23,26 @@ export default function FarmInfo() {
 
   const fetchFarmInfo = async () => {
     setLoading(true);
-    const res = await contractCall(auth, 'fetchFarmDetails', [farmId]);
-    if (res.status == 200) {
-      console.log(res.data, "test")
-      setFarmInfo(res.data);
+
+    try {
+      const farmRes = await contractCall(auth, 'farms', [farmId]);
+      setFarmInfo(farmRes.data);
+
       const cropsRes = await contractCall(auth, 'fetchFarmCrops', [farmId]);
-      if (cropsRes.status == 200) {
-        setCrops(cropsRes.data);
-      } else {
-        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${cropsRes.status}: Fetch failed` })
-      }
-      const farmerRes = await contractCall(auth, 'fetchFarmerDetails', [res.data.farmerId]);
-      if (farmerRes.status == 200) {
-        setFarmer(farmerRes.data);
-      } else {
-        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${farmerRes.status}: Fetch failed` })
-      }
+      setCrops(cropsRes.data);
+
+      const farmerRes = await contractCall(auth, 'farmers', [parseInt(farmRes.data.farmerId._hex)]);
+      setFarmer(farmerRes.data);
     }
-    else {
-        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${res.status}: Fetch failed` })
+    catch (err) {
+      setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
+
     setLoading(false);
   }
 
   useEffect(() => {
     if (auth.user) {
-      console.log(auth.user, "test")
       fetchFarmInfo();
     }
   }, [auth?.user])
@@ -55,9 +50,7 @@ export default function FarmInfo() {
   var element = crops?.map((cropDetails) => {
     return <CropCard cropDetails={cropDetails} />;
   });
-  var cropList = <div className="grid grid-cols-2 md:grid-cols-4 sm:grid-cols-3">{element}</div>;
-
-  console.log(crops, "test")
+  var cropList = <div className={`grid grid-cols-1: md:grid-cols-2 gap-10`}>{element}</div>;
 
   if (!farmInfo) {
     return <></>
@@ -65,42 +58,15 @@ export default function FarmInfo() {
 
   return (
     <div>
-      <div className="mt-10 ">
-        <p className="font-comfortaa font-bold text-4xl text-darkPrimary pb-15">
-          Farm Info
-        </p>
+      <div className="mt-10">
         <div className="flex flex-col md:flex-row mb-10 justify-around">
-          <div className="hidden md:block">
-            <img
-              src="../images/farmer.png"
-              className="mr-10 my-auto object-none"
-            ></img>
-          </div>
-          <div>
-            <div>
-              <p className="w-fit font-bold text-3xl text-center text-primary font-comfortaa pt-6">
-                {farmInfo.name ?? "Serene Farm"}
-              </p>
-              <div className="flex my-5">
-                <div className="flex items-center px-2">
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    style={{ color: "brown" }}
-                  />
-                  <p className="text-darkGray font-comfortaa px-3 ">
-                    {farmInfo?.location}
-                  </p>
-                </div>
-                <div className="flex items-center mx-3">
-                  <FontAwesomeIcon
-                    icon={faChartPie}
-                    style={{ color: "grey" }}
-                  />
-                  <p className="text-darkGray font-comfortaa px-3 ">
-                    {farmInfo?.size} Acres
-                  </p>
-                </div>
-              </div>
+          <div className="shrink-0 grow">
+            <h1>
+              {farmInfo.name ?? "Serene Farm"}
+            </h1>
+            <div className="flex flex-row gap-10">
+              <Info icon={faLocationDot} text={farmInfo?.location} style="text-red" />
+              <Info icon={faChartPie} text={`${farmInfo?.size} Acre`} style="text-gray" />
             </div>
             <div className="my-10">
               {farmer && <FarmerDefaultCard
@@ -111,6 +77,12 @@ export default function FarmInfo() {
               Crops
             </p>}
             {cropList}
+          </div>
+          <div className="hidden lg:flex shrink min-w-[400px]">
+            <img
+              src="/images/farmer.png"
+              className="my-auto object-fill"
+            ></img>
           </div>
         </div>
       </div>

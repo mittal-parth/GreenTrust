@@ -6,10 +6,10 @@
       "sowedOn": "2021-09-01",
       "harvestedOn": "2021-09-01",
       "duration": "100",
-      "size": "100",
-      "stakeAmount": 100
+      "size": "100"
     },
-    "farmId": 1
+    "farmId": 1,
+    "stakeAmount": 100
   },
   {
     "details": {
@@ -18,9 +18,9 @@
       "sowedOn": "2021-09-01",
       "harvestedOn": "2021-09-01",
       "duration": "100",
-      "size": "100",
-      "stakeAmount": 100
+      "size": "100"
     },
-    "farmId": 1
+    "farmId": 1,
+    "stakeAmount": 100
   }
 ]

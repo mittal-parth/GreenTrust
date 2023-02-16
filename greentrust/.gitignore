@@ -37,3 +37,5 @@ yarn-error.log*
 **/public/worker-*.js
 **/public/sw.js.map
 **/public/workbox-*.js.map
+
+src/abi/*

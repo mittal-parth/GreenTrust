@@ -56,7 +56,7 @@ contract GreenLeaves is ChainlinkClient, ConfirmedOwner {
     function fulfill(
     bytes32 _requestId,
     string memory _volume) public recordChainlinkFulfillment(_requestId) {
-    emit RequestVolume(_requestId, _volume);
+    // emit RequestVolume(_requestId, _volume);
     volume = _volume;
     }
 

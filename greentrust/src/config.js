@@ -1,2 +1,6 @@
-export const appAddress = "851e2f9b3e599f9ea4f8f1a3c2c9012d3543dc2b";
-export const contractAddress = "0xce227034Ba66E0BdD4e81AEE51bA891b65433d02";
+const path = require('path');
+
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
+
+const APP_ADDRESS = "851e2f9b3e599f9ea4f8f1a3c2c9012d3543dc2b";
+const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;

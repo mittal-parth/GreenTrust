@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import DropDown from "./DropDown";
-import InputBox from "./inputBox";
+import InputBox from "./InputBox";
 import { AuthContext } from "@/context/authContext";
 import { useAuth } from "@arcana/auth-react";
 import { contractCall } from "@/utils";

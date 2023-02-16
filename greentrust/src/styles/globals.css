@@ -20,4 +20,20 @@
   h3 {
     @apply text-2xl text-primary font-semibold mb-6;
   }
+
+  input::placeholder {
+    @apply text-gray font-light text-base;
+  }
+
+  input[type="file"] {
+    @apply w-full px-0 py-0;
+  }
+
+  input::file-selector-button {
+    @apply w-full outline-none border-none bg-gray/10 h-28;
+  }
+
+  form {
+    @apply w-full flex justify-center flex-col items-center;
+  }
 }

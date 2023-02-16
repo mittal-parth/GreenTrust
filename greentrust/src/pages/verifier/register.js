@@ -1,4 +1,4 @@
-import InputBox from "@/components/inputBox";
+import InputBox from "@/components/InputBox";
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import { useAuth } from "@arcana/auth-react";

@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import InputBox from "@/components/inputBox";
+import InputBox from "@/components/InputBox";
 import { useAuth } from "@arcana/auth-react";
 import { useState  } from "react";
 

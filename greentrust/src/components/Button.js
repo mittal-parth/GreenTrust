@@ -5,7 +5,7 @@ export default function Button({ text, icon, styles, onClick }) {
     <a>
       <div
         onClick={onClick}
-        class={`transform hover:scale-105 bg-primary text-white text-2xl px-[40px] py-[8px] items-center rounded-full font-comfortaa cursor-pointer ${styles ?? ''} w-fit`}
+        class={`transform hover:scale-105 bg-primary text-white text-2xl px-10 py-1 items-center rounded-full font-comfortaa cursor-pointer ${styles ?? ''} w-fit`}
       >
         <FontAwesomeIcon
           icon={icon}

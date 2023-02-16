@@ -23,7 +23,6 @@ const Landing = () => {
               <p className="font-comfortaa font-bold ss:text-[44px] text-[40px] text-darkGray">
                 Register with
               </p>
-
               <h1 className="font-poppins ss:text-[68px] text-[52px] text-primary leading-[120%] w-full">
                 <span className="text-primary font-extrabold">Green </span>
                 <span className="text-gray font-medium">TRUST</span>
@@ -40,7 +39,7 @@ const Landing = () => {
             </p>
 
             <div className="mt-6">
-              <Button text={"Get Started"} styles={"!py-[12px] text-3xl"} onClick={() => {router.push('/auth/login')}} />
+              <Button text={"Get Started"} styles={"!py-2 text-2xl"} onClick={() => {router.push('/auth/login')}} />
             </div>
 
           </div>

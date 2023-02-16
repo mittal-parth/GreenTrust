@@ -1,23 +1,23 @@
-export default function InputBox({ label, onChange, placeHolder, type }) {
+export default function InputBox({ label, onChange, placeHolder, type, isMultiple }) {
     return (
-      <div>
-        <div className="mb-6 font-comfortaa">
+      <div className="w-full">
+        <div className="mb-5">
           <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-1"
-            htmlFor="grid-first-name"
+            className="block text-gray text-sm font-semibold mb-2.5"
+            for={'form-' + label}
           >
             {label}
           </label>
           <input
-            className={
-              "block w-fit bg-transparent text-gray-700 border border-darkGray rounded-xl rounded py-1 px-4 mb-2 leading-tight focus:bg-white "
-            }
-            id="grid-first-name"
+            id={'form-' + label}
+            className="block w-full bg-transparent text-darkGray border border-darkGray font-bold rounded-xl py-2.5 px-5 mb-2 focus:bg-white focus:border-none outline-1 focus:outline-primary"
             type={type}
             placeholder={placeHolder}
             onChange={onChange}
+            {...(isMultiple ? { multiple: true } : {})}
           ></input>
         </div>
       </div>
     );
   }
+  

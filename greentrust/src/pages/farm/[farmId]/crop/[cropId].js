@@ -38,28 +38,46 @@ const Crop = () => {
     const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
     const { loading, setLoading } = useContext(LoaderContext);
-
-
+    const [isFarmer, setIsFarmer] = useState(false);
+    const [farmerId, setFarmerId] = useState("");
+    const [userType, setUserType] = useState(null);
     async function getCropDetails() {
         setLoading(true);
 
         const data = {};
 
         let res;
-
+        
+        
         try {
+             res = await contractCall(auth, "fetchUserType");
+            setUserType(res.data);
+            if (res.data == "farmer") {
+                console.log(res.data, "User type")
+                setIsFarmer(true);
+                
+                const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
+                    auth.user.address,
+                ]);
+                console.log(parseInt(farmerIdRes.data._hex), "Farmer Id")
+                
+                setFarmerId(parseInt(farmerIdRes.data._hex));
+            }
+
             res = await contractCall(auth, 'crops', [cropId]);
             data.crop = JSON.parse(res.data.details);
+
             data.farmId = Number(res.data.farmId);
-
+            
             res = await contractCall(auth, 'fetchCropStakes', [cropId]);
-
+            
             res = await contractCall(auth, 'farms', [data.farmId]);
             data.farm = res.data;
-
+            
             res = await contractCall(auth, 'farmers', [data.farm.farmerId]);
             data.farmerProfile = res.data.profile;
-
+            
+            console.log(parseInt(data.farm.farmerId), "Farmer Id Data")
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
             data.sensors = res.data;
 
@@ -161,38 +179,27 @@ const Crop = () => {
                                 <FarmerCard profile={stakeholder.profile} onlyPic={true} />
                             ))}</div>
                             <div className="flex mt-10 flex-wrap justify-start items-start gap-x-2">
+                                
+                                {isFarmer && farmerId != parseInt(data.farm.farmerId)?
                                 <Button
-                                    text="Sponsor"
-                                    icon={faCoins}
-                                    styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                    onClick={async () => {
-                                        setLoading(true);
+                                text="Sponsor"
+                                icon={faCoins}
+                                styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+                                onClick={async () => {
+                                    setLoading(true);
 
-                                        try {
-                                            await contractCall(auth, 'AddStake', [cropId])
-                                        }
-                                        catch (err) {
-                                            setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
-                                        }
+                                    try {
+                                        await contractCall(auth, 'AddStake', [cropId])
+                                    }
+                                    catch (err) {
+                                        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
+                                    }
 
-                                        setLoading(false);
-                                    }}
-                                />
-                                <Button
-                                    text="Notify"
-                                    icon={faShare}
-                                    styles="!bg-yellow !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                />
-                                <Button
-                                    text="Unlock"
-                                    icon={faUnlock}
-                                    styles="!bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                />
-                                <Button
-                                    text="Refund"
-                                    icon={faHandHoldingDollar}
-                                    styles="!bg-primary !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                />
+                                    setLoading(false);
+                                }}
+                            />
+                                :<div></div>}
+                                
                             </div>
                         </div>
                     </div>

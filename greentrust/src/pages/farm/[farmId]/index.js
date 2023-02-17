@@ -9,6 +9,8 @@ import { useRouter } from 'next/router'
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
+import Link from "next/link";
+import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 
 export default function FarmInfo() {
   const auth = useAuth();

@@ -120,3 +120,23 @@ export const sendNotificationAll = async (signer, title, body) => {
     });
 }
 
+export const getChallengeStatusCode = (status)=>{
+    const map = {
+        'OPEN':0,
+        'ALLOTED':1,
+        'REJECTED':2,
+        'SUCCESSFUL':3
+    }
+    return map[status];
+}
+
+export const getChallengeStatus = (code)=>{
+    const map = {
+        0:'OPEN',
+        1:'ALLOTED',
+        2:'REJECTED',
+        3:'SUCCESSFUL'
+    }
+    return map[code];
+}
+

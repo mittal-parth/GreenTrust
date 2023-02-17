@@ -21,6 +21,10 @@
     @apply text-2xl text-primary font-semibold mb-6;
   }
 
+  input[type="textarea"] {
+    @apply h-96 items-start flex;
+  }
+
   input::placeholder {
     @apply text-gray font-light text-base;
   }
@@ -35,5 +39,15 @@
 
   form {
     @apply w-full flex justify-center flex-col items-center;
+  }
+
+  input, textarea {
+    @apply block w-full bg-transparent text-darkGray border border-darkGray font-bold py-2.5 px-5 mb-2 focus:bg-white focus:border-none outline-1 focus:outline-primary;
+  }
+  input {
+    @apply rounded-xl;
+  }
+  textarea {
+    @apply rounded-none;
   }
 }

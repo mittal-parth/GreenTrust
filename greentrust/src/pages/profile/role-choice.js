@@ -14,10 +14,10 @@ export default function RoleChoice({}) {
           </h2>
           <div className="flex flex-col md:flex-row gap-16">
             {/* <a href="/farmer/register"> */}
-              <RoleCard name={"Farmer"} imagePath={"/farmer-woman.png"} onClick={() => router.push('/farmer/register')} />
+              <RoleCard name={"Farmer"} imagePath={"/farmer-woman.png"} path={'/profile/register?type=farmer'} />
             {/* </a> */}
             {/* <a href="/verifier/register"> */}
-              <RoleCard name={"Licensed Inspector"} imagePath={"/sheriff.png"} onClick={() => router.push('/verifier/register')} />
+              <RoleCard name={"Licensed Verifier"} imagePath={"/sheriff.png"} path={'/profile/register?type=verifier'} />
             {/* </a> */}
           </div>
         </div>

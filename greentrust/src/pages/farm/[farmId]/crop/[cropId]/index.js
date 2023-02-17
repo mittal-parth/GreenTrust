@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faLocationDot,
@@ -68,7 +68,6 @@ const Crop = () => {
             res = await contractCall(auth, 'farmers', [data.farm.farmerId]);
             data.farmerProfile = res.data.profile;
 
-            // console.log((data.crop.status), "Crop Status")
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
             data.sensors = res.data;
 
@@ -77,7 +76,7 @@ const Crop = () => {
 
             res = await contractCall(auth, "fetchCropChallenges", [cropId]);
             data.challenges = res.data;
-            console.log("debug" , data.challenges, "Challenges")
+            console.log("debug", data.challenges, "Challenges")
             data.stakeholders = [];
             for (let stake of data.stakes) {
                 res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
@@ -98,7 +97,6 @@ const Crop = () => {
                     setHasAccess(true);
                 }
             }
-            res = await contractCall(auth, "hasStaked", [cropId])
             setData(data);
         }
         catch (err) {
@@ -147,13 +145,13 @@ const Crop = () => {
                                     </div>
                                 </div>
                                 <div>
-                                {!hasAccess ? 
-                                    <Link href = {`/farm/${farmId}/crop/${cropId}/challenge`}>
-                                    <Button
-                                        text="Challenge"
-                                        icon={faCircleXmark}
-                                        styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                    /></Link>:<div></div>}
+                                    {!hasAccess ?
+                                        <Link href={`/farm/${farmId}/crop/${cropId}/challenge`}>
+                                            <Button
+                                                text="Challenge"
+                                                icon={faCircleXmark}
+                                                styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+                                            /></Link> : <div></div>}
                                 </div>
                             </div>
                         </div>
@@ -220,13 +218,13 @@ const Crop = () => {
                         Pending Challenges
                     </h3>
                     <div className="flex">{
-                    data.challenges.length == 0? <p className="text-darkGray font-comfortaa">No Challenges</p> :
-                    data.challenges.map((challenge) => (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                        <ChallengeCard challenge={{
-                            desc: challenge.description || "Crop is unhealthy",
-                        }} />
-                    </div>))
+                        data.challenges.length == 0 ? <p className="text-darkGray font-comfortaa">No challenges</p> :
+                            data.challenges.map((challenge) => (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                                    <ChallengeCard challenge={{
+                                        desc: challenge.description || "Crop is unhealthy",
+                                    }} />
+                                </div>))
                     }
                     </div>
                 </div>

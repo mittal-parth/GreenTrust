@@ -56,7 +56,7 @@ export default function FarmerDashboard({ auth }) {
         <h1>
           My Farms 
         </h1>
-        <IconButton icon={faPlus} />
+        <Link href="/farm/add"><IconButton icon={faPlus} /></Link>
       </div>
       <div className="flex mt-6 flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8 p-6">
         {farms?.map((farm) => (

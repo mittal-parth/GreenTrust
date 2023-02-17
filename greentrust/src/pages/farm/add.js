@@ -11,6 +11,8 @@ import FormPage from "@/components/FormPage";
 
 
 export default function Add() {
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
 
   const auth = useAuth();

@@ -72,6 +72,9 @@ const Crop = () => {
             res = await contractCall(auth, 'fetchCropStakes', [cropId]);
             data.stakes = res.data;
 
+            res = await contractCall(auth, "fetchCropChallenges", [cropId]);
+            data.challenges = res.data;
+            console.log("debug" , data.challenges, "Challenges")
             data.stakeholders = [];
             for (let stake of data.stakes) {
                 res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
@@ -143,11 +146,12 @@ const Crop = () => {
                                 </div>
                                 <div>
                                 {!hasAccess ? 
+                                    <Link href = {`/farm/${farmId}/crop/${cropId}/challenge`}>
                                     <Button
                                         text="Challenge"
                                         icon={faCircleXmark}
                                         styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                    />:<div></div>}
+                                    /></Link>:<div></div>}
                                 </div>
                             </div>
                         </div>
@@ -210,10 +214,15 @@ const Crop = () => {
                     <h3>
                         Pending Challenges
                     </h3>
+                    <div className="flex">{
+                    data.challenges.length == 0? <p className="text-darkGray font-comfortaa">No Challenges</p> :
+                    data.challenges.map((challenge) => (
                     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
                         <ChallengeCard challenge={{
-                            desc: "Lörem ipsum trav sohyvis är dung respektive prerade. Diapänat den. Ahet speck. Doning trenar mavis. Osk stereoform innan rär suvis liksom krovis. Brattig smygflyga. Bioränat labårar att vuhojas dehönining. "
+                            desc: challenge.description || "Crop is unhealthy",
                         }} />
+                    </div>))
+                    }
                     </div>
                 </div>
             </div>

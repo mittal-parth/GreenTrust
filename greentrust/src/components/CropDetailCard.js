@@ -10,8 +10,12 @@ import { STAKE_DURATION } from "@/config";
 
 const CropDetailCard = ({stake}) => {
   let cropDetails = JSON.parse(stake.crop.details);
-  let sowedOn = new Date(cropDetails.sowedOn * 1000).toLocaleDateString();
-  let timeToMature = sowedOn.setMonth(sowedOn.getMonth() + cropDetails.duration + STAKE_DURATION)
+  let sowedOn = new Date(cropDetails.sowedOn * 1000)
+  let sowedOnDate = sowedOn.toLocaleDateString();
+  console.log("debug",sowedOn, "Sowed oin")
+
+  let timeToMature = (parseInt(sowedOn.getMonth()) + parseInt(cropDetails.duration) + STAKE_DURATION);
+  console.log(stake)
   return (
     <div className="w-72 flex-none bg-white rounded-lg shadow-lg mr-6 p-4">
       <div className="flex flex-col justify-evenly">
@@ -28,11 +32,11 @@ const CropDetailCard = ({stake}) => {
         </div>
         <div className="flex mt-2">
           <BiRupee className="text-primary" />&nbsp;
-          <p className={`${classes.paragraph}`}>{crop.stakeAmount} </p>
+          <p className={`${classes.paragraph}`}>{parseInt(stake.crop.stakeAmount._hex)} </p>
         </div>
         <div className="flex mt-2">
           <BiCalendar className="text-darkGray" />&nbsp;
-          <p className={`${classes.paragraph}`}>{sowedOn}</p>
+          <p className={`${classes.paragraph}`}>{sowedOnDate}</p>
         </div>
         <div className="flex mt-2">
           <AiOutlineHistory className="text-darkGray" />&nbsp;
@@ -40,7 +44,7 @@ const CropDetailCard = ({stake}) => {
         </div>
         <div className="flex mt-2">
           <HiLocationMarker className="text-red-600" />&nbsp;
-          <p className={`${classes.paragraph}`}>{farm.location}</p>
+          <p className={`${classes.paragraph}`}>{stake.farm.location}</p>
         </div>
       </div>
     </div>

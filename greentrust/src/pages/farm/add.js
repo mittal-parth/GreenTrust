@@ -3,14 +3,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import { useAuth } from "@arcana/auth-react";
 import { LoaderContext } from "@/context/loaderContext";
-import { SnackbarContext } from "@/context/snackbarContext";
+import { SnackbarContext, LoaderContext } from "@/context/snackbarContext";
 import { contractCall, uploadFile } from "@/utils";
 
 export default function Add() {
-  const { loading, setLoading } = useContext(LoaderContext);
   const router = useRouter();
   const { farmId, cropId } = router.query;
-
+  
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(function (position) {
       setFarmDetails({
@@ -20,12 +19,12 @@ export default function Add() {
       });
     });
   }, []);
-
+  
   const auth = useAuth();
   const [farmDetails, setFarmDetails] = useState({});
   const [ids, setIds] = useState([]);
+  const { loading, setLoading } = useContext(LoaderContext);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Hello Frands");

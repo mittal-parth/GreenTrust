@@ -10,6 +10,7 @@ import { APP_ADDRESS } from "@/config";
 import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 import {AuthContext} from "@/context/authContext";
+import Head from "next/head";
 
 
 config.autoAddCss = false;
@@ -48,6 +49,9 @@ export default function App({ Component, pageProps }) {
   
   return (
     <>
+      <Head>
+        <title>GreenTrust</title>
+      </Head>
       <ProvideAuth provider={authProvider}>
         <AuthContext.Provider value={{loadingAuth, authProvider}}>
               {router.pathname === "/auth/login" || router.pathname === "/"

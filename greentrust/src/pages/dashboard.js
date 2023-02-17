@@ -26,6 +26,7 @@ export default function Dashboard() {
         const farmsRes = await contractCall(auth, "fetchFarmerFarms", [
           farmerIdRes.data,
         ]);
+        console.log(farmsRes.data, "farmer data");
         setFarms(farmsRes.data);
         const stakesRes = await contractCall(auth, "fetchFarmerStakes", [farmerIdRes.data]);
         let farmerStakes = [];
@@ -42,6 +43,8 @@ export default function Dashboard() {
         setStakes(farmerStakes);
       }
     } catch (err) {
+      console.log(err);
+
       setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
     setLoading(false);
@@ -49,6 +52,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     try{
+      console.log(auth.user);
     if (auth.user) {
       fetchDashboardDetails();
     }

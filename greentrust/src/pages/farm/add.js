@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { useAuth } from "@arcana/auth-react";
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
-import { contractCall } from "@/utils";
+import { contractCall, uploadFile } from "@/utils";
 
 export default function Add() {
   const { loading, setLoading } = useContext(LoaderContext);
@@ -23,15 +23,32 @@ export default function Add() {
 
   const auth = useAuth();
   const [farmDetails, setFarmDetails] = useState({});
-  const [idCards, setIdCards] = useState("Hard Coding 2");
+  const [ids, setIds] = useState([]);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Hello Frands");
 
+    if(ids.length == 0){
+      setSnackbarInfo({
+        ...snackbarInfo,
+        open: true,
+        message: `Please upload your ID card`,
+      });
+      return;
+    }
+    const fileHashes = await uploadFile(ids.length == 1 ? [ids] : Object.values(ids) );
+    console.log(fileHashes, "THESE ARE THE FILE HASHES")
+    var idCardsHash =""
+    fileHashes.forEach((fH) =>{
+      idCardsHash += fH[0].hash + " "
+    });
+    console.log(idCardsHash)
+
+
     if (auth.user) {
-      postCrop();
+      postCrop(idCardsHash);
     } else {
       setSnackbarInfo({
         ...snackbarInfo,
@@ -41,14 +58,13 @@ export default function Add() {
     }
   };
 
-  const postCrop = async () => {
+  const postCrop = async (idCardsHash) => {
     setLoading(true);
 
     console.log("Adding Crop");
     console.log(auth.user);
 
     try {
-      setFarmDetails({ ...farmDetails, documents: "Hard Coding " });
 
       const res = await contractCall(auth, "addFarm", [
         farmDetails.size,
@@ -56,7 +72,7 @@ export default function Add() {
         farmDetails.latitute,
         farmDetails.longitude,
         farmDetails.location,
-        "Document Id",
+        idCardsHash,
       ]);
 
       console.log(res.data, "Response");
@@ -65,6 +81,7 @@ export default function Add() {
         ...snackbarInfo,
         open: true,
         message: `Added Crop Successfully`,
+        severity: "success",
       });
 
       router.replace("/dashboard");
@@ -81,11 +98,7 @@ export default function Add() {
 
   const [file, setFile] = useState("");
 
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFile(e.target.files);
-    }
-  };
+
 
   return (
     <div>
@@ -121,7 +134,7 @@ export default function Add() {
             <input
               type="file"
               multiple
-              onChange={handleFileChange}
+              onChange={e=>{setIds(e.target.files)}}
               className="block w-fit bg-transparent text-gray-700 border border-darkGray rounded-xl rounded py-1 px-4 mb-2 leading-tight focus:bg-white"
             />
           </div>
@@ -136,7 +149,7 @@ export default function Add() {
 
           <div>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-3"
+              className="bg-red-500 hover:bg-red-700 text-white bg-black font-bold py-2 px-4 rounded mb-3"
               type="submit"
             >
               Submit

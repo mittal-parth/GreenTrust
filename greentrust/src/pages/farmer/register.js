@@ -4,45 +4,79 @@ import { useEffect, useState, useContext } from "react";
 import { useAuth } from "@arcana/auth-react";
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
-import { contractCall } from "@/utils";
+import { contractCall, uploadFile } from "@/utils";
 
 export default function Register() {
   const { loading, setLoading } = useContext(LoaderContext);
-      const router = useRouter();
-
+  const router = useRouter();
+  
   useEffect(() => {}, []);
-
+  
   const auth = useAuth();
   const [farmerProfile, setFarmerProfile] = useState({});
-  const [idCards, setIdCards] = useState("Hard Coding 2");
-  const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-
+  const [profilePic, setProfilePic] = useState();
+  const [ids, setIds] = useState([]);
+  // const [idCards, setIdCards] = useState("");
+  const {snackbarInfo, setSnackbarInfo} = useContext(SnackbarContext);
+  // var fileHash = "";
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Hello Frands")
-
-    setFarmerProfile({ ...farmerProfile, profilePic: "HardCoding 1" });
     var profile = farmerProfile;
-    profile = JSON.stringify({ ...farmerProfile, profilePic: "HardCoding 1" });
-    console.log(profile);
+
+    console.log(profilePic, "THESE ARE THE PROFILE PIC")
+    console.log(ids, "THESE ARE THE IDS")
+    
+    // Hashing Profile Pic
+    if(profilePic){
+      await uploadFile([profilePic]).then((res) => {
+        console.log(res[0]);
+      farmerProfile["profilePic"] = res[0][0].hash;
+      profile = JSON.stringify(farmerProfile);
+      console.log(profile, "THIS IS THE PROFILE Updated");
+    });
+    }
+
+    // Hashing ID Cards
+    if(ids.length == 0){
+      setSnackbarInfo({
+        ...snackbarInfo,
+        open: true,
+        message: `Please upload your ID card`,
+      });
+      return;
+    }
+    console.log(ids.length == 1 ? [ids] : Object.values(ids))
+    const fileHashes = await uploadFile(ids.length == 1 ? [ids] : Object.values(ids) );
+    console.log(fileHashes, "THESE ARE THE FILE HASHES")
+    var idCardsHash =""
+    fileHashes.forEach((fH) =>{
+      idCardsHash += fH[0].hash + " "
+    });
+    console.log(idCardsHash)
+  
+
+    profile = JSON.stringify(profile);
+
+    console.log(profile," This is the profile");
 
     if (auth.user) {
-      postFarmerInfo(profile);
+      postFarmerInfo(profile , idCardsHash);
     }
   };
 
-  const postFarmerInfo = async (profile) => {
+  const postFarmerInfo = async (profile, idCardsHash) => {
     setLoading(true);
 
     try {
       const res = await contractCall(auth, "registerFarmer", [
         profile,
-        idCards,
+        idCardsHash,
       ]);
       
       router.replace('/dashboard');
     }
     catch (err) {
+      console.log(err);
       setSnackbarInfo({
         ...snackbarInfo,
         open: true,
@@ -55,11 +89,8 @@ export default function Register() {
 
   const [file, setFile] = useState("");
 
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFile(e.target.files);
-    }
-  };
+
+
 
   return (
     <div>
@@ -108,6 +139,7 @@ export default function Register() {
             placeHolder={"Govt Id"}
             type={"text"}
           />
+          
           <div className="mb-10">
             <label
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-1"
@@ -118,8 +150,24 @@ export default function Register() {
             <div>
               <input
                 type="file"
+                onChange={e=>{setProfilePic(e.target.files[0])}}
+                className="block w-fit bg-transparent text-gray-700 border border-darkGray rounded-xl rounded py-1 px-4 mb-2 leading-tight focus:bg-white"
+                />
+            </div>
+          </div>
+
+          <div className="mb-10">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-1"
+              htmlFor="grid-first-name"
+              >
+              Id Card
+            </label>
+            <div>
+              <input
+                type="file"
                 multiple
-                onChange={handleFileChange}
+                onChange={e=>{setIds(e.target.files)}}
                 className="block w-fit bg-transparent text-gray-700 border border-darkGray rounded-xl rounded py-1 px-4 mb-2 leading-tight focus:bg-white"
               />
             </div>
@@ -127,7 +175,7 @@ export default function Register() {
 
           <div>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-3"
+              className="bg-red-500 hover:bg-red-700 text-white bg-black font-bold py-2 px-4 rounded mb-3"
               type="submit"
             >
               Submit

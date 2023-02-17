@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useContext } from "react";
-
+import { contractCall } from "@/utils";
 import { Auth, useAuth } from "@arcana/auth-react";
 
 import { AuthContext } from "@/context/authContext";
@@ -14,9 +14,22 @@ export default function Login({ children }) {
 
     const router = useRouter();
 
+    const checkUser = async () => {
+        try{
+            const res = await contractCall(auth, "fetchUserType");
+            console.log(res.data, "Response");
+            if(res.data === "farmer" || res.data === "verifier" || res.data === "consumer"){
+                router.push('/dashboard');
+            }
+        }catch(err){
+            console.log("Redirecting to profile page");
+            router.push('/profile/role-choice');
+        }
+    }
     useEffect(() => {
         if (auth?.isLoggedIn) {
-            router.push('/dashboard');
+            checkUser();
+            
         }
       }, [auth?.isLoggedIn]);
     

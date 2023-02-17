@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
 
   const authProvider = new AuthProvider(`${APP_ADDRESS}`, {
     theme: "light",
-    alwaysVisible: false,
+    alwaysVisible: true,
     network: "testnet", // network can be testnet or mainnet - defaults to testnet
     chainConfig: {
       chainId: CHAIN.ETHEREUM_GOERLI,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Info from "./Info";
 
 export default function CropCard({ cropDetails }) {
+  console.log(cropDetails, "This is crop details")
   let details = JSON.parse(cropDetails.details);
   
   return (

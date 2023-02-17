@@ -19,6 +19,14 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(ids.length == 0){
+      setSnackbarInfo({
+        ...snackbarInfo,
+        open: true,
+        message: `Please upload your ID card`,
+      });
+      return;
+    }
     const fileHashes = await uploadFile(ids.length == 1 ? [ids] : Object.values(ids) );
     console.log(fileHashes, "THESE ARE THE FILE HASHES")
     var idCardsHash =""

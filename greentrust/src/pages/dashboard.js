@@ -18,6 +18,7 @@ export default function Dashboard() {
     setLoading(true);
     try {
       const res = await contractCall(auth, "fetchUserType");
+      setUserType(res.data);
       if (res.data == "farmer") {
         const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
           auth.user.address,
@@ -25,6 +26,7 @@ export default function Dashboard() {
         const farmsRes = await contractCall(auth, "fetchFarmerFarms", [
           farmerIdRes.data,
         ]);
+        console.log(farmsRes.data, "farmer data");
         setFarms(farmsRes.data);
         const stakesRes = await contractCall(auth, "fetchFarmerStakes", [farmerIdRes.data]);
         let farmerStakes = [];
@@ -50,6 +52,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     try{
+      console.log(auth.user);
     if (auth.user) {
       fetchDashboardDetails();
     }

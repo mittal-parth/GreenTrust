@@ -89,28 +89,7 @@ export default function Register() {
 
   const [file, setFile] = useState("");
 
-  const handleFileChangeProfile = async (e) => {
-    if (e.target.files) {
-      setProfilePic(e.target.files);
 
-    }
-  };
-
-  
-  const handleFileChangeIdCard = async (e) => {
-    if (e.target.files) {
-      console.log(e.target.files.length == 1 ? [e.target.files] : Object.values(e.target.files))
-      const fileHashes = await uploadFile(e.target.files.length == 1 ? [e.target.files] : Object.values(e.target.files) );
-      console.log(fileHashes, "THESE ARE THE FILE HASHES")
-      var idCardsHash =""
-      fileHashes.forEach((fileHash) =>{
-        idCardsHash += fileHash[0].hash + " "
-      });
-      console.log(idCardsHash)
-
-      setIdCards(idCardsHash)
-    }
-  };
 
 
   return (
@@ -188,7 +167,7 @@ export default function Register() {
               <input
                 type="file"
                 multiple
-                onChange={e=>{setIds(e.target.files);}}
+                onChange={e=>{setIds(e.target.files)}}
                 className="block w-fit bg-transparent text-gray-700 border border-darkGray rounded-xl rounded py-1 px-4 mb-2 leading-tight focus:bg-white"
               />
             </div>

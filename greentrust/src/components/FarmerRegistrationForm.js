@@ -34,9 +34,11 @@ export default function FarmerRegistrationForm() {
 
     const [pic, setPic] = useState([]);
     const [proofs, setProofs] = useState([]);
-
-
+    
+    
     const handleSubmit = async (e) => {
+        setLoading(true);
+        
         e.preventDefault();
 
         // Hashing pic
@@ -65,7 +67,6 @@ export default function FarmerRegistrationForm() {
     };
 
     const postFarmerInfo = async (profile, idCardHashes) => {
-        setLoading(true);
 
         try {
             await contractCall(auth, 'registerFarmer', [

@@ -6,7 +6,7 @@ export default function FormPage({
 }) {
     return (<div className="flex flex-col md:flex-row items-start md:justify-around md:mt-12">
         <div className="flex flex-col items-start mb-6 md:mb-0">
-            <div className="md:flex shrink hidden">
+            <div className="md:flex shrink hidden mb-4">
                 <img src={image}></img>
             </div>
             <h1 className="mb-4">{title}</h1>

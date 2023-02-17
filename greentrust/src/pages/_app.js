@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>GreenTrust</title>
+        <title>Green Trust</title>
       </Head>
       <ProvideAuth provider={authProvider}>
         <AuthContext.Provider value={{loadingAuth, authProvider}}>

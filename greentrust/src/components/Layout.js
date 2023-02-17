@@ -82,7 +82,7 @@ export default function Layout({ children }) {
           {loading && <Spinner></Spinner>}
           <LoaderContext.Provider value={{ loading, setLoading }}>
             <main className="h-full flex justify-center px-6 md:px-[12%] mb-24">
-              <div className="mt-8 h-full max-w-[1300px] w-full">
+              <div className="mt-16 h-full max-w-[1300px] w-full">
                 {children}
               </div>
             </main>

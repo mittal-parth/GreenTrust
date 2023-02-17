@@ -41,30 +41,30 @@ const Crop = () => {
     const [isFarmer, setIsFarmer] = useState(false);
     const [farmerId, setFarmerId] = useState("");
     const [userType, setUserType] = useState(null);
-    const [hasAccess , setHasAccess] = useState(false);
+    const [hasAccess, setHasAccess] = useState(false);
     async function getCropDetails() {
         setLoading(true);
 
         const data = {};
 
         let res;
-        
-        
+
+
         try {
 
             res = await contractCall(auth, 'crops', [cropId]);
-            data.crop = {...res.data, ...JSON.parse(res.data.details)}
+            data.crop = { ...res.data, ...JSON.parse(res.data.details) }
 
             data.farmId = Number(res.data.farmId);
-            
+
             res = await contractCall(auth, 'fetchCropStakes', [cropId]);
-            
+
             res = await contractCall(auth, 'farms', [data.farmId]);
             data.farm = res.data;
-            
+
             res = await contractCall(auth, 'farmers', [data.farm.farmerId]);
             data.farmerProfile = res.data.profile;
-            
+
             // console.log((data.crop.status), "Crop Status")
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
             data.sensors = res.data;
@@ -81,14 +81,14 @@ const Crop = () => {
                 data.stakeholders.push(res.data);
             }
 
-             res = await contractCall(auth, "fetchUserType");
+            res = await contractCall(auth, "fetchUserType");
             if (res.data == "farmer") {
                 const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
-                auth.user.address,
+                    auth.user.address,
                 ]);
-                console.log(parseInt(data.farm.farmerId._hex) , "Farmer Id")
+                console.log(parseInt(data.farm.farmerId._hex), "Farmer Id")
                 console.log(parseInt(farmerIdRes.data._hex), "sad")
-                if(parseInt(data.farm.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
+                if (parseInt(data.farm.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
                     setHasAccess(true);
                 }
             }
@@ -142,12 +142,12 @@ const Crop = () => {
                                     </div>
                                 </div>
                                 <div>
-                                {!hasAccess ? 
-                                    <Button
-                                        text="Challenge"
-                                        icon={faCircleXmark}
-                                        styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                    />:<div></div>}
+                                    {!hasAccess ?
+                                        <Button
+                                            text="Challenge"
+                                            icon={faCircleXmark}
+                                            styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+                                        /> : <div></div>}
                                 </div>
                             </div>
                         </div>
@@ -180,28 +180,28 @@ const Crop = () => {
                                 <FarmerCard profile={stakeholder.profile} onlyPic={true} />
                             ))}</div>
                             <div className="flex mt-10 flex-wrap justify-start items-start gap-x-2">
-                                
+
                                 {!hasAccess ?
-                                <Button
-                                text="Sponsor"
-                                icon={faCoins}
-                                styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                onClick={async () => {
-                                    setLoading(true);
+                                    <Button
+                                        text="Sponsor"
+                                        icon={faCoins}
+                                        styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+                                        onClick={async () => {
+                                            setLoading(true);
 
-                                    try {
-                                        console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
-                                        await contractCall(auth, 'addStake', [cropId, {value: parseInt(data.crop.stakeAmount._hex)}])
-                                    }
-                                    catch (err) {
-                                        setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
-                                    }
+                                            try {
+                                                console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
+                                                await contractCall(auth, 'addStake', [cropId, { value: parseInt(data.crop.stakeAmount._hex) }])
+                                            }
+                                            catch (err) {
+                                                setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
+                                            }
 
-                                    setLoading(false);
-                                }}
-                            />
-                                :<div></div>}
-                                
+                                            setLoading(false);
+                                        }}
+                                    />
+                                    : <div></div>}
+
                             </div>
                         </div>
                     </div>

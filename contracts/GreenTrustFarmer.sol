@@ -50,7 +50,7 @@ contract GreenTrustFarmer {
         bool isValid;
     }
     mapping(uint256 => Crop) public crops;
-    mapping(uint256 =>  mapping(address => bool)) public hasStaked;
+    mapping(uint256 => mapping(address => bool)) public hasStaked;
     uint256 public numCrops;
 
     struct Sensor {
@@ -94,7 +94,12 @@ contract GreenTrustFarmer {
         farms[numFarms].isValid = true;
     }
 
-    function addCrop(string memory _details, uint256 _harvestedOn, uint256 _farmId, uint256 _stakeAmount) public {
+    function addCrop(
+        string memory _details,
+        uint256 _harvestedOn,
+        uint256 _farmId,
+        uint256 _stakeAmount
+    ) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0C");
         require(
             farms[_farmId].farmerId == addressToFarmerIds[msg.sender],
@@ -127,17 +132,7 @@ contract GreenTrustFarmer {
     }
 
     function addSensorData(uint256 _sensorId, string memory _data) public {
-        require(addressToFarmerIds[msg.sender] != 0, "F0S");
         require(sensors[_sensorId].isValid, "S0");
-        require(
-            farms[crops[sensors[_sensorId].cropId].farmId].farmerId ==
-                addressToFarmerIds[msg.sender],
-            "F0S"
-        );
-        require(
-            crops[sensors[_sensorId].cropId].status == CropStatus.OPEN,
-            "Cr0"
-        );
         sensors[_sensorId].data = _data;
     }
 

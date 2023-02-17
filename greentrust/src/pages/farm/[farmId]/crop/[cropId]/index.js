@@ -12,7 +12,8 @@ import {
     faCoins,
     faUnlock,
     faHandHoldingDollar,
-    faShare
+    faShare,
+    faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@arcana/auth-react";
 
@@ -24,6 +25,7 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
 import ChallengeCard from "@/components/ChallengeCard";
+import IconButton from "@/components/IconButton";
 
 
 const Crop = () => {
@@ -156,9 +158,12 @@ const Crop = () => {
                                 profile={data.farmerProfile}
                             />
                         </div>
-                        <h3>
-                            Sensors {hasAccess ? <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link> : <></>}
-                        </h3>
+                        <div className="flex flex-row gap-10 items-center mb-2">
+                            <h3 className="mb-0">
+                                Sensors
+                            </h3>
+                            {hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
+                        </div>
                         <div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
                             {data.sensors.map((sensor) => <>
                                 <SensorCard details={sensor} />

@@ -1,4 +1,4 @@
-export default function InputBox({ label, onChange, placeHolder, type, isMultiple }) {
+export default function InputBox({ label, onChange, placeholder, type, isMultiple }) {
     return (
       <div className="w-full">
         <div className="mb-5">
@@ -12,7 +12,7 @@ export default function InputBox({ label, onChange, placeHolder, type, isMultipl
             id={'form-' + label}
             className="block w-full bg-transparent text-darkGray border border-darkGray font-bold rounded-xl py-2.5 px-5 mb-2 focus:bg-white focus:border-none outline-1 focus:outline-primary"
             type={type}
-            placeholder={placeHolder}
+            placeholder={placeholder}
             onChange={onChange}
             {...(isMultiple ? { multiple: true } : {})}
           ></input>

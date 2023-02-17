@@ -7,9 +7,9 @@ import { faCloudArrowUp, faFile } from '@fortawesome/free-solid-svg-icons';
 import Info from "@/components/Info";
 
 
-export default function DropZone({ label, setFiles }) {
+export default function DropZone({ label, setFiles, isMultiple }) {
     const { getRootProps, getInputProps, open, acceptedFiles } = useDropzone({
-        // Disable click and keydown behavior
+        multiple: isMultiple ?? false,
     });
 
     const files = acceptedFiles.map(file => {
@@ -21,7 +21,7 @@ export default function DropZone({ label, setFiles }) {
     });
 
     return (
-        <div className="mb-6 w-full">
+        <div className="mb-6 w-full" id="dropzone">
             <label
                 className="block text-gray text-sm font-semibold mb-2.5"
             >

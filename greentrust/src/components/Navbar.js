@@ -62,7 +62,7 @@ export default function Navar() {
     },[]);
 
   return (
-    <div className="px-0 md:px-[10%]">
+    <div className="px-0 md:px-[10%] flex justify-center">
       <nav className="mt-0 md:mt-6 bg-white border-gray-200 px-20 py-3 rounded-none md:rounded-full drop-shadow-2xl w-full max-w-[1400px] flex flex-row items-center justify-between">
         <Logo />
         <div className="flex flex-row gap-4">

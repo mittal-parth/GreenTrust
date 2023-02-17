@@ -1,24 +1,28 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 
-import { BiRupee } from "@react-icons/all-files/bi/BiRupee";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faLocationDot,
     faChartPie,
     faQrcode,
     faCircleXmark,
+    faMoneyBillWave,
+    faCoins,
+    faUnlock,
+    faHandHoldingDollar,
+    faShare
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@arcana/auth-react";
 
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
 import Button from "@/components/Button";
-import PendingChallenge from "@/components/pendingChallenge";
-import classes from "@/style";
 import { contractCall } from "@/utils";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
+import Info from "@/components/Info";
+import ChallengeCard from "@/components/ChallengeCard";
 
 
 const Crop = () => {
@@ -46,7 +50,7 @@ const Crop = () => {
             res = await contractCall(auth, 'crops', [cropId]);
             data.crop = JSON.parse(res.data.details);
             data.farmId = Number(res.data.farmId);
-            
+
             res = await contractCall(auth, 'fetchCropStakes', [cropId]);
 
             res = await contractCall(auth, 'farms', [data.farmId]);
@@ -67,10 +71,8 @@ const Crop = () => {
                 const farmerId = parseInt(res.data._hex);
 
                 res = await contractCall(auth, 'farmers', [farmerId]);
-                console.log('stakes debug:', res.data)
                 data.stakeholders.push(res.data);
             }
-            console.log('stakeholders debug:', data.stakeholders);
 
             setData(data);
         }
@@ -87,76 +89,45 @@ const Crop = () => {
         }
     }, [auth.user, auth.loading])
 
-    var stateAmount = 100;
-    var sensorDetails = new Map([
-        ["sensorName", "NPK"],
-        ["sensorId", "j12o3asdasdj12i3"],
-    ]);
-    var area = 100;
-    var location = "Assam";
-    var sensorDetailsList = Array(10).fill(sensorDetails);
-    var stakedHolders = Array(10).fill(
-        <img src="/images/jonathan.png" className="rounded-full mr-2"></img>
-    );
-    var element = sensorDetailsList.map((sensorDetails) => {
-        return <SensorCard sensorDetails={sensorDetails} />;
-    });
-
-    var sensorList = <div className="grid grid-cols-4  w-fit ">{element}</div>;
-    var location = "Assam";
-    var area = "100";
     return (<>{data && (
         <div>
-            <div className="mt-10 ">
-                <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
-                    Crop Info
-                </p>
+            <div>
+                <a href={'/farm/' + data.farmId}>
+                    <h1>
+                        {data.farm.name}
+                    </h1>
+                </a>
                 <div className="flex mb-10">
-                    <div className="">
+                    <div className="shrink hidden md:flex">
                         <img
                             src="/images/plant.png"
-                            className="mr-10 my-auto object-none"
+                            className="mr-10 my-auto object-fill"
                         ></img>
                     </div>
-                    <div>
+                    <div className="grow">
                         <div>
-                            <div className="flex justify-between items-center pt-4">
-                                <div className="flex items-center">
-                                    <p className="w-fit mx-3 font-bold text-4xl text-center text-primary font-comfortaa   ">
-                                        {data.crop.name}
-                                    </p>
-                                    <FontAwesomeIcon
-                                        icon={faQrcode}
-                                        style={{ color: "darkGray" }}
-                                        size="2x"
-                                    />
+                            <div className="flex justify-between items-start xl:items-center pt-4 flex-col xl:flex-row">
+                                <div className="flex justify-center gap-6 flex-col">
+                                    <div className="flex flex-row justify-between">
+                                        <h2 className="mb-0">
+                                            {data.crop.name}
+                                        </h2>
+                                        <FontAwesomeIcon
+                                            icon={faQrcode}
+                                            className="text-gray w-[32px] h-[32px]"
+                                        />
+                                    </div>
+                                    <div className="flex flex-row gap-10">
+                                        <Info icon={faLocationDot} text={data.farm.location} style="text-red" />
+                                        <Info icon={faChartPie} text={`${data.crop.size} Acre`} style="text-gray" />
+                                    </div>
                                 </div>
                                 <div>
                                     <Button
                                         text="Challenge"
                                         icon={faCircleXmark}
-                                        color={"bg-red-600"}
+                                        styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
                                     />
-                                </div>
-                            </div>
-                            <div className="flex my-5">
-                                <div className="flex items-center mx-3">
-                                    <FontAwesomeIcon
-                                        icon={faLocationDot}
-                                        style={{ color: "brown" }}
-                                    />
-                                    <p className="text-darkGray font-comfortaa px-3 ">
-                                        {data.farm.location}
-                                    </p>
-                                </div>
-                                <div className="flex items-center mx-3">
-                                    <FontAwesomeIcon
-                                        icon={faChartPie}
-                                        style={{ color: "grey" }}
-                                    />
-                                    <p className="text-darkGray font-comfortaa px-3 ">
-                                        {data.crop.size} Acres
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -165,58 +136,75 @@ const Crop = () => {
                                 profile={data.farmerProfile}
                             />
                         </div>
-                        <p className="w-fit mx-3 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">
-                            Sensor
-                        </p>
-                        <div className="grid grid-cols-4 w-fit ">
+                        <h3>
+                            Sensors
+                        </h3>
+                        <div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
                             {data.sensors.map((sensor) => <>
                                 <SensorCard details={sensor} />
                             </>)}
                         </div>
-                        <p className="w-fit mx-3 mt-10 font-bold text-2xl text-center text-primary font-comfortaa pt-4  ">
+                        <h3 className="mt-10 mb-0">
                             Stakeholders
-                        </p>
+                        </h3>
                         <div className="flex mt-2 items-center  ">
-                            <BiRupee className="text-primary" />
+                            <FontAwesomeIcon
+                                icon={faMoneyBillWave}
+                                className="text-gray w-[26px] h-[26px] mr-4"
+                            />
                             &nbsp;
-                            <p className={`${classes.paragraph}`}>{stateAmount} </p>
+                            <p className=""><span className="text-primary font-semibold">{data.crop.stakeAmount}/-</span> each</p>
                         </div>
                         <div>
-                            <div className="flex my-3">{[1, 2].map((stakeholder) => (
-                                <FarmerCard profile={data.farmerProfile} onlyPic={true} />
+                            <div className="flex my-3">{data.stakeholders.map((stakeholder) => (
+                                <FarmerCard profile={stakeholder.profile} onlyPic={true} />
                             ))}</div>
-                            <div className="flex mt-10 space-x-10">
+                            <div className="flex mt-10 flex-wrap justify-start items-start gap-x-2">
                                 <Button
-                                    text="Stake"
-                                    icon={faCircleXmark}
-                                    color={"bg-primary"}
+                                    text="Sponsor"
+                                    icon={faCoins}
+                                    styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
                                     onClick={async () => {
                                         setLoading(true);
-                                        
+
                                         try {
                                             await contractCall(auth, 'AddStake', [cropId])
                                         }
                                         catch (err) {
                                             setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
                                         }
-                                        
+
                                         setLoading(false);
                                     }}
                                 />
                                 <Button
-                                    text="Request Stakes"
-                                    icon={faCircleXmark}
-                                    color={"bg-primary"}
+                                    text="Notify"
+                                    icon={faShare}
+                                    styles="!bg-yellow !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+                                />
+                                <Button
+                                    text="Unlock"
+                                    icon={faUnlock}
+                                    styles="!bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+                                />
+                                <Button
+                                    text="Refund"
+                                    icon={faHandHoldingDollar}
+                                    styles="!bg-primary !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <p className="font-comfortaa font-bold text-[2.625rem] text-darkPrimary pb-15 ">
+                    <h3>
                         Pending Challenges
-                    </p>
-                    <PendingChallenge />
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <ChallengeCard challenge={{
+                            desc: "Lörem ipsum trav sohyvis är dung respektive prerade. Diapänat den. Ahet speck. Doning trenar mavis. Osk stereoform innan rär suvis liksom krovis. Brattig smygflyga. Bioränat labårar att vuhojas dehönining. "
+                        }} />
+                    </div>
                 </div>
             </div>
         </div>

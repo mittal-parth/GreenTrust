@@ -15,7 +15,7 @@ const Landing = () => {
           className="flex flex-col items-center h-full md:pt-[160px] py-[40px]"
         >
           <div className="flex md:hidden">
-            <img src="/images/farmer.png" alt="landing" className=""/>
+            <img src="/images/farmer.png" alt="landing" className="w-full"/>
           </div>
 
           <div className="px-[10%] md:px-0 w-fit">
@@ -46,8 +46,8 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className="w-1/3 hidden md:block ">
-        <img src="./images/landing.svg" alt="landing" className="object-cover h-screen"/>
+      <div className="w-1/3 hidden md:flex ">
+        <img src="./images/landing.svg" alt="landing" className="object-cover w-full h-screen"/>
       </div>
     </div>
   );

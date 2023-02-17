@@ -6,6 +6,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import FarmerDashboard from "@/components/FarmerDashboard";
 import FarmCard from "@/components/FarmCard";
 import classes from "../style";
+import Link from "next/link";
 
 export default function Farms() {
     const auth = useAuth();
@@ -16,15 +17,17 @@ export default function Farms() {
     const [farms, setFarms] = useState(null);
 
     useEffect(() => {
-         fetchFarms();
-    }, );
+        if(auth.user){
+            fetchFarms();
+        } 
+    },[auth?.user]);
 
     
     const fetchFarms = async () => {
         setLoading(true);
 
         try {
-            const res = await contractCall(auth, 'farms', []);
+            const res = await contractCall(auth, 'fetchAllFarms', []);
             console.log(res.data, "farms data")
             setFarms(res.data);
         } catch (err) {
@@ -38,6 +41,7 @@ export default function Farms() {
     useEffect(() => {
         if (auth.user) {
             fetchFarms();
+            console.log(farms, "farms")
         }
     }, [auth?.user]);
 
@@ -45,10 +49,12 @@ export default function Farms() {
     <>
     <div>
          <h2 className={`${classes.title} mt-12`}>Registered Farms</h2>
-         {farms && farms.length > 0 ? farms.map((farm, index) => {
-            return <FarmCard key={index} farm={farm} />
-        }) : <h3 className="text-center">No farms registered yet</h3>
-         }
+         <div className="flex">
+            {farms && farms.length > 0 ? farms.map((farm, index) => {
+                return <Link href={`/farm/${farm.id}`}> <FarmCard key={index} farm={farm} /></Link>
+            }) : <h3 className="text-center font-comfortaa text-darkGray">No farms registered yet</h3>
+        }
+        </div>
     </div>
 
 

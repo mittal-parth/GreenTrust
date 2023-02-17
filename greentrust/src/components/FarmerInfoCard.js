@@ -1,6 +1,8 @@
+import { getFile } from "@/utils";
 export default function FarmerCard({ profile, onlyPic }) {
   profile = JSON.parse(profile);
-
+  console.log(`https://ipfs.io/ipfs/${profile.profilePic}` , "Profile pic url")
+  // console.log(getFile(profile.profilePic) , "Profile pic url")
   return (<>{onlyPic
       ? <img
         src={`https://ipfs.io/ipfs/${profile.profilePic}`}

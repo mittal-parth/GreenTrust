@@ -60,7 +60,7 @@ export default function Dashboard() {
         setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
     }
   }, [auth?.user]);
-
+console.log(userType, "user type")
   if (userType == "farmer") {
     return <FarmerDashboard farms={farms} stakes={stakes} />;
   }

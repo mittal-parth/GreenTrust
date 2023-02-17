@@ -17,7 +17,7 @@ export default function Form({ handleSubmit, fields, setData, data }) {
                             setData({ ...data, [field.dataLabel ?? field.label.toLowerCase()]: e.target.value })
                         }
                         placeholder={field.placeholder}
-                        type="text"
+                        type={field.type ?? "text"}
                     />
                 }</>))}
                 <Button text="Submit" onClick={handleSubmit} />

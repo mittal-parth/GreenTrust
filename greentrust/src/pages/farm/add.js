@@ -11,7 +11,6 @@ import FormPage from "@/components/FormPage";
 
 
 export default function Add() {
-  const { loading, setLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   const auth = useAuth();
@@ -32,7 +31,6 @@ export default function Add() {
   const [farmDetails, setFarmDetails] = useState({});
   const [proofs, setProofs] = useState([]);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-
   const handleSubmit = async (e) => {
     setLoading(true);
 

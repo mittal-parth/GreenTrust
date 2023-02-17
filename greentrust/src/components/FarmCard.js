@@ -2,8 +2,8 @@ import { HiLocationMarker } from "@react-icons/all-files/hi/HiLocationMarker";
 
 const FarmCard = ({farm}) => {
   return (
-    <div className="flex-none w-72 mr-8 md:pb-4 border bg-white rounded-lg shadow-lg mr-6">
-      <img className="object-cover w-full h-56" src={"images/farm.png"} alt="avatar" />
+    <div className="flex-none w-72 mr-8 md:pb-4  bg-white rounded-lg shadow-lg mr-6">
+      <img className="object-cover w-full h-56 rounded-t-lg" src={"images/farm.png"} alt="avatar" />
 
       <div className="py-5 flex flex-col justify-center items-center">
         <a

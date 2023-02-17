@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-
+import Link from "next/link";
+import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faLocationDot,
@@ -137,7 +138,7 @@ const Crop = () => {
                             />
                         </div>
                         <h3>
-                            Sensors
+                            Sensors <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link>
                         </h3>
                         <div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
                             {data.sensors.map((sensor) => <>

@@ -21,6 +21,8 @@ contract GreenTrust is GreenTrustFarmer {
         address payable challenger;
         uint256 challenged;
         ChallengeStatus status;
+        string description;
+        string documents;
         bool isValid;
     }
     mapping(uint256 => Challenge) public challenges;
@@ -82,7 +84,11 @@ contract GreenTrust is GreenTrustFarmer {
         return "NR";
     }
 
-    function addChallenge(uint256 _challenged, ChallengeStatus _status) public payable {
+    function addChallenge(
+        uint256 _challenged,
+        string memory description,
+        string memory documents
+    ) public payable {
         require(
             addressToFarmerIds[msg.sender] != 0 ||
                 addressToVerifierIds[msg.sender] != 0,
@@ -94,7 +100,9 @@ contract GreenTrust is GreenTrustFarmer {
         challenges[numChallenges].id = numChallenges;
         challenges[numChallenges].challenger = payable(msg.sender);
         challenges[numChallenges].challenged = _challenged;
-        challenges[numChallenges].status = _status;
+        challenges[numChallenges].status = defaultChallengeStatus;
+        challenges[numChallenges].description = description;
+        challenges[numChallenges].documents = documents;
         challenges[numChallenges].isValid = true;
     }
 
@@ -138,42 +146,66 @@ contract GreenTrust is GreenTrustFarmer {
             crops[stakes[_stakeId].cropId].status != CropStatus.CLOSED,
             "St0C"
         );
-        require(block.timestamp > crops[stakes[_stakeId].cropId].harvestedOn + 90 days, "St0T");
+        require(
+            block.timestamp >
+                crops[stakes[_stakeId].cropId].harvestedOn + 90 days,
+            "St0T"
+        );
         stakes[_stakeId].status = StakeStatus.RELEASED;
         crops[stakes[_stakeId].cropId].status = CropStatus.CLOSED;
-        payable(msg.sender).transfer(crops[stakes[_stakeId].cropId].stakeAmount);
+        payable(msg.sender).transfer(
+            crops[stakes[_stakeId].cropId].stakeAmount
+        );
     }
 
     function giveVerdict(uint256 _challengeId, ChallengeStatus _status) public {
         require(challenges[_challengeId].isValid, "Ch0");
-        require(challenges[_challengeId].status == ChallengeStatus.ALLOTTED, "Ch0S");
-        require(challenges[_challengeId].verifierId == addressToVerifierIds[msg.sender], "Ch0V");
+        require(
+            challenges[_challengeId].status == ChallengeStatus.ALLOTTED,
+            "Ch0S"
+        );
+        require(
+            challenges[_challengeId].verifierId ==
+                addressToVerifierIds[msg.sender],
+            "Ch0V"
+        );
         challenges[_challengeId].status = _status;
-        if(_status == ChallengeStatus.SUCCESSFUL) {
-            crops[challenges[_challengeId].challenged].status = CropStatus.CLOSED;
+        if (_status == ChallengeStatus.SUCCESSFUL) {
+            crops[challenges[_challengeId].challenged].status = CropStatus
+                .CLOSED;
             uint256 tempNumStakes;
-            for(uint256 i = 1; i <= numStakes; i++) {
-                if(stakes[i].cropId == challenges[_challengeId].challenged) {
+            for (uint256 i = 1; i <= numStakes; i++) {
+                if (stakes[i].cropId == challenges[_challengeId].challenged) {
                     tempNumStakes++;
                     stakes[i].status = StakeStatus.UNSUCCESSFUL;
                 }
             }
-            crops[challenges[_challengeId].challenged].status = CropStatus.CLOSED;
-            challenges[_challengeId].challenger.transfer(crops[challenges[_challengeId].challenged].stakeAmount * tempNumStakes);
+            crops[challenges[_challengeId].challenged].status = CropStatus
+                .CLOSED;
+            challenges[_challengeId].challenger.transfer(
+                crops[challenges[_challengeId].challenged].stakeAmount *
+                    tempNumStakes
+            );
         }
         payable(msg.sender).transfer(challengeAmount);
     }
 
-    function fetchCropChallenges(uint256 _cropId) public view returns (Challenge[] memory) {
+    function fetchCropChallenges(uint256 _cropId)
+        public
+        view
+        returns (Challenge[] memory)
+    {
+        require(crops[_cropId].isValid, "C0");
+
         uint256 tempNumChallenges;
         uint256 j;
-        for(uint256 i = 1; i <= numChallenges; i++) {
-            if(challenges[i].challenged == _cropId) {
+        for (uint256 i = 1; i <= numChallenges; i++) {
+            if (challenges[i].challenged == _cropId) {
                 tempNumChallenges++;
             }
         }
         Challenge[] memory cropChallenges = new Challenge[](tempNumChallenges);
-        for(uint256 i = 0; i < tempNumChallenges; i++) {
+        for (uint256 i = 0; i < tempNumChallenges; i++) {
             cropChallenges[j] = challenges[i];
             j++;
         }
@@ -182,22 +214,29 @@ contract GreenTrust is GreenTrustFarmer {
 
     function fetchAllChallenges() public view returns (Challenge[] memory) {
         Challenge[] memory allChallenges = new Challenge[](numChallenges);
-        for(uint256 i = 1; i <= numChallenges; i++) {
+        for (uint256 i = 1; i <= numChallenges; i++) {
             allChallenges[i - 1] = challenges[i];
         }
         return allChallenges;
     }
 
-    function fetchVerifierChallenges(uint256 _verifierId) public view returns (Challenge[] memory){
+    function fetchVerifierChallenges(uint256 _verifierId)
+        public
+        view
+        returns (Challenge[] memory)
+    {
+        require(verifiers[_verifierId].isValid, "V0");
         uint256 tempNumChallenges;
         uint256 j;
-        for(uint256 i = 1; i <= numChallenges; i++) {
-            if(challenges[i].verifierId == _verifierId) {
+        for (uint256 i = 1; i <= numChallenges; i++) {
+            if (challenges[i].verifierId == _verifierId) {
                 tempNumChallenges++;
             }
         }
-        Challenge[] memory verifierChallenges = new Challenge[](tempNumChallenges);
-        for(uint256 i = 0; i < tempNumChallenges; i++) {
+        Challenge[] memory verifierChallenges = new Challenge[](
+            tempNumChallenges
+        );
+        for (uint256 i = 0; i < tempNumChallenges; i++) {
             verifierChallenges[j] = challenges[i];
             j++;
         }

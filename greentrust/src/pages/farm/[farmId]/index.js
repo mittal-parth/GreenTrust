@@ -73,9 +73,6 @@ export default function FarmInfo() {
                 profile={farmer.profile}
               />}
             </div>
-            <p className="text-black">
-             {crops?.length} 
-              </p>
             {crops?.length > 0 && <p className="w-fit font-bold text-2xl text-center text-primary font-comfortaa">
               Crops
             </p>}

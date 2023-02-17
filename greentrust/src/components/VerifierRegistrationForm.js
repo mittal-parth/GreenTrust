@@ -65,6 +65,7 @@ export default function VerifierRegistrationForm() {
                 ...snackbarInfo,
                 open: true,
                 message: `Registration successful`,
+                severity: "success",
             });
 
             router.replace('/dashboard');

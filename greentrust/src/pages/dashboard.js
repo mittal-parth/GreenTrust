@@ -3,6 +3,7 @@ import { contractCall } from "@/utils";
 import { useAuth } from "@arcana/auth-react";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
+import VerifierDashboard from "@/components/VerifierDashboard";
 import FarmerDashboard from "@/components/FarmerDashboard";
 
 export default function Dashboard() {
@@ -64,6 +65,8 @@ console.log(userType, "user type")
   if (userType == "farmer") {
     return <FarmerDashboard farms={farms} stakes={stakes} />;
   }
-
+  else if(userType == "verifier"){
+    return <VerifierDashboard />;
+  }
   return <></>;
 }

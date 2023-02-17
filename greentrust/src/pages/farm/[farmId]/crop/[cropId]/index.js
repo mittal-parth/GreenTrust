@@ -96,7 +96,7 @@ const Crop = () => {
                     setHasAccess(true);
                 }
             }
-            res = await contractCall(auth, "hasStaked", [cropId])
+            
             setData(data);
         }
         catch (err) {

@@ -8,7 +8,7 @@ import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 import ChallengeCard from "@/components/ChallengeCard";
- import classes from "../../style";
+ import classes from "../style";
 import Button from "@/components/Button";
 
 

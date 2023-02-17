@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import { useAuth } from "@arcana/auth-react";
 import { LoaderContext } from "@/context/loaderContext";
-import { SnackbarContext, LoaderContext } from "@/context/snackbarContext";
+import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall, uploadFile } from "@/utils";
 
 export default function Add() {

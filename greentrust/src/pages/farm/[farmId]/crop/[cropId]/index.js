@@ -42,6 +42,7 @@ const Crop = () => {
     const [farmerId, setFarmerId] = useState("");
     const [userType, setUserType] = useState(null);
     const [hasAccess , setHasAccess] = useState(false);
+    const [hasStaked, setHasStaked] = useState(false);
     async function getCropDetails() {
         setLoading(true);
 
@@ -95,13 +96,12 @@ const Crop = () => {
                     setHasAccess(true);
                 }
             }
-
+            res = await contractCall(auth, "hasStaked", [cropId])
             setData(data);
         }
         catch (err) {
             setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
         }
-        console.log(data, "Crop Data")
         setLoading(false);
     }
 

@@ -4,7 +4,7 @@ import { useAuth } from "@arcana/auth-react";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import ChallengeCard from "@/components/ChallengeCard";
-import classes from "../style";
+ import classes from "../../style";
 
 
 export default function VerifierDashboard() {
@@ -56,22 +56,22 @@ export default function VerifierDashboard() {
             <>
     <div>
          <h2 className={`${classes.title} mt-12`}>Pending Reviews</h2>
-           {pendingReviews && pendingReviews.length > 0} ?
-            {pendingReviews?.map((challenge) => (
+           {pendingReviews && pendingReviews.length > 0 ?
+            pendingReviews?.map((challenge) => (
                 <ChallengeCard challenge={challenge} auth={auth} type = {0}/>
-            ))} : <h3 className= "font-comfortaa, text-darkGray" >No pending reviews</h3>
+            )) : <h3 className= "font-comfortaa, text-darkGray text-sm" >No pending reviews</h3>}
          
          <h2 className={`${classes.title} mt-12`}>Raised Challenges</h2>
-         {raisedChallenges && raisedChallenges.length > 0} ?
-            {raisedChallenges?.map((challenge) => (
+         {raisedChallenges && raisedChallenges.length > 0 ?
+            raisedChallenges?.map((challenge) => (
                 <ChallengeCard challenge={challenge} auth={auth} type={1}/>
-            ))} : <h3 className= "font-comfortaa, text-darkGray" >No raised challenges</h3>
+            )) : <h3 className= "font-comfortaa, text-darkGray text-sm" >No raised challenges</h3>}
          
          <h2 className={`${classes.title} mt-12`}>Archive</h2>
-            {archive && archive.length > 0} ?
-            {archive?.map((challenge) => (  
+            {archive && archive.length > 0 ?
+            archive?.map((challenge) => (  
                 <ChallengeCard challenge={challenge} type={""}/>
-            ))}: <h3 className= "font-comfortaa, text-darkGray" >No challenges in archive</h3>
+            )): <h3 className= "font-comfortaa, text-darkGray text-sm" >No challenges in archive</h3>}
     </div>
 
 

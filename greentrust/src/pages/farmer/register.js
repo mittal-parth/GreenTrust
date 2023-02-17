@@ -55,7 +55,7 @@ export default function Register() {
     console.log(idCardsHash)
   
 
-    // profile = JSON.stringify({ ...farmerProfile, profilePic: fileHash });
+    profile = JSON.stringify(profile);
 
     console.log(profile," This is the profile");
 

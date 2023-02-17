@@ -14,8 +14,9 @@ export default function Add () {
   useEffect(() => {}, []);
 
   const auth = useAuth();
-  const [cropDetails, setCropDetails] = useState({});
-  const [idCards, setIdCards] = useState("Hard Coding 2");
+  const [cropDetails, setCropDetails] = useState({})
+  const [harvestedOn, setHarvestedOn] = useState(0)
+  const [stakeAmount, setStakeAmount] = useState(0)
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
   const handleSubmit = async (e) => {
@@ -26,7 +27,7 @@ export default function Add () {
     var details = cropDetails;
     details = JSON.stringify(details);
     if (auth.user) {
-      postCrop();
+      postCrop(details);
     }else{
         setSnackbarInfo({
             ...snackbarInfo,
@@ -36,7 +37,10 @@ export default function Add () {
     }
   };
 
-  const postCrop = async () => {
+  const dateToUnix = (date) => {
+    return Math.floor(new Date(date).getTime() / 1000);
+  };
+  const postCrop = async (details) => {
 
     setLoading(true);
 
@@ -44,10 +48,12 @@ export default function Add () {
     console.log(auth.user)  
     
     try{
-
+        console.log()
         const res = await contractCall(auth, "addCrop", [
-          cropDetails,
+          details,
+          harvestedOn,
           farmId,
+          stakeAmount
         ]);
           
         console.log(res.data, "Response");
@@ -56,9 +62,10 @@ export default function Add () {
         ...snackbarInfo,
         open: true,
         message: `Added Crop Successfully`,
+        severity : "success"
         });
         
-        router.replace('/dashboard');
+      router.replace('/farm/' + farmId);
         
     }catch(err){
         
@@ -88,25 +95,25 @@ export default function Add () {
           />
           <InputBox
             label="Created On"
-            onChange={(e) => setCropDetails({ ...cropDetails, createdOn: e.target.value })}
+            onChange={(e) => setCropDetails({ ...cropDetails, createdOn: dateToUnix(e.target.value) })}
             placeHolder={"Created On"}
             type={"date"}
           />
           <InputBox
             label="Sowed On"
-            onChange={(e) =>setCropDetails({ ...cropDetails, sowedOn: e.target.value }) }
+            onChange={(e) =>setCropDetails({ ...cropDetails, sowedOn: dateToUnix(e.target.value) }) }
             placeHolder={"Sowed On"}
             type={"date"}
           />
           <InputBox
             label="Harvested On"
-            onChange={(e) => setCropDetails({ ...cropDetails, harvestedOn: e.target.value })}
+            onChange={(e) => setHarvestedOn(dateToUnix(e.target.value))}
             placeHolder={"Harvested On"}
             type={"date"}
           />
           <InputBox
             label="Stake Amount"
-            onChange={(e) => setCropDetails({ ...cropDetails, stakeAmount: e.target.value })}
+            onChange={(e) => setStakeAmount(e.target.value)}
             placeHolder={"Stake Amount"}
             type={"number"}
           />
@@ -124,7 +131,7 @@ export default function Add () {
           />
           <div>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-3"
+              className="bg-red-500 hover:bg-red-700 text-white bg-black font-bold py-2 px-4 rounded mb-3"
               type="submit"
             >
               Submit

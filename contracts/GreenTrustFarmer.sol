@@ -25,9 +25,7 @@ contract GreenTrustFarmer {
     }
     mapping(address => uint256) public addressToFarmerIds;
     mapping(uint256 => Farmer) public farmers;
-    uint256 internal numFarmers;
-    event farmerRegistered(address indexed farmerAddress, uint256 id);
-    event farmerUpdated(address indexed farmerAddress, uint256 id);
+    uint256 public numFarmers;
     struct Farm {
         uint256 id;
         string name;
@@ -40,8 +38,7 @@ contract GreenTrustFarmer {
         bool isValid;
     }
     mapping(uint256 => Farm) public farms;
-    uint256 internal numFarms;
-    event farmAdded(uint256 farmId, uint256 farmerId);
+    uint256 public numFarms;
 
     struct Crop {
         uint256 id;
@@ -54,7 +51,7 @@ contract GreenTrustFarmer {
     }
     mapping(uint256 => Crop) public crops;
     mapping(uint256 =>  mapping(address => bool)) public hasStaked;
-    uint256 internal numCrops;
+    uint256 public numCrops;
 
     struct Sensor {
         uint256 id;
@@ -64,30 +61,17 @@ contract GreenTrustFarmer {
         bool isValid;
     }
     mapping(uint256 => Sensor) public sensors;
-    uint256 internal numSensors;
-    event sensorAdded(uint256 id, uint256 cropId);
-    event sensorDataAdded(uint256 sensorId, string data);
+    uint256 public numSensors;
 
     struct Stake {
         uint256 id;
         uint256 cropId;
         address payable stakeholder;
-        uint256 stakeAmount;
         StakeStatus status;
         bool isValid;
     }
     mapping(uint256 => Stake) public stakes;
-    uint256 internal numStakes;
-    event stakeAdded(uint256 id, uint256 cropId, address stakeholder);
-
-    function updateFarmerProfile(string memory _profile, string memory _idCards)
-        public
-    {
-        require(addressToFarmerIds[msg.sender] != 0, "F0");
-        farmers[addressToFarmerIds[msg.sender]].profile = _profile;
-        farmers[addressToFarmerIds[msg.sender]].idCards = _idCards;
-        emit farmerUpdated(msg.sender, addressToFarmerIds[msg.sender]);
-    }
+    uint256 public numStakes;
 
     function addFarm(
         string memory _size,
@@ -98,17 +82,16 @@ contract GreenTrustFarmer {
         string memory _documents
     ) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0F");
-        farms[numFarms + 1].id = numFarms + 1;
-        farms[numFarms + 1].size = _size;
-        farms[numFarms + 1].name = _name;
-        farms[numFarms + 1].latitude = _latitude;
-        farms[numFarms + 1].longitude = _longitude;
-        farms[numFarms + 1].location = _location;
-        farms[numFarms + 1].farmerId = addressToFarmerIds[msg.sender];
-        farms[numFarms + 1].documents = _documents;
-        farms[numFarms + 1].isValid = true;
         numFarms++;
-        emit farmAdded(numFarms, addressToFarmerIds[msg.sender]);
+        farms[numFarms].id = numFarms;
+        farms[numFarms].size = _size;
+        farms[numFarms].name = _name;
+        farms[numFarms].latitude = _latitude;
+        farms[numFarms].longitude = _longitude;
+        farms[numFarms].location = _location;
+        farms[numFarms].farmerId = addressToFarmerIds[msg.sender];
+        farms[numFarms].documents = _documents;
+        farms[numFarms].isValid = true;
     }
 
     function addCrop(string memory _details, uint256 _harvestedOn, uint256 _farmId, uint256 _stakeAmount) public {
@@ -117,14 +100,14 @@ contract GreenTrustFarmer {
             farms[_farmId].farmerId == addressToFarmerIds[msg.sender],
             "F0C"
         );
-        crops[numCrops + 1].id = numCrops + 1;
-        crops[numCrops + 1].harvestedOn = _harvestedOn;
-        crops[numCrops + 1].stakeAmount = _stakeAmount;
-        crops[numCrops + 1].details = _details;
-        crops[numCrops + 1].farmId = _farmId;
-        crops[numCrops + 1].status = defaultCropStatus;
-        crops[numCrops + 1].isValid = true;
         numCrops++;
+        crops[numCrops].id = numCrops;
+        crops[numCrops].harvestedOn = _harvestedOn;
+        crops[numCrops].stakeAmount = _stakeAmount;
+        crops[numCrops].details = _details;
+        crops[numCrops].farmId = _farmId;
+        crops[numCrops].status = defaultCropStatus;
+        crops[numCrops].isValid = true;
     }
 
     // generate random id
@@ -136,12 +119,11 @@ contract GreenTrustFarmer {
                 addressToFarmerIds[msg.sender],
             "F0S"
         );
-        sensors[numSensors + 1].id = numSensors + 1;
-        sensors[numSensors + 1].cropId = _cropId;
-        sensors[numSensors + 1].name = _name;
-        sensors[numSensors + 1].isValid = true;
         numSensors++;
-        emit sensorAdded(numSensors, _cropId);
+        sensors[numSensors].id = numSensors;
+        sensors[numSensors].cropId = _cropId;
+        sensors[numSensors].name = _name;
+        sensors[numSensors].isValid = true;
     }
 
     function addSensorData(uint256 _sensorId, string memory _data) public {
@@ -157,7 +139,6 @@ contract GreenTrustFarmer {
             "Cr0"
         );
         sensors[_sensorId].data = _data;
-        emit sensorDataAdded(_sensorId, _data);
     }
 
     function fetchFarmerFarms(uint256 _farmerId)
@@ -294,6 +275,14 @@ contract GreenTrustFarmer {
                 temp[j] = stakes[i];
                 j++;
             }
+        }
+        return temp;
+    }
+
+    function fetchAllFarms() public view returns (Farm[] memory) {
+        Farm[] memory temp = new Farm[](numFarms);
+        for (uint256 i = 1; i <= numFarms; i++) {
+            temp[i - 1] = farms[i];
         }
         return temp;
     }

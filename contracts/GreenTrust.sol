@@ -24,19 +24,7 @@ contract GreenTrust is GreenTrustFarmer {
         bool isValid;
     }
     mapping(uint256 => Challenge) public challenges;
-    uint256 internal numChallenges;
-    event challengeAdded(
-        uint256 id,
-        uint256 challenged,
-        ChallengeStatus status,
-        address challenger
-    );
-    event challengeAccepted(
-        uint256 challengeId,
-        uint256 challenged,
-        ChallengeStatus status,
-        address challenger
-    );
+    uint256 public numChallenges;
 
     struct Verifier {
         uint256 id;
@@ -48,17 +36,7 @@ contract GreenTrust is GreenTrustFarmer {
     }
     mapping(address => uint256) public addressToVerifierIds;
     mapping(uint256 => Verifier) public verifiers;
-    uint256 internal numVerifiers;
-    event verifierRegistered(
-        address indexed verifierAddress,
-        string name,
-        uint256 id
-    );
-    event verifierUpdated(
-        address indexed verifierAddress,
-        string name,
-        uint256 id
-    );
+    uint256 public numVerifiers;
 
     // Open to all Functions
 
@@ -69,32 +47,14 @@ contract GreenTrust is GreenTrustFarmer {
     ) public {
         require(addressToFarmerIds[msg.sender] == 0, "F1");
         require(addressToVerifierIds[msg.sender] == 0, "V1");
-        verifiers[numVerifiers + 1].id = numVerifiers + 1;
-        verifiers[numVerifiers + 1].walletAddress = payable(msg.sender);
-        verifiers[numVerifiers + 1].name = _name;
-        verifiers[numVerifiers + 1].currentAddress = _currentAddress;
-        verifiers[numVerifiers + 1].idCards = _idCards;
-        verifiers[numVerifiers + 1].isValid = true;
-        addressToVerifierIds[msg.sender] = numVerifiers + 1;
         numVerifiers++;
-        emit verifierRegistered(msg.sender, _name, numVerifiers);
-    }
-
-    function updateVerifierProfile(
-        string memory _name,
-        string memory _currentAddress,
-        string memory _idCards
-    ) public {
-        require(addressToVerifierIds[msg.sender] != 0, "V0");
-        verifiers[addressToVerifierIds[msg.sender]].name = _name;
-        verifiers[addressToVerifierIds[msg.sender]]
-            .currentAddress = _currentAddress;
-        verifiers[addressToVerifierIds[msg.sender]].idCards = _idCards;
-        emit verifierUpdated(
-            msg.sender,
-            _name,
-            addressToVerifierIds[msg.sender]
-        );
+        verifiers[numVerifiers].id = numVerifiers;
+        verifiers[numVerifiers].walletAddress = payable(msg.sender);
+        verifiers[numVerifiers].name = _name;
+        verifiers[numVerifiers].currentAddress = _currentAddress;
+        verifiers[numVerifiers].idCards = _idCards;
+        verifiers[numVerifiers].isValid = true;
+        addressToVerifierIds[msg.sender] = numVerifiers;
     }
 
     function registerFarmer(string memory _profile, string memory _idCards)
@@ -102,30 +62,24 @@ contract GreenTrust is GreenTrustFarmer {
     {
         require(addressToFarmerIds[msg.sender] == 0, "F1");
         require(addressToVerifierIds[msg.sender] == 0, "V1");
-        farmers[numFarmers + 1].id = numFarmers + 1;
-        farmers[numFarmers + 1].walletAddress = payable(msg.sender);
-        farmers[numFarmers + 1].profile = _profile;
-        farmers[numFarmers + 1].idCards = _idCards;
-        farmers[numFarmers + 1].isValid = true;
-        addressToFarmerIds[msg.sender] = numFarmers + 1;
         numFarmers++;
-        emit farmerRegistered(msg.sender, numFarmers);
+        farmers[numFarmers].id = numFarmers;
+        farmers[numFarmers].walletAddress = payable(msg.sender);
+        farmers[numFarmers].profile = _profile;
+        farmers[numFarmers].idCards = _idCards;
+        farmers[numFarmers].isValid = true;
+        addressToFarmerIds[msg.sender] = numFarmers;
     }
 
     // Common Functions
 
     function fetchUserType() public view returns (string memory) {
-        require(
-            addressToFarmerIds[msg.sender] != 0 ||
-                addressToVerifierIds[msg.sender] != 0,
-            "U0"
-        );
         if (addressToFarmerIds[msg.sender] != 0) {
             return "farmer";
         } else if (addressToVerifierIds[msg.sender] != 0) {
             return "verifier";
         }
-        return "consumer";
+        return "NR";
     }
 
     function addChallenge(uint256 _challenged, ChallengeStatus _status) public payable {
@@ -136,13 +90,12 @@ contract GreenTrust is GreenTrustFarmer {
         );
         require(crops[_challenged].isValid, "Cr0");
         require(msg.value == challengeAmount, "CA0");
-        challenges[numChallenges + 1].id = numChallenges + 1;
-        challenges[numChallenges + 1].challenger = payable(msg.sender);
-        challenges[numChallenges + 1].challenged = _challenged;
-        challenges[numChallenges + 1].status = _status;
-        challenges[numChallenges + 1].isValid = true;
-        numChallenges + 1;
-        emit challengeAdded(numChallenges, _challenged, _status, msg.sender);
+        numChallenges++;
+        challenges[numChallenges].id = numChallenges;
+        challenges[numChallenges].challenger = payable(msg.sender);
+        challenges[numChallenges].challenged = _challenged;
+        challenges[numChallenges].status = _status;
+        challenges[numChallenges].isValid = true;
     }
 
     function addStake(uint256 _cropId) public payable {
@@ -160,14 +113,13 @@ contract GreenTrust is GreenTrustFarmer {
         );
         require(hasStaked[_cropId][msg.sender] != true, "St1");
         require(msg.value == crops[_cropId].stakeAmount, "SA0");
-        stakes[numStakes + 1].id = numStakes + 1;
-        stakes[numStakes + 1].cropId = _cropId;
-        stakes[numStakes + 1].stakeholder = payable(msg.sender);
-        stakes[numStakes + 1].status = defaultStakeStatus;
-        stakes[numStakes + 1].isValid = true;
         numStakes++;
+        stakes[numStakes].id = numStakes;
+        stakes[numStakes].cropId = _cropId;
+        stakes[numStakes].stakeholder = payable(msg.sender);
+        stakes[numStakes].status = defaultStakeStatus;
+        stakes[numStakes].isValid = true;
         hasStaked[_cropId][msg.sender] = true;
-        emit stakeAdded(numStakes, _cropId, msg.sender);
     }
 
     function claimChallenge(uint256 _challengeId) public {
@@ -175,26 +127,6 @@ contract GreenTrust is GreenTrustFarmer {
         require(challenges[_challengeId].isValid, "Ch0");
         challenges[_challengeId].status = ChallengeStatus.ALLOTTED;
         challenges[_challengeId].verifierId = addressToVerifierIds[msg.sender];
-        emit challengeAccepted(
-            _challengeId,
-            challenges[_challengeId].challenged,
-            challenges[_challengeId].status,
-            challenges[_challengeId].challenger
-        );
-    }
-
-    function fetchChallengeDetails(uint256 _challengeId)
-        public
-        view
-        returns (Challenge memory)
-    {
-        require(
-            _challengeId > 0 &&
-                _challengeId <= numChallenges &&
-                challenges[_challengeId].isValid,
-            "Ch0"
-        );
-        return challenges[_challengeId];
     }
 
     function returnStake(uint256 _stakeId) public {
@@ -230,5 +162,45 @@ contract GreenTrust is GreenTrustFarmer {
             challenges[_challengeId].challenger.transfer(crops[challenges[_challengeId].challenged].stakeAmount * tempNumStakes);
         }
         payable(msg.sender).transfer(challengeAmount);
+    }
+
+    function fetchCropChallenges(uint256 _cropId) public view returns (Challenge[] memory) {
+        uint256 tempNumChallenges;
+        uint256 j;
+        for(uint256 i = 1; i <= numChallenges; i++) {
+            if(challenges[i].challenged == _cropId) {
+                tempNumChallenges++;
+            }
+        }
+        Challenge[] memory cropChallenges = new Challenge[](tempNumChallenges);
+        for(uint256 i = 0; i < tempNumChallenges; i++) {
+            cropChallenges[j] = challenges[i];
+            j++;
+        }
+        return cropChallenges;
+    }
+
+    function fetchAllChallenges() public view returns (Challenge[] memory) {
+        Challenge[] memory allChallenges = new Challenge[](numChallenges);
+        for(uint256 i = 1; i <= numChallenges; i++) {
+            allChallenges[i - 1] = challenges[i];
+        }
+        return allChallenges;
+    }
+
+    function fetchVerifierChallenges(uint256 _verifierId) public view returns (Challenge[] memory){
+        uint256 tempNumChallenges;
+        uint256 j;
+        for(uint256 i = 1; i <= numChallenges; i++) {
+            if(challenges[i].verifierId == _verifierId) {
+                tempNumChallenges++;
+            }
+        }
+        Challenge[] memory verifierChallenges = new Challenge[](tempNumChallenges);
+        for(uint256 i = 0; i < tempNumChallenges; i++) {
+            verifierChallenges[j] = challenges[i];
+            j++;
+        }
+        return verifierChallenges;
     }
 }

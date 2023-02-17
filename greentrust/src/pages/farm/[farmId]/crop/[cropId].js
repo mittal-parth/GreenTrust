@@ -142,11 +142,12 @@ const Crop = () => {
                                     </div>
                                 </div>
                                 <div>
+                                {isFarmer && farmerId != parseInt(data.farm.farmerId)?
                                     <Button
                                         text="Challenge"
                                         icon={faCircleXmark}
                                         styles="bg-red !px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
-                                    />
+                                    />:<div></div>}
                                 </div>
                             </div>
                         </div>

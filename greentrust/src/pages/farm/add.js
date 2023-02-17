@@ -48,7 +48,7 @@ export default function Add() {
 
 
     if (auth.user) {
-      postCrop(idCardsHash);
+      postFarm(idCardsHash);
     } else {
       setSnackbarInfo({
         ...snackbarInfo,
@@ -58,10 +58,10 @@ export default function Add() {
     }
   };
 
-  const postCrop = async (idCardsHash) => {
+  const postFarm = async (idCardsHash) => {
     setLoading(true);
 
-    console.log("Adding Crop");
+    console.log("Adding Farm");
     console.log(auth.user);
 
     try {
@@ -80,7 +80,7 @@ export default function Add() {
       setSnackbarInfo({
         ...snackbarInfo,
         open: true,
-        message: `Added Crop Successfully`,
+        message: `Added Farm Successfully`,
         severity: "success",
       });
 

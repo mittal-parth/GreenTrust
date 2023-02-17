@@ -74,7 +74,7 @@ export default function FarmInfo() {
               />}
             </div>
             {crops?.length > 0 && <p className="w-fit font-bold text-2xl text-center text-primary font-comfortaa">
-              Crops
+              Crops <Link href={`/farm/${farmId}/crop/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link>
             </p>}
             {cropList}
           </div>

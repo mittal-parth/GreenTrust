@@ -22,19 +22,33 @@ export default function FarmInfo() {
   const [farmInfo, setFarmInfo] = useState(null);
   const [crops, setCrops] = useState([]);
   const [farmer, setFarmer] = useState(null);
-
+  const [hasAccess , setHasAccess] = useState(false);
+  const [farmerId, setFarmerId] = useState("");
   const fetchFarmInfo = async () => {
     setLoading(true);
 
     try {
       const farmRes = await contractCall(auth, 'farms', [farmId]);
       setFarmInfo(farmRes.data);
-
+      
       const cropsRes = await contractCall(auth, 'fetchFarmCrops', [farmId]);
       setCrops(cropsRes.data);
-
+      
       const farmerRes = await contractCall(auth, 'farmers', [parseInt(farmRes.data.farmerId._hex)]);
+      
+      const res = await contractCall(auth, "fetchUserType");
+      if (res.data == "farmer") {
+        const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
+          auth.user.address,
+        ]);
+        console.log(farmRes.data.farmerId._hex)
+          console.log( farmerIdRes.data._hex , "\n\n HELLO \n")
+        if(parseInt(farmRes.data.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
+          setHasAccess(true);
+        }
+      }
       setFarmer(farmerRes.data);
+    
     }
     catch (err) {
       setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
@@ -75,10 +89,11 @@ export default function FarmInfo() {
                 profile={farmer.profile}
               />}
             </div>
-            {crops?.length > 0 && <p className="w-fit font-bold text-2xl text-center text-primary font-comfortaa">
-              Crops <Link href={`/farm/${farmId}/crop/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link>
-            </p>}
-            {cropList}
+            <p className="w-fit font-bold text-2xl text-center text-primary font-comfortaa">
+              Crops {hasAccess ? <Link href={`/farm/${farmId}/crop/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link>:<div></div>}
+            </p>
+            {crops?.length > 0? cropList:<p className="text-darkGray font-comfortaa">No Crops registered</p> }
+            
           </div>
           <div className="hidden lg:flex shrink min-w-[400px]">
             <img

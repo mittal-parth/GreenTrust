@@ -41,6 +41,7 @@ const Crop = () => {
     const [isFarmer, setIsFarmer] = useState(false);
     const [farmerId, setFarmerId] = useState("");
     const [userType, setUserType] = useState(null);
+    const [hasAccess , setHasAccess] = useState(false);
     async function getCropDetails() {
         setLoading(true);
 
@@ -50,22 +51,9 @@ const Crop = () => {
         
         
         try {
-             res = await contractCall(auth, "fetchUserType");
-            setUserType(res.data);
-            if (res.data == "farmer") {
-                console.log(res.data, "User type")
-                setIsFarmer(true);
-                
-                const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
-                    auth.user.address,
-                ]);
-                console.log(parseInt(farmerIdRes.data._hex), "Farmer Id")
-                
-                setFarmerId(parseInt(farmerIdRes.data._hex));
-            }
 
             res = await contractCall(auth, 'crops', [cropId]);
-            data.crop = JSON.parse(res.data.details);
+            data.crop = {...res.data, ...JSON.parse(res.data.details)}
 
             data.farmId = Number(res.data.farmId);
             
@@ -77,7 +65,7 @@ const Crop = () => {
             res = await contractCall(auth, 'farmers', [data.farm.farmerId]);
             data.farmerProfile = res.data.profile;
             
-            console.log(parseInt(data.farm.farmerId), "Farmer Id Data")
+            // console.log((data.crop.status), "Crop Status")
             res = await contractCall(auth, 'fetchCropSensors', [cropId]);
             data.sensors = res.data;
 
@@ -93,12 +81,24 @@ const Crop = () => {
                 data.stakeholders.push(res.data);
             }
 
+             res = await contractCall(auth, "fetchUserType");
+            if (res.data == "farmer") {
+                const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
+                auth.user.address,
+                ]);
+                console.log(parseInt(data.farm.farmerId._hex) , "Farmer Id")
+                console.log(parseInt(farmerIdRes.data._hex), "sad")
+                if(parseInt(data.farm.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
+                    setHasAccess(true);
+                }
+            }
+
             setData(data);
         }
         catch (err) {
             setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
         }
-
+        console.log(data, "Crop Data")
         setLoading(false);
     }
 
@@ -142,7 +142,7 @@ const Crop = () => {
                                     </div>
                                 </div>
                                 <div>
-                                {isFarmer && farmerId != parseInt(data.farm.farmerId)?
+                                {!hasAccess ? 
                                     <Button
                                         text="Challenge"
                                         icon={faCircleXmark}
@@ -157,7 +157,7 @@ const Crop = () => {
                             />
                         </div>
                         <h3>
-                            Sensors <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link>
+                            Sensors {hasAccess ? <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><AiFillPlusCircle className="inline mb-1 text-darkGray" /></Link> : <></>}
                         </h3>
                         <div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
                             {data.sensors.map((sensor) => <>
@@ -173,7 +173,7 @@ const Crop = () => {
                                 className="text-gray w-[26px] h-[26px] mr-4"
                             />
                             &nbsp;
-                            <p className=""><span className="text-primary font-semibold">{data.crop.stakeAmount}/-</span> each</p>
+                            <p className=""><span className="text-primary font-semibold">{parseInt(data.crop.stakeAmount._hex)}/-</span> each</p>
                         </div>
                         <div>
                             <div className="flex my-3">{data.stakeholders.map((stakeholder) => (
@@ -181,7 +181,7 @@ const Crop = () => {
                             ))}</div>
                             <div className="flex mt-10 flex-wrap justify-start items-start gap-x-2">
                                 
-                                {isFarmer && farmerId != parseInt(data.farm.farmerId)?
+                                {!hasAccess ?
                                 <Button
                                 text="Sponsor"
                                 icon={faCoins}
@@ -190,7 +190,8 @@ const Crop = () => {
                                     setLoading(true);
 
                                     try {
-                                        await contractCall(auth, 'AddStake', [cropId])
+                                        console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
+                                        await contractCall(auth, 'addStake', [cropId, {value: parseInt(data.crop.stakeAmount._hex)}])
                                     }
                                     catch (err) {
                                         setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })

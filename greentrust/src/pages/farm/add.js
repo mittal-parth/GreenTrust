@@ -109,7 +109,7 @@ export default function Add() {
             onChange={(e) =>
               setFarmDetails({ ...farmDetails, name: e.target.value })
             }
-            placeHolder={"Crop name"}
+            placeHolder={"Farm name"}
             type={"text"}
           />
           <InputBox

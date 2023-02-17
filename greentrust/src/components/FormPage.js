@@ -9,7 +9,7 @@ export default function FormPage({
             <div className="md:flex shrink hidden">
                 <img src={image}></img>
             </div>
-            <h1>{title}</h1>
+            <h1 className="mb-4">{title}</h1>
             <p className="text-lg font-bold text-gray/70 max-w-[320px]">{text}</p>
         </div>
         <div className="flex w-full max-w-[400px] mx-auto md:mx-0">

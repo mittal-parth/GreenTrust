@@ -11,10 +11,18 @@ import CropDetailCard from "@/components/CropDetailCard";
 import IconButton from "@/components/IconButton";
 import Button from "@/components/Button";
 import { data } from "autoprefixer";
+import SupportDocument from "./SupportDocument";
 
 
 export default function ChallengeCard({ challenge, status, auth, full = true }) {
   const { loading, setLoading } = useContext(LoaderContext);
+  const [cropData, setCropData] = useState(null);
+  
+  
+  
+ 
+
+  
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
   const [stake, setStake] = useState(null);
@@ -72,7 +80,8 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
           </p>
         </div>
         <a>
-          <Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />
+          <Modal anchor={<Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />} popover={<SupportDocument documents={JSON.parse(challenge.documents).proofs}/>} />
+          
         </a>
         <div className={`${full ? "mt-4" : ""} flex-row flex gap-2`}>
           {status == 1 && <Button text="Accept" styles="text-sm px-6 py-2" onClick={() => handleOnClick(1)} />}

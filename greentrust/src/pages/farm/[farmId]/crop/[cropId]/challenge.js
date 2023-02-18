@@ -21,6 +21,9 @@ export default function Challenge() {
     const {cropId} = router.query;
     const auth = useAuth();
 
+    let data = {}
+    data.proofs = []
+
     useEffect(() => {
         if (auth.user) {
             setLoading(false);
@@ -45,16 +48,22 @@ export default function Challenge() {
             });
             return;
         }
+        var fileNames = supportingDocs.map((supportingDocs) => supportingDocs.path);
         const proofHashes = await uploadFile(Object.values(supportingDocs));
         let supportingDocsHashes = ''
-        proofHashes.forEach((hash) => {
-            supportingDocsHashes += hash[0].hash + ' '
+        proofHashes.forEach((fH , index) => {
+            var proof = {}
+            proof.name = fileNames[index]?.split(".")[0] || "Proof"
+            proof.hash = fH[0].hash
+            data.proofs = [...data.proofs, proof]
         });
+
         if(auth.user){
-            postChallengeInfo(supportingDocsHashes);
+            data = JSON.stringify(data)
+            console.log(data, "data")
+            postChallengeInfo(data);
         }
 
-        console.log('debug:', challenge, supportingDocs[0]);
     }
 
     const postChallengeInfo = async (supportingDocs) => {
@@ -99,6 +108,7 @@ export default function Challenge() {
                         label: 'Supporting documents',
                         id: 'pic',
                         isFile: true,
+                        isMultiple: true,
                         setFile: setSupportingDocs,
                     },
                 ]}

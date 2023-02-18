@@ -77,7 +77,7 @@ export default function Challenge() {
             setSnackbarInfo({
                 ...snackbarInfo,
                 open: true,
-                message: `Registration failed`,
+                message: "Failure",
             });
         }
 

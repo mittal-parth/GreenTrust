@@ -40,6 +40,8 @@
     "@polywrap/client-js": "^0.9.5",
     "dotenv": "^16.0.3",
     "hardhat-contract-sizer": "^2.8.0",
+    "netslider": "^1.3.5",
+    "react-responsive-carousel": "^3.2.23",
     "react-spinners": "^0.13.8",
     "spinners-react": "^1.0.7"
   }

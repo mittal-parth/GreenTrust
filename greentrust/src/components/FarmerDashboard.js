@@ -1,14 +1,15 @@
 // For Dashboard
+import Link from "next/link";
+import { useEffect, useState, useContext } from "react";
+
 import FarmCard from "@/components/FarmCard";
 import CropDetailCard from "@/components/CropDetailCard";
-import Link from "next/link";
 import classes from "@/style";
-import IconButton from "./IconButton";
+import IconButton from "@/components/IconButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
 import { SnackbarContext } from "@/context/snackbarContext";
-import { useContext } from "react";
 import { contractCall } from "@/utils";
+import CustomCarousel from "@/components/CustomCarousel";
 
 
 export default function FarmerDashboard({ auth }) {
@@ -50,6 +51,25 @@ export default function FarmerDashboard({ auth }) {
     fetchDashboardDetails();
   }, []);
 
+  const farmerCardsResponsive = {
+    lg: {
+      breakpoint: { max: 3000, min: 1300 },
+      items: 4,
+    },
+    md: {
+      breakpoint: { max: 1300, min: 800 },
+      items: 3,
+    },
+    sm: {
+      breakpoint: { max: 800, min: 520 },
+      items: 2,
+    },
+    xs: {
+      breakpoint: { max: 520, min: 0 },
+      items: 1,
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-row gap-10">
@@ -58,14 +78,15 @@ export default function FarmerDashboard({ auth }) {
         </h1>
         <Link href="/farm/add"><IconButton icon={faPlus} /></Link>
       </div>
-      <div className="flex mt-6 flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8 p-6">
-        {farms?.map((farm) => (
-          <Link href={`/farm/${farm.id}`} >
-            <FarmCard
-              farm={farm}
-            />
-          </Link>
-        ))}
+      <div className="static">
+        <CustomCarousel responsive={farmerCardsResponsive} >
+          {farms?.map((farm) => (
+              <FarmCard
+                farm={farm}
+                key={farm.id}
+              />
+          ))}
+        </CustomCarousel>
       </div>
 
       <h2 className={`${classes.title} mt-12`}>Staked Crops</h2>

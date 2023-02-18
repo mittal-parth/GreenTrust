@@ -1,25 +1,25 @@
-import { HiLocationMarker } from "@react-icons/all-files/hi/HiLocationMarker";
+import Info from "@/components/Info";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
-const FarmCard = ({farm}) => {
+
+const FarmCard = ({ farm }) => {
   return (
-    <div className="flex-none w-72 mr-8 md:pb-4  bg-white rounded-lg shadow-lg mr-6">
-      <img className="object-cover w-full h-56 rounded-t-lg" src={"images/farm.png"} alt="avatar" />
-
-      <div className="py-5 flex flex-col justify-center items-center">
-        <a
-          href="#"
-          className="block text-xl font-bold text-gray-800 font-comfortaa"
-          tabindex="0"
-          role="link"
-        >
-          {farm.name}
-        </a>
-        <div className="flex mt-2 mr-2">
-            <HiLocationMarker className="text-red-600"/>&nbsp;
-            <span className="text-sm text-gray-700 font-comfortaa">  {farm.location}</span>
+    <Link href={`/farm/${farm.id}`} >
+      <div className="flex-none w-full !max-w-[280px] bg-white rounded-xl shadow-lg overflow-clip hover:scale-[101%] aspect-[1/1] z-0">
+        <div className="h-[65%]">
+          <img className="object-cover h-full w-full" src={"images/farm.png"} alt="avatar" />
+        </div>
+        <div className="px-6 flex flex-col justify-center items-center gap-2 h-[35%]">
+          <div className="w-full" title={farm.name}>
+            <p className="font-darkGray text-lg font-bold whitespace-nowrap text-ellipsis overflow-hidden text-center">
+              {farm.name}
+            </p>
+          </div>
+          <Info icon={faLocationDot} text={farm.location} style="text-red" />
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

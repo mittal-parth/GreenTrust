@@ -10,11 +10,8 @@ export const SWITCH_NETWORK_CONFIG = {
   rpcUrls: ["https://rpc.testnet.mantle.xyz/"],
   blockExplorerUrls: ["https://explorer.testnet.mantle.xyz/"],
 };
-
 export const PUSH =
   "663f25c970ed54389f0d1c55105eb952244ce90332b3d1049459a6c2e3ce574a";
-
-export const CONTRACT_ADDRESS = "0xdc74F36cF22d1A4a2b32dC7Be44039C1917cf342";
-
 export const CHALLENGE_AMOUNT = 1000000;
 export const STAKE_DURATION = 30;
+export const CONTRACT_ADDRESS = "0x6D5417B75E11ab99f50B2FE756360792741E68b2";

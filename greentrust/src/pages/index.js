@@ -7,7 +7,9 @@ import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
 import { contractCall } from "@/utils";
 
+
 const Landing = () => {
+
   const router = useRouter();
   const auth = useAuth();
 

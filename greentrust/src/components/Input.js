@@ -37,8 +37,8 @@ export default function Input() {
       name: name,
       size: size,
       createdOnDate: createdOnDate,
-      sowedOnDate: sowedOnDate,
-      harvestedOn : harvestedOn,
+      sowedOnDate:  Math.floor(new Date(sowedOnDate).getTime() / 1000),
+      harvestedOn :Math.floor(new Date(harvestedOn).getTime() / 1000),
       duration: duration,
     };
     console.log(details); 

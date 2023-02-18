@@ -11,7 +11,8 @@ export const SWITCH_NETWORK_CONFIG = {
   blockExplorerUrls: ["https://explorer.testnet.mantle.xyz/"],
 };
 
-export const PUSH = '663f25c970ed54389f0d1c55105eb952244ce90332b3d1049459a6c2e3ce574a';
+export const PUSH =
+  "663f25c970ed54389f0d1c55105eb952244ce90332b3d1049459a6c2e3ce574a";
 
 export const CONTRACT_ADDRESS = "0xdc74F36cF22d1A4a2b32dC7Be44039C1917cf342";
 

@@ -6,6 +6,7 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import ChallengeCard from "@/components/ChallengeCard";
 import Empty from "@/components/Empty";
+import CustomCarousel from "./CustomCarousel";
 
 
 export default function VerifierDashboard() {
@@ -56,27 +57,56 @@ export default function VerifierDashboard() {
 		setLoading(false);
 	};
 
+	const cardsResponsive = {
+		lg: {
+			breakpoint: { max: 3000, min: 1500 },
+			items: 4,
+		},
+		md: {
+			breakpoint: { max: 1500, min: 1200 },
+			items: 3,
+		},
+		sm: {
+			breakpoint: { max: 1200, min: 720 },
+			items: 2,
+		},
+		xs: {
+			breakpoint: { max: 720, min: 0 },
+			items: 1,
+		}
+	};
+
 	return (
 		<div>
 			<div>
 				<h1 className="mb-0 text-red">Pending Reviews</h1>
-				<div className="flex"> {pendingReviews && pendingReviews.length > 0 ?
-					pendingReviews?.map((challenge, index) => (
-						<ChallengeCard key={index} challenge={challenge} auth={auth} status={0} />
-					)) : <Empty text="You do not have any pending reviews" />}</div>
+				<div className="static my-8">
+					{pendingReviews && pendingReviews.length > 0
+						? <CustomCarousel responsive={cardsResponsive}>{pendingReviews?.map((challenge, index) => (
+							<ChallengeCard key={index} challenge={challenge} auth={auth} status={0} />
+						))}</CustomCarousel>
+						: <Empty text="You do not have any pending reviews" />
+					}
+				</div>
 
 				<h1 className="mb-0">Raised Challenges</h1>
-				<div className="flex">{raisedChallenges && raisedChallenges.length > 0 ?
-					raisedChallenges?.map((challenge, index) => (
-						<ChallengeCard key={index} challenge={challenge} auth={auth} status={1} />
-					)) : <Empty text="Empty!" />}</div>
+				<div className="static my-8">
+					{raisedChallenges && raisedChallenges.length > 0
+						? <CustomCarousel responsive={cardsResponsive}>{raisedChallenges?.map((challenge, index) => (
+							<ChallengeCard key={index} challenge={challenge} auth={auth} status={0} />
+						))}</CustomCarousel>
+						: <Empty text="You do not have any pending reviews" />
+					}
+				</div>
 
 				<h1 className="mb-0 text-gray">Archive</h1>
-				<div className="flex">
-					{archive && archive.length > 0 ?
-						archive?.map((challenge, index) => (
-							<ChallengeCard key={index} challenge={challenge} auth={auth} status={2} />
-						)) : <Empty text="Empty!" />}
+				<div className="static my-8">
+					{archive && archive.length > 0
+						? <CustomCarousel responsive={cardsResponsive}>{archive?.map((challenge, index) => (
+							<ChallengeCard key={index} challenge={challenge} auth={auth} status={0} />
+						))}</CustomCarousel>
+						: <Empty text="You do not have any pending reviews" />
+					}
 				</div>
 			</div>
 		</div>

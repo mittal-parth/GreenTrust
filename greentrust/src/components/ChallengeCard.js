@@ -60,14 +60,14 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
   }, [])
 
   return (<div>
-    <div className={`flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full border-l-4 border-${getStatusColor(challenge.status) == 'Open' ? 'yellow' : 'red'}`}>
+    <div className={`flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full border-l-4 border-${getStatusColor(challenge.status) == 'Open' ? 'yellow' : 'red'} max-w-[280px]`}>
       <div className="flex flex-col justify-evenly py-2 px-2">
         {full && <div className="flex justify-between mb-4 items-center">
-          {stake && <p className="text-lg font-bold whitespace-nowrap overflow-hidden text-ellipsis">{stake.farm.name}</p>}
+          {stake && <p className="text-xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">{stake.farm.name}</p>}
           <Modal anchor={<div className="right-4 top-4"><IconButton icon={faInfo} styles="!bg-yellow !w-6 !h-6" /></div>} popover={<CropDetailCard stake={stake} full={false} />} ></Modal>
         </div>}
         <div className={`flex justify-between border-${full ? 'y' : 'b' }-[1.5px] border-darkGray mb-5`}>
-          <p className="text-xl font-bold text-gray/80 font-comfortaa text-justify py-2.5">
+          <p className="text-md font-bold text-gray/80 font-comfortaa text-justify py-2.5 h-24 overflow-hidden">
             {challenge.description}
           </p>
         </div>

@@ -6,12 +6,13 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";
 import FormPage from "@/components/FormPage";
 import Form from "@/components/Form";
+import plant from '@/../../public/lotties/plant.json';
 
 
 export default function AddSensor() {
   const { loading, setLoading } = useContext(LoaderContext);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-  
+
   const router = useRouter();
   const { farmId, cropId } = router.query;
 
@@ -73,7 +74,7 @@ export default function AddSensor() {
       />}
       title="Register your sensor"
       text="Improve your credibility by providing continuous sensor data."
-      image="/images/plant.png"
+      image={plant}
     />
   );
 }

@@ -6,23 +6,24 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";
 import FormPage from "@/components/FormPage";
 import Form from "@/components/Form";
+import plant from '@/../../public/lotties/plant.json';
 
 
 export default function Add() {
   const { loading, setLoading } = useContext(LoaderContext);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-  
+
   const router = useRouter();
 
   const { farmId, cropId } = router.query;
 
   const auth = useAuth();
-  
+
   const [data, setData] = useState({})
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     setLoading(true);
 
     const details = JSON.stringify({
@@ -104,7 +105,7 @@ export default function Add() {
       />}
       title="Add a crop"
       text="Provide the details asked in the form."
-      image="/images/plant.png"
+      image={plant}
     />
   );
 }

@@ -6,6 +6,7 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall, uploadFile } from "@/utils";
 import Form from "@/components/Form";
 import FormPage from "@/components/FormPage";
+import farmer from '@/../../public/lotties/farmer.json';
 
 
 export default function Add() {
@@ -47,7 +48,7 @@ export default function Add() {
       });
       return;
     }
-    
+
     const fileHashes = await uploadFile(Object.values(proofs));
     var docHashes = ''
     var fileNames = proofs.map((proof) => proof.path);
@@ -146,7 +147,7 @@ export default function Add() {
       />}
       title="Setup your farm"
       text="Provide the details asked in the form."
-      image="/farmer-woman.png"
+      image={farmer}
     />
   );
 }

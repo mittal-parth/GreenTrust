@@ -8,7 +8,7 @@ import Button from "@/components/Button";
 import { contractCall } from "@/utils";
 
 import Lottie from 'react-lottie-player'
-import farm from '../../../../public/lotties/farm.json'
+import farm from "../../public/lotties/"
 
 const Landing = () => {
 

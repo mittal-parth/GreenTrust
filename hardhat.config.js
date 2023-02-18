@@ -32,6 +32,11 @@ module.exports = {
     goerli: {
       url: `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [`0x${GOERLI_PRIVATE_KEY}`]
+    },
+    mantle: {
+        url: "https://rpc.testnet.mantle.xyz/",
+        accounts: [`0x${GOERLI_PRIVATE_KEY}`],
+        chainId: 5001
     }
   },
   contractSizer: {

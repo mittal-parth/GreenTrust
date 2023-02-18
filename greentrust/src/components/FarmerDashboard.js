@@ -10,6 +10,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";
 import CustomCarousel from "@/components/CustomCarousel";
+import Empty from "./Empty";
 
 
 export default function FarmerDashboard({ auth }) {
@@ -101,14 +102,14 @@ export default function FarmerDashboard({ auth }) {
           <Link href="/farm/add"><IconButton icon={faPlus} /></Link>
         </div>
         <div className="static">
-          <CustomCarousel responsive={farmerCardsResponsive} >
+          {farms.length > 0 ? <CustomCarousel responsive={farmerCardsResponsive} >
             {farms?.map((farm) => (
               <FarmCard
                 farm={farm}
                 key={farm.id}
               />
             ))}
-          </CustomCarousel>
+          </CustomCarousel> : <Empty text="No farms registered yet!" />}
         </div>
       </section>
 
@@ -116,11 +117,11 @@ export default function FarmerDashboard({ auth }) {
         <h2>Staked Crops</h2>
 
         <div className="static">
-          <CustomCarousel responsive={cropCardsResponsive} >
+          {stakes.length > 0 ? <CustomCarousel responsive={cropCardsResponsive} >
             {stakes?.map((stake) => (
                 <CropDetailCard stake={stake} />
             ))}
-          </CustomCarousel>
+          </CustomCarousel> : <Empty text="You haven't sponsored any farms yet" />}
         </div>
       </section>
     </div>

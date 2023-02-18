@@ -8,7 +8,7 @@ export default function NavbarLink ({ link, icon }) {
         <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray/10 hover:bg-gray/20">
             <FontAwesomeIcon
                 icon={icon}
-                className="text-darkGray"
+                className="text-gray"
             />
         </div>
     </Link>)

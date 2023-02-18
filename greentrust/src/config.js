@@ -12,3 +12,5 @@ export const SWITCH_NETWORK_CONFIG = {
   rpcUrls: ["https://rpc.testnet.mantle.xyz/"],
   blockExplorerUrls: ["https://explorer.testnet.mantle.xyz/"],
 };
+export const CHALLENGE_AMOUNT = 1000000;
+export const STAKE_DURATION = 30;

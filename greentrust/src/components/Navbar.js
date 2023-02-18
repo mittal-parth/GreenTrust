@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import {ethers} from 'ethers'
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 import * as PushAPI from "@pushprotocol/restapi";
 import { EmbedSDK } from "@pushprotocol/uiembed";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

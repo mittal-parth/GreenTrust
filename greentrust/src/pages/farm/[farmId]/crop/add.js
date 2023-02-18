@@ -1,7 +1,7 @@
 import InputBox from "@/components/InputBox";
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";

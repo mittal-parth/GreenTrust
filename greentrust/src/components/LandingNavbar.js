@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 
 import Logo from "@/components/Logo";
 
@@ -35,7 +36,7 @@ const LandingNavbar = () => {
             ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}
             text-darkGray hover:text-darkPrimary`}
           >
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            <Link href={`/${nav.id}`}>{nav.title}</Link>
           </li>
         ))}
       </ul>

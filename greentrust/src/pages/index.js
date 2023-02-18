@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
+import { useAuth } from "@/auth/useAuth";
 
 import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
 
 const Landing = () => {
   const router = useRouter();
+  const auth = useAuth();
 
   return (
     <div className="bg-white w-full overflow-hidden flex">
       <div className="md:w-2/3 w-full">
-        <LandingNavbar />
+        <LandingNavbar /> 
         <div
           id="home"
           className="flex flex-col items-center h-full md:pt-[160px] py-[40px]"

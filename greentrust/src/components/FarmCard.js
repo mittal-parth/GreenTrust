@@ -7,7 +7,6 @@ const FarmCard = ({farm}) => {
 
       <div className="py-5 flex flex-col justify-center items-center">
         <a
-          href="#"
           className="block text-xl font-bold text-gray-800 font-comfortaa"
           tabindex="0"
           role="link"

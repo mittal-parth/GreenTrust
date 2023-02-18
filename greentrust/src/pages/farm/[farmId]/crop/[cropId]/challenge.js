@@ -4,7 +4,7 @@ import FormPage from "@/components/FormPage";
 import Form from "@/components/Form";
 import { useRouter } from "next/router";
 import { useEffect, useContext, useState } from "react";
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { contractCall, getChallengeStatusCode } from "@/utils";
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 

@@ -1,9 +1,7 @@
-import { useEffect } from "react";
 import { useRouter } from 'next/router'
-import { useState } from "react";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from '@/auth/useAuth';
 
-import { Auth, useAuth } from "@arcana/auth-react";
 import { CircularProgress } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -11,7 +9,6 @@ import Alert from '@mui/material/Alert';
 import Navbar from "./Navbar";
 import classes from "../style";
 import Spinner from "./Spinner";
-import { AuthContext } from "@/context/authContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
 
@@ -20,17 +17,20 @@ export function ArcanaAuth() {
   const router = useRouter();
   const auth = useAuth();
 
-  const { loadingAuth, authProvider } = useContext(AuthContext);
+  useEffect(() => {
+    if (!auth?.loading && !auth?.isLoggedIn) {
+      router.push('/auth/login');
+    }
+  }, [auth?.loading, auth?.isLoggedIn])
 
   return (
     <>
-      {loadingAuth || auth.loading
+      {auth.loading
         ? <CircularProgress size={24} co />
         : auth?.isLoggedIn
           ? <button
             className="bg-primary text-white text-xl font-medium rounded-full w-[160px] py-[8px] whitespace-normal"
             onClick={async () => {
-              await authProvider.init();
               auth.logout();
               router.push('/');
             }}
@@ -50,7 +50,6 @@ export function ArcanaAuth() {
 
 export default function Layout({ children }) {
   const auth = useAuth();
-
   const [loading, setLoading] = useState(false);
 
   const [snackbarInfo, setSnackbarInfo] = useState({
@@ -79,7 +78,7 @@ export default function Layout({ children }) {
           <header>
             <Navbar />
           </header>
-          {loading && <Spinner></Spinner>}
+          {(auth.loading || loading) && <Spinner></Spinner>}
           <LoaderContext.Provider value={{ loading, setLoading }}>
             <main className="h-full flex justify-center px-6 md:px-[12%] mb-24">
               <div className="mt-8 h-full max-w-[1300px] w-full">

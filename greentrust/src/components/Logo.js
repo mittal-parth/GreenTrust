@@ -1,9 +1,9 @@
 import Image from "next/image";
-
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Logo() {
-    return (<a href="/">
+    return (<Link href={"/"}>
         <div className="flex flex-row gap-[12px]">
             <img src="/logo.png" width={64} height={64} />
             <div>
@@ -13,5 +13,5 @@ export default function Logo() {
                 </p>
             </div>
         </div>
-    </a>);
+    </Link>);
 }

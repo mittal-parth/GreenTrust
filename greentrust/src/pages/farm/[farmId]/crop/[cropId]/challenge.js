@@ -45,7 +45,7 @@ export default function Challenge() {
             });
             return;
         }
-        const proofHashes = await uploadFile(supportingDocs.length == 1 ? [supportingDocs] : Object.values(supportingDocs));
+        const proofHashes = await uploadFile(Object.values(supportingDocs));
         let supportingDocsHashes = ''
         proofHashes.forEach((hash) => {
             supportingDocsHashes += hash[0].hash + ' '

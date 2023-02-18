@@ -43,7 +43,7 @@ export default function FarmerRegistrationForm() {
 
         // Hashing pic
         if (pic) {
-            await uploadFile([pic]).then((res) => {
+            await uploadFile(Object.values(pic)).then((res) => {
                 data.profilePic = res[0][0].hash;
             });
         }
@@ -57,7 +57,7 @@ export default function FarmerRegistrationForm() {
             });
             return;
         }
-        const proofHashes = await uploadFile(proofs.length == 1 ? [proofs] : Object.values(proofs));
+        const proofHashes = await uploadFile(Object.values(proofs));
         let idCardHashes = ''
         proofHashes.forEach((hash) => {
             idCardHashes += hash[0].hash + ' '

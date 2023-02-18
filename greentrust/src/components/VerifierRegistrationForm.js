@@ -43,7 +43,7 @@ export default function VerifierRegistrationForm() {
             return;
         }
 
-        const fileHashes = await uploadFile(ids.length == 1 ? [ids] : Object.values(ids));
+        const fileHashes = await uploadFile(Object.values(ids));
         let idCardsHash = ""
         fileHashes.forEach((fH) => {
             idCardsHash += fH[0].hash + " "

@@ -30,11 +30,14 @@ export default function Add() {
 
   const [farmDetails, setFarmDetails] = useState({});
   const [proofs, setProofs] = useState([]);
+  const [farmImage, setFarmImage] = useState([]);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
   const handleSubmit = async (e) => {
     setLoading(true);
 
     e.preventDefault();
+    let data = {}
+    data.proofs = []
 
     if (proofs.length == 0) {
       setSnackbarInfo({
@@ -44,13 +47,25 @@ export default function Add() {
       });
       return;
     }
-    const fileHashes = await uploadFile(proofs.length == 1 ? [proofs] : Object.values(proofs));
+    
+    const fileHashes = await uploadFile(Object.values(proofs));
     var docHashes = ''
-    fileHashes.forEach((fH) => {
-      docHashes += fH[0].hash + ' '
+    var fileNames = proofs.map((proof) => proof.path);
+    fileHashes.forEach((fH, index) => {
+      var proof = {}
+      proof.name = fileNames[index]?.split(".")[0] || "Proof"
+      proof.hash = fH[0].hash
+      data.proofs = [...data.proofs, proof]
     });
 
-    postFarm(docHashes);
+    if (farmImage) {
+      await uploadFile(Object.values(farmImage)).then((res) => {
+        data.farmImage = res[0][0].hash;
+      });
+  }
+
+    data = JSON.stringify(data)
+    postFarm(data)
   };
 
   const postFarm = async (docHashes) => {
@@ -112,6 +127,12 @@ export default function Add() {
             label: 'Longitude',
             placeholder: 'xx.xx',
             type: 'number'
+          },
+          {
+            label: 'Farm Image',
+            isFile: true,
+            isMultiple: false,
+            setFile: setFarmImage,
           },
           {
             label: 'Document Proofs',

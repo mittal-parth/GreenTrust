@@ -45,7 +45,7 @@ async function main() {
 
   const config = fs.readFileSync('greentrust/src/config.js', 'utf-8');
   let updatedConfig = config.split('\n');
-  updatedConfig[updatedConfig.length - 1] = `export const APP_ADDRESS = "${deployer.address}`;
+  updatedConfig[updatedConfig.length - 1] = `export const CONTRACT_ADDRESS = "${greenTrust.address}"`;
   updatedConfig = updatedConfig.join('\n');
   
   fs.writeFileSync("greentrust/src/config.js", updatedConfig, 'utf8', (err) => {

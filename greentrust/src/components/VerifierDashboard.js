@@ -71,22 +71,24 @@ export default function VerifierDashboard() {
                 }}
             />
          <h2 className={`${classes.title} mt-12`}>Pending Reviews</h2>
-           {pendingReviews && pendingReviews.length > 0 ?
+         <div className="flex"> {pendingReviews && pendingReviews.length > 0 ?
             pendingReviews?.map((challenge, index) => (
                 <ChallengeCard key={index} challenge={challenge} auth={auth} type = {0}/>
-            )) : <h3 className= "font-comfortaa, text-darkGray text-sm" >No pending reviews</h3>}
+            )) : <h3 className= "font-comfortaa, text-darkGray text-sm" >No pending reviews</h3>}</div>
          
          <h2 className={`${classes.title} mt-12`}>Raised Challenges</h2>
-         {raisedChallenges && raisedChallenges.length > 0 ?
+         <div className="flex">{raisedChallenges && raisedChallenges.length > 0 ?
             raisedChallenges?.map((challenge, index) => (
                 <ChallengeCard key={index} challenge={challenge} auth={auth} type={1}/>
-            )) : <h3 className= "font-comfortaa, text-darkGray text-sm" >No raised challenges</h3>}
+            )) : <h3 className= "font-comfortaa, text-darkGray text-sm" >No raised challenges</h3>}</div>
          
          <h2 className={`${classes.title} mt-12`}>Archive</h2>
-            {archive && archive.length > 0 ?
-            archive?.map((challenge, index) => (  
-                <ChallengeCard key={index} challenge={challenge} auth={auth} type={2}/>
-            )): <h3 className= "font-comfortaa, text-darkGray text-sm" >No challenges in archive</h3>}
+            <div className="flex">
+                {archive && archive.length > 0 ?
+                archive?.map((challenge, index) => (
+                    <ChallengeCard key={index} challenge={challenge} auth={auth} type={2}/>
+                )): <h3 className= "font-comfortaa, text-darkGray text-sm" >No challenges in archive</h3>}
+            </div>
     </div>
 
 

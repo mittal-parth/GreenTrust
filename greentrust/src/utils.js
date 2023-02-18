@@ -140,3 +140,12 @@ export const getChallengeStatus = (code)=>{
     return map[code];
 }
 
+export const getStatusColor = (code)=>{
+    const map = {
+        0 : 'border-yellow',
+        1 : 'border-blue',
+        2 : 'border-red',
+        3 : 'border-primary'
+    }
+    return map[code];
+}

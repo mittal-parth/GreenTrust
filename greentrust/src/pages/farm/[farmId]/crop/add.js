@@ -27,7 +27,7 @@ export default function Add() {
 
     const details = JSON.stringify({
       name: data.name,
-      sowedOn: data.sowedOn,
+      sowedOn: Math.floor(new Date(data.sowedOn).getTime() / 1000),
       duration: data.duration,
       size: data.size
     });

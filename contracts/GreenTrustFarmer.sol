@@ -115,7 +115,6 @@ contract GreenTrustFarmer {
         crops[numCrops].isValid = true;
     }
 
-    // generate random id
     function addSensor(uint256 _cropId, string memory _name) public {
         require(addressToFarmerIds[msg.sender] != 0, "F0S");
         require(crops[_cropId].isValid, "Cr0");
@@ -280,5 +279,21 @@ contract GreenTrustFarmer {
             temp[i - 1] = farms[i];
         }
         return temp;
+    }
+
+    function cropHarvested(uint256 _cropId) public {
+        require(
+            crops[_cropId].isValid
+        );
+        require(
+            farms[crops[_cropId].farmId].farmerId ==
+                addressToFarmerIds[msg.sender],
+            "F0S"
+        );
+        require(
+            crops[_cropId].harvestedOn == 0,
+            "Cr0H");
+        crops[_cropId].harvestedOn = block.timestamp;
+
     }
 }

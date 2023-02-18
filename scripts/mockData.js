@@ -20,15 +20,8 @@ async function mockData(address, abi) {
 
     // Register farmer
     console.log("Registering farmer...")
-    try {
-        const tx = await greenTrustContract.registerFarmer(JSON.stringify(farmer["profile"]), farmer["idCards"]);
-        await tx.wait();
-    } catch (error) {
-        console.log(error);
-        const tx = await greenTrustContract.updateFarmerProfile(JSON.stringify(farmer["profile"]), farmer["idCards"]);
-        await tx.wait();
-    }
-
+    const tx = await greenTrustContract.registerFarmer(JSON.stringify(farmer["profile"]), farmer["idCards"]);
+    await tx.wait();
     // Add all farms
     console.log("Adding farms...")
     for (let i = 0; i < farms.length; i++) {

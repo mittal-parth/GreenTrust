@@ -29,6 +29,7 @@
     "react": "^18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-lottie-player": "^1.5.4",
     "react-multi-carousel": "^2.8.2"
   },
   "devDependencies": {

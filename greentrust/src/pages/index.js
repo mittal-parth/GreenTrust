@@ -7,6 +7,8 @@ import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
 import { contractCall } from "@/utils";
 
+import Lottie from 'react-lottie-player'
+import farm from '../../../../public/lotties/farm.json'
 
 const Landing = () => {
 
@@ -49,13 +51,17 @@ const Landing = () => {
     ) :
     (<div className="bg-white w-full overflow-hidden flex">
       <div className="md:w-2/3 w-full">
-        <LandingNavbar /> 
+        <LandingNavbar />
         <div
           id="home"
           className="flex flex-col items-center h-full md:pt-[160px] py-[40px]"
         >
           <div className="flex md:hidden">
-            <img src="/images/farmer.png" alt="landing" className="w-full"/>
+          <Lottie
+            loop
+            animationData={farm}
+            play
+            className="w-full"/>
           </div>
 
           <div className="px-[10%] md:px-0 w-fit">
@@ -71,7 +77,7 @@ const Landing = () => {
                 today!
               </p>
             </div>
-            
+
             <p
               className={`text-3xl text-gray font-bold font-comfortaa max-w-[470px] mt-5`}
             >

@@ -12,6 +12,8 @@ import Info from "@/components/Info";
 import Link from "next/link";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import IconButton from "@/components/IconButton";
+import Lottie from 'react-lottie-player'
+import farm from '../../../../public/lotties/farm.json'
 
 export default function FarmInfo() {
   const auth = useAuth();
@@ -100,10 +102,11 @@ export default function FarmInfo() {
 
           </div>
           <div className="hidden lg:flex shrink min-w-[400px]">
-            <img
-              src="/images/farmer.png"
-              className="my-auto object-fill"
-            ></img>
+            <Lottie
+            loop
+            animationData={farm}
+            play
+            className="my-auto object-fill"/>
           </div>
         </div>
       </div>

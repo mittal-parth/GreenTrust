@@ -11,5 +11,4 @@ export const SWITCH_NETWORK_CONFIG = {
   rpcUrls: ["https://rpc.testnet.mantle.xyz/"],
   blockExplorerUrls: ["https://explorer.testnet.mantle.xyz/"],
 };
-export const CONTRACT_ADDRESS = "0x7FFA17fe2Cf90d281557Ef6803B0672e994AC79A";
-export const APP_ADDRESS = "0x80eB9c28a8ddE1328bfa58f26fCD90314C710475
+export const CONTRACT_ADDRESS = "0x6D5417B75E11ab99f50B2FE756360792741E68b2"

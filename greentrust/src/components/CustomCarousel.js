@@ -9,7 +9,7 @@ export default function CustomCarousel({ children, responsive }) {
     className="overflow-visible"
     swipeable={true}
     draggable={false}
-    showDots={false}
+    // showDots={true}
     responsive={responsive}
     keyBoardControl={true}
     customTransition="transform 300ms ease-in-out"

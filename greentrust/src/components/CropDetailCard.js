@@ -16,7 +16,7 @@ const CropDetailCard = ({ stake }) => {
 
   return (
     <Link href={`/farm/${stake.farm.id}/crop/${stake.cropId}`} >
-      <div className="w-72 flex-none bg-white rounded-xl shadow-lg mr-6 p-4 hover:scale-[101%]">
+      <div className="p-6 w-full max-w-72 flex-none bg-white rounded-xl shadow-lg mr-6 hover:scale-[101%]">
         <div className="flex flex-col justify-evenly">
           <div className="flex justify-between">
             <p className="text-xl font-bold text-gray-800 font-comfortaa whitespace-nowrap text-ellipsis overflow-hidden" title={stake.farm.name}>

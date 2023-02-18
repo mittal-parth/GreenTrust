@@ -34,11 +34,13 @@ export default function FarmerDashboard({ auth }) {
         const stake = stakesRes.data[i];
         const cropRes = await contractCall(auth, "crops", [stake.cropId]);
         const farmRes = await contractCall(auth, "farms", [cropRes.data.farmId])
-        farmerStakes.push({
-          ...stake,
-          crop: cropRes.data,
-          farm: farmRes.data
-        });
+        for(let i = 0; i < 10; i++) {
+          farmerStakes.push({
+            ...stake,
+            crop: cropRes.data,
+            farm: farmRes.data
+          });
+        }
       }
       setStakes(farmerStakes);
     }
@@ -72,19 +74,19 @@ export default function FarmerDashboard({ auth }) {
 
   const cropCardsResponsive = {
     lg: {
-      breakpoint: { max: 3000, min: 1300 },
+      breakpoint: { max: 3000, min: 1500 },
       items: 4,
     },
     md: {
-      breakpoint: { max: 1300, min: 800 },
+      breakpoint: { max: 1500, min: 1200 },
       items: 3,
     },
     sm: {
-      breakpoint: { max: 800, min: 520 },
+      breakpoint: { max: 1200, min: 720 },
       items: 2,
     },
     xs: {
-      breakpoint: { max: 520, min: 0 },
+      breakpoint: { max: 720, min: 0 },
       items: 1,
     }
   };
@@ -114,25 +116,7 @@ export default function FarmerDashboard({ auth }) {
         <h2>Staked Crops</h2>
 
         <div className="static">
-          <CustomCarousel responsive={farmerCardsResponsive} >
-            {stakes?.map((stake) => (
-                <CropDetailCard stake={stake} />
-            ))}
-            {stakes?.map((stake) => (
-                <CropDetailCard stake={stake} />
-            ))}
-            {stakes?.map((stake) => (
-                <CropDetailCard stake={stake} />
-            ))}
-            {stakes?.map((stake) => (
-                <CropDetailCard stake={stake} />
-            ))}
-            {stakes?.map((stake) => (
-                <CropDetailCard stake={stake} />
-            ))}
-            {stakes?.map((stake) => (
-                <CropDetailCard stake={stake} />
-            ))}
+          <CustomCarousel responsive={cropCardsResponsive} >
             {stakes?.map((stake) => (
                 <CropDetailCard stake={stake} />
             ))}

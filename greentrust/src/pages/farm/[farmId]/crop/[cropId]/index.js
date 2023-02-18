@@ -222,9 +222,7 @@ const Crop = () => {
                         data.challenges.length == 0 ? <p className="text-darkGray font-comfortaa">No challenges</p> :
                             data.challenges.map((challenge) => (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                                    <ChallengeCard challenge={{
-                                        desc: challenge.description || "Crop is unhealthy",
-                                    }} />
+                                    <ChallengeCard challenge={challenge} />
                                 </div>))
                     }
                     </div>

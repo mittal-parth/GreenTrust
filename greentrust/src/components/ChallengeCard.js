@@ -62,7 +62,7 @@ export default function ChallengeCard({ challenge, type , auth }) {
         <div className="flex flex-col justify-evenly py-4 px-10">
           <div className="flex justify-between border-b-[1.5px] border-darkGray mb-5">
             <p className="text-xl font-bold text-gray/80 font-comfortaa text-justify py-2.5">
-              {challenge.description + "adjsbda sdkansldknal sdl naslkdlas dla sldkalsdlasdlk asmdlk asd lasdlkansldna lsdlkjalsjdlkasjdlkjasld kals dl as dl asjld kasdas d"}
+              {challenge.description || "Crop is unhealthy"}
             </p>
           </div>
           <div className="flex flex-col justify-between">

@@ -49,7 +49,7 @@ export default function ChallengeCard({ challenge, type , auth }) {
   }
 
   const colour = getChallengeStatus(challenge.status) == "Open" ? "bg-yellow" : "bg-red";
-  console.log("debug200",(challenge.challenged._hex))
+  console.log("debug200",(challenge))
   return (
     
     <div>

@@ -12,7 +12,7 @@
   h1 {
     @apply text-4xl font-bold text-darkPrimary mb-10;
   }
-
+  
   h2 {
     @apply text-3xl text-primary font-bold mb-8;
   }
@@ -63,5 +63,9 @@
 
   .carousel-dot-list li.react-multi-carousel-dot--active button {
     @apply !bg-gray/20;
+  }
+
+  #req-count-badge {
+    @apply hidden;
   }
 }

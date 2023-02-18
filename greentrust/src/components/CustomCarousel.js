@@ -9,7 +9,7 @@ export default function CustomCarousel({ children, responsive }) {
     className="overflow-visible"
     swipeable={true}
     draggable={false}
-    showDots={true}
+    showDots={false}
     responsive={responsive}
     keyBoardControl={true}
     customTransition="transform 300ms ease-in-out"
@@ -22,7 +22,7 @@ export default function CustomCarousel({ children, responsive }) {
     centerMode={true}
     customRightArrow={<IconButton styles="react-multiple-carousel__arrow react-multiple-carousel__arrow--right !bg-darkGray/30 hover:!bg-darkGray/60" />}
     customLeftArrow={<IconButton styles="react-multiple-carousel__arrow react-multiple-carousel__arrow--left !bg-darkGray/30 hover:!bg-darkGray/60" />}
-    renderDotsOutside={true}
+    // renderDotsOutside={true}
   >
     {children}
   </Carousel>);

@@ -1,15 +1,51 @@
 import { useRouter } from "next/router";
 import { useAuth } from "@/auth/useAuth";
+import { useEffect } from "react";
+import Spinner from "@/components/Spinner";
 
 import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
+import { contractCall } from "@/utils";
 
 const Landing = () => {
   const router = useRouter();
   const auth = useAuth();
 
+  const onLogin = async () => {
+    try {
+      await auth.connect();
+      console.log("test", auth.user)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const checkUser = async () => {
+    try {
+      const res = await contractCall(auth, "fetchUserType");
+      console.log(res.data, "Response");
+      if (res.data === "farmer" || res.data === "verifier") {
+        router.push("/dashboard");
+      } else {
+        router.push("/farms");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (!auth?.loading && auth?.isLoggedIn) {
+      checkUser();
+    }
+  }, [auth?.loading, auth?.isLoggedIn]);
+
   return (
-    <div className="bg-white w-full overflow-hidden flex">
+    <>
+    {auth.loading ? (
+      <Spinner></Spinner>
+    ) :
+    (<div className="bg-white w-full overflow-hidden flex">
       <div className="md:w-2/3 w-full">
         <LandingNavbar /> 
         <div
@@ -41,7 +77,7 @@ const Landing = () => {
             </p>
 
             <div className="mt-6">
-              <Button text={"Get Started"} styles={"!py-2 text-2xl"} onClick={() => {router.push('/auth/login')}} />
+              <Button text={"Get Started"} styles={"!py-2 text-2xl"} onClick={onLogin} />
             </div>
 
           </div>
@@ -51,7 +87,8 @@ const Landing = () => {
       <div className="w-1/3 hidden md:flex ">
         <img src="./images/landing.svg" alt="landing" className="object-cover w-full h-screen"/>
       </div>
-    </div>
+    </div>)}
+    </>
   );
 };
 

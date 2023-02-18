@@ -19,7 +19,7 @@ export function ArcanaAuth() {
 
   useEffect(() => {
     if (!auth?.loading && !auth?.isLoggedIn) {
-      router.push('/auth/login');
+      router.push('/');
     }
   }, [auth?.loading, auth?.isLoggedIn])
 
@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   });
 
   const handleClose = () => {
-    setSnackbarInfo({...snackbarInfo, open: false});
+    setSnackbarInfo({ ...snackbarInfo, open: false });
   };
 
   return (
@@ -74,7 +74,7 @@ export default function Layout({ children }) {
         </Alert>
       </Snackbar>
       <div className="bg-white relative min-h-[100vh]">
-        <SnackbarContext.Provider value={{snackbarInfo, setSnackbarInfo}}>
+        <SnackbarContext.Provider value={{ snackbarInfo, setSnackbarInfo }}>
           <header>
             <Navbar />
           </header>

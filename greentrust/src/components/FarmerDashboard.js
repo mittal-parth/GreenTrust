@@ -70,36 +70,75 @@ export default function FarmerDashboard({ auth }) {
     }
   };
 
+  const cropCardsResponsive = {
+    lg: {
+      breakpoint: { max: 3000, min: 1300 },
+      items: 4,
+    },
+    md: {
+      breakpoint: { max: 1300, min: 800 },
+      items: 3,
+    },
+    sm: {
+      breakpoint: { max: 800, min: 520 },
+      items: 2,
+    },
+    xs: {
+      breakpoint: { max: 520, min: 0 },
+      items: 1,
+    }
+  };
+
   return (
     <div>
       <section className="mb-10">
         <div className="flex flex-row gap-10">
           <h1>
-            My Farms 
+            My Farms
           </h1>
           <Link href="/farm/add"><IconButton icon={faPlus} /></Link>
         </div>
         <div className="static">
           <CustomCarousel responsive={farmerCardsResponsive} >
             {farms?.map((farm) => (
-                <FarmCard
-                  farm={farm}
-                  key={farm.id}
-                />
+              <FarmCard
+                farm={farm}
+                key={farm.id}
+              />
             ))}
           </CustomCarousel>
         </div>
       </section>
 
-      <h2>Staked Crops</h2>
+      <section>
+        <h2>Staked Crops</h2>
 
-      <div className="flex mt-6 flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-12 p-6">
-        {stakes?.map((stake) => (
-          <Link href={`/farm/${stake.farm.id}/crop/${stake.cropId}`} >
-            <CropDetailCard stake={stake} />
-          </Link>
-        ))}
-      </div>
+        <div className="static">
+          <CustomCarousel responsive={farmerCardsResponsive} >
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+            {stakes?.map((stake) => (
+                <CropDetailCard stake={stake} />
+            ))}
+          </CustomCarousel>
+        </div>
+      </section>
     </div>
   );
 };

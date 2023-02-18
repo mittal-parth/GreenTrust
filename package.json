@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^0.6.1",
+    "@fortawesome/free-brands-svg-icons": "^6.3.0",
     "@polywrap/client-js": "^0.9.5",
     "dotenv": "^16.0.3",
     "hardhat-contract-sizer": "^2.8.0",

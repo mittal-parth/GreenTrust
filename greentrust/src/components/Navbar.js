@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import {ethers} from 'ethers'
+import { ethers } from 'ethers'
 import { useAuth } from "@/auth/useAuth";
 import * as PushAPI from "@pushprotocol/restapi";
 import { EmbedSDK } from "@pushprotocol/uiembed";
@@ -13,14 +13,14 @@ import Logo from "./Logo";
 export default function Navar() {
   const auth = useAuth();
 
-  async function pushSubscribe ()  {
+  async function pushSubscribe() {
     const provider = new ethers.providers.Web3Provider(auth.provider);
     await PushAPI.channels.subscribe({
       signer: provider,
       channelAddress: 'eip155:5:0xB7E99669e9eDdD2975511FBF059d01969f43D409', // channel address in CAIP
       userAddress: 'eip155:5:' + auth.user.address, // user address in CAIP
       onSuccess: () => {
-       console.log('opt in success');
+        console.log('opt in success');
       },
       onError: () => {
         console.error('opt in error');
@@ -29,10 +29,10 @@ export default function Navar() {
     })
   }
 
-  useEffect( () => { 
+  useEffect(() => {
     console.log(auth.user)
     if (auth.user && auth.user.address) { // 'your connected wallet address'
-     pushSubscribe();
+      pushSubscribe();
       EmbedSDK.init({
         headerText: 'Welcome to GreenTrust', // optional
         targetID: 'sdk-trigger-id', // mandatory
@@ -40,10 +40,10 @@ export default function Navar() {
         user: auth.user.address, // mandatory
         chainId: 5, // mandatory
         viewOptions: {
-            type: 'sidebar', // optional [default: 'sidebar', 'modal']
-            showUnreadIndicator: true, // optional
-            unreadIndicatorColor: '#cc1919',
-            unreadIndicatorPosition: 'bottom-right',
+          type: 'sidebar', // optional [default: 'sidebar', 'modal']
+          showUnreadIndicator: true, // optional
+          unreadIndicatorColor: '#cc1919',
+          unreadIndicatorPosition: 'bottom-right',
         },
         theme: 'dark',
         onOpen: () => {
@@ -52,14 +52,14 @@ export default function Navar() {
         onClose: () => {
           console.log('-> client dApp onClose callback');
         }
-        
-   
+
+
       });
     }
-      return () => {
-        EmbedSDK.cleanup();
-      };
-    },[]);
+    return () => {
+      EmbedSDK.cleanup();
+    };
+  }, []);
 
   return (
     <div className="px-0 md:px-[10%] flex justify-center">

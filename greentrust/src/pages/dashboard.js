@@ -28,12 +28,14 @@ export default function Dashboard() {
         .then((res) => setType(res.data));
     }
   }, [auth?.user]);
-console.log(userType, "user type")
-  if (userType == "farmer") {
-    return <FarmerDashboard farms={farms} stakes={stakes} />;
+
+  if (type == "farmer") {
+    return <FarmerDashboard auth={auth} />;
   }
-  else if(userType == "verifier"){
+  else if(type == "verifier"){
     return <VerifierDashboard />;
   }
-  return <></>;
+  else {
+    return <></>
+  }
 }

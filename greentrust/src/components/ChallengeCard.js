@@ -66,7 +66,7 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
       getCropData();
     }
   }, [])
-
+console.log("debugg", challenge)
   return (<div>
     <div className={`flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full border-l-4 border-${getStatusColor(challenge.status) == 'Open' ? 'yellow' : 'red'} max-w-[280px]`}>
       <div className="flex flex-col justify-evenly py-2 px-2">

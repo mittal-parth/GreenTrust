@@ -40,7 +40,8 @@ export default function FarmerRegistrationForm() {
         setLoading(true);
         
         e.preventDefault();
-
+        let proofsData = {}
+        proofsData.proofs = []
         // Hashing pic
         if (pic) {
             await uploadFile(Object.values(pic)).then((res) => {
@@ -58,20 +59,25 @@ export default function FarmerRegistrationForm() {
             return;
         }
         const proofHashes = await uploadFile(Object.values(proofs));
-        let idCardHashes = ''
-        proofHashes.forEach((hash) => {
-            idCardHashes += hash[0].hash + ' '
+        var docHashes = ''
+        var fileNames = proofs.map((proof) => proof.path);
+        
+        proofHashes.forEach((fH,index) => {
+            var proof = {}
+            proof.name = fileNames[index]?.split(".")[0] || "Proof"
+            proof.hash = fH[0].hash
+            proofsData.proofs = [...proofsData.proofs, proof]
         });
-
-        postFarmerInfo(JSON.stringify(data), idCardHashes);
+        proofsData = JSON.stringify(proofsData)
+        postFarmerInfo(JSON.stringify(data), proofsData);
     };
 
-    const postFarmerInfo = async (profile, idCardHashes) => {
+    const postFarmerInfo = async (profile, proofsData) => {
 
         try {
             await contractCall(auth, 'registerFarmer', [
                 profile,
-                idCardHashes,
+                proofsData,
             ]);
 
             router.replace('/dashboard');

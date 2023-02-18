@@ -48,14 +48,18 @@ const useProvideAuth = (auth) => {
     auth.provider.on("connect", onConnectHook);
     auth.provider.on("disconnect", onDisconnectHook);
     auth.init().then(async () => {
-      const loggedIn = await auth.isLoggedIn();
-      if (loggedIn) {
-        const info = await auth.getUser();
-        setUser(info);
-        setIsLoggedIn(true);
-      } else {
-        const logins = await auth.getLogins();
-        setAvailableLogins(logins.filter((l) => l != "passwordless"));
+      try {
+        const loggedIn = await auth.isLoggedIn();
+        if (loggedIn) {
+          const info = await auth.getUser();
+          setUser(info);
+          setIsLoggedIn(true);
+        } else {
+          const logins = await auth.getLogins();
+          setAvailableLogins(logins.filter((l) => l != "passwordless"));
+        }
+      } catch (e) {
+        console.error(e);
       }
       setLoading(false);
     });

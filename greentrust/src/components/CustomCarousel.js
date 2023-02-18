@@ -20,8 +20,8 @@ export default function CustomCarousel({ children, responsive }) {
     itemClass="mx-4"
     // partialVisbile={true}
     centerMode={true}
-    customRightArrow={<IconButton styles="react-multiple-carousel__arrow react-multiple-carousel__arrow--right !bg-darkGray/30 hover:!bg-darkGray/60" />}
-    customLeftArrow={<IconButton styles="react-multiple-carousel__arrow react-multiple-carousel__arrow--left !bg-darkGray/30 hover:!bg-darkGray/60" />}
+    customRightArrow={<IconButton styles="react-multiple-carousel__arrow react-multiple-carousel__arrow--right !bg-darkGray/30 hover:!bg-darkGray/60 z-0" />}
+    customLeftArrow={<IconButton styles="react-multiple-carousel__arrow react-multiple-carousel__arrow--left !bg-darkGray/30 hover:!bg-darkGray/60 z-0" />}
     // renderDotsOutside={true}
   >
     {children}

@@ -9,6 +9,8 @@ import { faBell } from "@fortawesome/free-regular-svg-icons";
 
 import { ArcanaAuth } from './Layout';
 import Logo from "./Logo";
+import NavbarLink from "./NavbarLink";
+import { faTractor } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navar() {
   const auth = useAuth();
@@ -64,7 +66,12 @@ export default function Navar() {
   return (
     <div className="px-0 md:px-[10%] flex justify-center">
       <nav className="mt-0 md:mt-6 bg-white border-gray-200 px-6 md:px-20 py-3 rounded-none md:rounded-full drop-shadow-2xl w-full max-w-[1400px] flex flex-row items-center justify-between">
-        <Logo />
+        <div className="flex flex-row gap-12 items-center">
+          <Logo />
+          <section>
+            <NavbarLink link="/farms" icon={faTractor} />
+          </section>
+        </div>
         <div className="flex flex-row gap-4">
           <button>
             <FontAwesomeIcon icon={faBell} className="text-2xl mx-3 text-darkGray" />

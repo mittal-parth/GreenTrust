@@ -2,17 +2,23 @@ import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder } from "@fortawesome/free-solid-svg-icons";
-import {contractCall, getChallengeStatus, getChallengeStatusCode} from "@/utils";
-import { useContext } from "react";
+import {contractCall, getChallengeStatus, getChallengeStatusCode, getStatusColor} from "@/utils";
+import { useContext, useEffect } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
-
+import Popover from '@mui/material/Popover';
 import { SnackbarContext } from "@/context/snackbarContext";
+import CropDetailModal from "./CropDetailModal";
 
 
 export default function ChallengeCard({ challenge, type , auth }) {
   const { loading, setLoading } = useContext(LoaderContext);
-  console.log("debug 1234" , challenge)
+  const [cropData, setCropData] = React.useState(null);
+  
+  
+  
+ 
+
   
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
   const handleOnClick = async (type) => {
@@ -41,25 +47,40 @@ export default function ChallengeCard({ challenge, type , auth }) {
     }
   setLoading(false)
   }
+
+  const colour = getChallengeStatus(challenge.status) == "Open" ? "bg-yellow" : "bg-red";
+  console.log("debug200",(challenge.challenged._hex))
   return (
+    
     <div>
-      <div className="flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full">
+      <div className={"  relative flex-none bg-white border-l-4 rounded-lg shadow-lg mr-6 p-4 w-full "+ getStatusColor(challenge.status)}>
+        <div className="absolute top-2 right-2">
+          <CropDetailModal cropId={parseInt(challenge.challenged._hex)} />
+          
+          </div>
+      
         <div className="flex flex-col justify-evenly py-4 px-10">
           <div className="flex justify-between border-b-[1.5px] border-darkGray mb-5">
             <p className="text-xl font-bold text-gray/80 font-comfortaa text-justify py-2.5">
-              {challenge.description}
+              {challenge.description + "adjsbda sdkansldknal sdl naslkdlas dla sldkalsdlasdlk asmdlk asd lasdlkansldna lsdlkjalsjdlkasjdlkjasld kals dl as dl asjld kasdas d"}
             </p>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col justify-between">
           <a className="" href="">
-            <Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />
+           
+      <div>
+     
+        <Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue"  />
+      
+      
+    </div>  
           </a>
-          {type?<p className="text-darkGray font-comforta">{getChallengeStatus(challenge.status)}</p>:<div></div>}
-          {(type == 1)&&<button className="bg-blue text-white font-comfortaa font-bold py-2 px-4 rounded" onClick={async () => {await handleOnClick(1)}}>Accept</button>}
+          
+          {(type == 1)&&<button className="bg-blue bg-darkPrimary text-white font-comfortaa w-fit font-bold py-2 px-4 rounded" onClick={async () => {await handleOnClick(1)}}>Accept</button>}
           {(type == 0)&&
           <div className="flex space-x-2">
-            <button className="bg-blue text-white font-comfortaa font-bold py-2 px-4 rounded" onClick={async () => await  handleOnClick(2)}>Approve</button>
-            <button className="bg-blue text-white font-comfortaa font-bold py-2 px-4 rounded" onClick={async () => await  handleOnClick(3)}>Reject</button>
+            <button className="bg-darkPrimary text-white font-comfortaa font-bold py-2 px-4 w-fit rounded" onClick={async () => await  handleOnClick(2)}>Approve</button>
+            <button className="bg-red text-white font-comfortaa font-bold py-2 px-6 w-fit rounded" onClick={async () => await  handleOnClick(3)}>Reject</button>
           </div>}
           
           </div>
@@ -68,3 +89,4 @@ export default function ChallengeCard({ challenge, type , auth }) {
     </div>
   );
 }
+

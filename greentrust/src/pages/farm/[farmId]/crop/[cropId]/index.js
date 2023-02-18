@@ -23,6 +23,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
 import ChallengeCard from "@/components/ChallengeCard";
 import IconButton from "@/components/IconButton";
+import Empty from "@/components/Empty";
 
 
 const Crop = () => {
@@ -166,9 +167,9 @@ const Crop = () => {
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.sensors.map((sensor) => <>
+							{data.length > 0 ? data.sensors.map((sensor) => <>
 								<SensorCard details={sensor} />
-							</>)}
+							</>) : <Empty text="No sensor added yet!" />}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders
@@ -213,23 +214,21 @@ const Crop = () => {
 					</div>
 				</div>
 				<div>
-					<h3>
+					{data.challenges.length > 0 && <><h3>
 						Pending Challenges
 					</h3>
-					<div className="flex">{data.challenges.length == 0
-						? <p className="text-darkGray font-comfortaa">No challenges</p>
-						: data.challenges.map((challenge) => (
+						{data.challenges.map((challenge) => (
 							<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 								<ChallengeCard challenge={{
 									description: challenge.description,
 								}} full={false} />
 							</div>
 						))}
-					</div>
+					</>}
 				</div>
 			</div>
 		</div>
 	)}</>);
-};
+}
 
 export default Crop;

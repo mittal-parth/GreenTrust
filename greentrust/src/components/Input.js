@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 import DropDown from "./DropDown";
 import InputBox from "./InputBox";
-import { AuthContext } from "@/context/authContext";
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@auth/useAuth";
 import { contractCall } from "@/utils";
 
 export default function Input() {

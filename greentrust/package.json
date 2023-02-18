@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@arcana/auth": "^1.0.1",
-    "@arcana/auth-react": "0.0.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",

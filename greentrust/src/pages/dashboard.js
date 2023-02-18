@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-
-import { useAuth } from "@arcana/auth-react";
-
 import { contractCall } from "@/utils";
+import { useAuth } from "@/auth/useAuth";
+import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
+import VerifierDashboard from "@/components/VerifierDashboard";
 import FarmerDashboard from "@/components/FarmerDashboard";
 import Button from "@/components/Button";
 
@@ -28,6 +28,12 @@ export default function Dashboard() {
         .then((res) => setType(res.data));
     }
   }, [auth?.user]);
-
-  return <>{type && type == "farmer" ? <FarmerDashboard auth={auth} /> : <></>}</>
+console.log(userType, "user type")
+  if (userType == "farmer") {
+    return <FarmerDashboard farms={farms} stakes={stakes} />;
+  }
+  else if(userType == "verifier"){
+    return <VerifierDashboard />;
+  }
+  return <></>;
 }

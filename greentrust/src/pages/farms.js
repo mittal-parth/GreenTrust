@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { contractCall } from "@/utils";
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import FarmerDashboard from "@/components/FarmerDashboard";
@@ -49,9 +49,9 @@ export default function Farms() {
     <>
     <div>
          <h2 className={`${classes.title} mt-12`}>Registered Farms</h2>
-         <div className="flex">
+         <div className="flex flex-wrap space-x-0 space-y-0">
             {farms && farms.length > 0 ? farms.map((farm, index) => {
-                return <Link href={`/farm/${farm.id}`}> <FarmCard key={index} farm={farm} /></Link>
+                return <div className=" mb-3"><Link href={`/farm/${farm.id}`}> <FarmCard key={index} farm={farm} /></Link></div>
             }) : <h3 className="text-center font-comfortaa text-darkGray">No farms registered yet</h3>
         }
         </div>

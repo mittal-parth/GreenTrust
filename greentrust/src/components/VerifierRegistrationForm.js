@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
@@ -65,6 +65,7 @@ export default function VerifierRegistrationForm() {
                 ...snackbarInfo,
                 open: true,
                 message: `Registration successful`,
+                severity: "success",
             });
 
             router.replace('/dashboard');

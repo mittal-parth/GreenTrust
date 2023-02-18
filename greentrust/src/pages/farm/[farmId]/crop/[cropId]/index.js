@@ -15,7 +15,7 @@ import {
     faShare,
     faPlus
 } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "@arcana/auth-react";
+import { useAuth } from "@/auth/useAuth";
 
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
@@ -97,6 +97,7 @@ const Crop = () => {
                     setHasAccess(true);
                 }
             }
+            
             setData(data);
         }
         catch (err) {
@@ -114,11 +115,11 @@ const Crop = () => {
     return (<>{data && (
         <div>
             <div>
-                <a href={'/farm/' + data.farmId}>
+                <Link href={'/farm/' + data.farmId}>
                     <h1>
                         {data.farm.name}
                     </h1>
-                </a>
+                </Link>
                 <div className="flex mb-10">
                     <div className="shrink hidden md:flex">
                         <img

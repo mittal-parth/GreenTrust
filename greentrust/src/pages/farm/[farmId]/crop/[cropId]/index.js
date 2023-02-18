@@ -15,7 +15,6 @@ import {
     faShare
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/auth/useAuth";
-import Link from "next/link";
 
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";

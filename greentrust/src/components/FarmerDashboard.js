@@ -72,24 +72,26 @@ export default function FarmerDashboard({ auth }) {
 
   return (
     <div>
-      <div className="flex flex-row gap-10">
-        <h1>
-          My Farms 
-        </h1>
-        <Link href="/farm/add"><IconButton icon={faPlus} /></Link>
-      </div>
-      <div className="static">
-        <CustomCarousel responsive={farmerCardsResponsive} >
-          {farms?.map((farm) => (
-              <FarmCard
-                farm={farm}
-                key={farm.id}
-              />
-          ))}
-        </CustomCarousel>
-      </div>
+      <section className="mb-10">
+        <div className="flex flex-row gap-10">
+          <h1>
+            My Farms 
+          </h1>
+          <Link href="/farm/add"><IconButton icon={faPlus} /></Link>
+        </div>
+        <div className="static">
+          <CustomCarousel responsive={farmerCardsResponsive} >
+            {farms?.map((farm) => (
+                <FarmCard
+                  farm={farm}
+                  key={farm.id}
+                />
+            ))}
+          </CustomCarousel>
+        </div>
+      </section>
 
-      <h2 className={`${classes.title} mt-12`}>Staked Crops</h2>
+      <h2>Staked Crops</h2>
 
       <div className="flex mt-6 flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-12 p-6">
         {stakes?.map((stake) => (

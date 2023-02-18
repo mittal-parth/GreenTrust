@@ -97,7 +97,7 @@ const Crop = () => {
                     setHasAccess(true);
                 }
             }
-            
+
             setData(data);
         }
         catch (err) {
@@ -175,7 +175,7 @@ const Crop = () => {
                         <h3 className="mt-10 mb-0">
                             Stakeholders
                         </h3>
-                        <div className="flex mt-2 items-center  ">
+                        <div className="flex mt-2 items-center">
                             <FontAwesomeIcon
                                 icon={faMoneyBillWave}
                                 className="text-gray w-[26px] h-[26px] mr-4"
@@ -184,7 +184,7 @@ const Crop = () => {
                             <p className=""><span className="text-primary font-semibold">{parseInt(data.crop.stakeAmount._hex)}/-</span> each</p>
                         </div>
                         <div>
-                            <div className="flex my-3">{data.stakeholders.map((stakeholder) => (
+                            <div className="flex my-3 gap-3">{data.stakeholders.map((stakeholder) => (
                                 <FarmerCard profile={stakeholder.profile} onlyPic={true} />
                             ))}</div>
                             <div className="flex mt-10 flex-wrap justify-start items-start gap-x-2">

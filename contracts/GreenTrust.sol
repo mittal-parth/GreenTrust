@@ -89,11 +89,6 @@ contract GreenTrust is GreenTrustFarmer {
         string memory description,
         string memory documents
     ) public payable {
-        require(
-            addressToFarmerIds[msg.sender] != 0 ||
-                addressToVerifierIds[msg.sender] != 0,
-            "U0"
-        );
         require(crops[_challenged].isValid, "Cr0");
         require(msg.value == challengeAmount, "CA0");
         numChallenges++;
@@ -133,6 +128,8 @@ contract GreenTrust is GreenTrustFarmer {
     function claimChallenge(uint256 _challengeId) public {
         require(addressToVerifierIds[msg.sender] != 0, "U0V");
         require(challenges[_challengeId].isValid, "Ch0");
+        require(challenges[_challengeId].status == defaultChallengeStatus, "Ch0S");
+        require(challenges[_challengeId].challenger != msg.sender, "Ch0U");
         challenges[_challengeId].status = ChallengeStatus.ALLOTTED;
         challenges[_challengeId].verifierId = addressToVerifierIds[msg.sender];
     }

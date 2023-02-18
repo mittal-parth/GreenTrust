@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useRef, useEffect } from "react";
+import { SWITCH_NETWORK_CONFIG } from "@/config";
 
 const AuthContext = createContext(null);
 
@@ -35,13 +36,44 @@ const useProvideAuth = (auth) => {
   };
 
   const onConnectHook = async () => {
+    setLoading(true);
     const info = await auth.getUser();
-    setUser(info);
     setIsLoggedIn(true);
+    const loggedIn = await auth.isLoggedIn();
+    if (loggedIn && auth.provider.chainId !== SWITCH_NETWORK_CONFIG.chainId) {
+      await switchNetwork();
+    }
+    setUser(info);
+    setLoading(false);
   };
 
   const onDisconnectHook = () => {
     setIsLoggedIn(false);
+  };
+
+  const switchNetwork = async () => {
+    try {
+      await auth.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: SWITCH_NETWORK_CONFIG.chainId }],
+      });
+    } catch (error) {
+      if (error.code === 4902) {
+        try {
+          await auth.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              SWITCH_NETWORK_CONFIG,
+            ],
+          });
+          await switchNetwork();
+        } catch (addError) {
+          console.error(addError, "Add mantle testnet error");
+        }
+      } else {
+        console.error(error, "Switch to mantle testnet error");
+      }
+    }
   };
 
   useEffect(() => {
@@ -52,8 +84,11 @@ const useProvideAuth = (auth) => {
         const loggedIn = await auth.isLoggedIn();
         if (loggedIn) {
           const info = await auth.getUser();
-          setUser(info);
           setIsLoggedIn(true);
+          if (auth.provider.chainId !== SWITCH_NETWORK_CONFIG.chainId) {
+            await switchNetwork();
+          }
+          setUser(info);
         } else {
           const logins = await auth.getLogins();
           setAvailableLogins(logins.filter((l) => l != "passwordless"));

@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 
-import { useAuth } from "@auth/useAuth";
+import { useAuth } from "@/auth/useAuth";
 
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";

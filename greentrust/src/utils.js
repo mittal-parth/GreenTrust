@@ -161,7 +161,6 @@ export const getStatusCode = (code , type = 0) => {
     1: "bg-yellow",
     2: "bg-red"
   }
-  console.log("debug1905", code, type, colourMap[code], map[code])
   return type ? colourMap[code]:map[code];
 }
 
@@ -174,6 +173,25 @@ export const getStatusColor = (code) => {
   };
   return map[code];
 };
+
+export const CAROUSEL_RESPONSIVE_SETTINGS = {
+  lg: {
+    breakpoint: { max: 3000, min: 1500 },
+    items: 4,
+  },
+  md: {
+    breakpoint: { max: 1500, min: 1200 },
+    items: 3,
+  },
+  sm: {
+    breakpoint: { max: 1200, min: 720 },
+    items: 2,
+  },
+  xs: {
+    breakpoint: { max: 720, min: 0 },
+    items: 1,
+  }
+}
 
 export const createSuperFlow = async (signer, provider, amount) => {
   const greenPipelineAddress = PIPELINE_ADDRESS;

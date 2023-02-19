@@ -4,7 +4,7 @@ import { CONTRACT_ADDRESS, PUSH, PIPELINE_ADDRESS, FLOW_RATE, POLYGON_NETWORK_CO
 import GreenTrustABI from "@/abi/GreenTrust.json";
 import GreenPipelineABI from "@/abi/GreenPipeline.json";
 import * as PushAPI from "@pushprotocol/restapi";
-const { Framework } = require("@superfluid-finance/sdk-core");
+// const { Framework } = require("@superfluid-finance/sdk-core");
 
 export const uploadFile = async (files) => {
   const projectId = "2Ln8ZP0EreH0IInN40eJm52wZa7";

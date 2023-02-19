@@ -43,17 +43,15 @@ export default function Navar() {
         <div className="flex flex-row gap-12 items-center">
           <Logo />
           <section className="flex flex-row gap-4">
-            <div id="google_translate_element" />
-            <GoogleTranslate />
+
             <NavbarLink link="/dashboard" icon={faHouse} />
             <NavbarLink link="/farms" icon={faTractor} />
             {(auth?.user && !isRegistered) && <NavbarLink link="/profile/role-choice" icon={faIdCard} />}
           </section>
         </div>
         <div className="flex flex-row gap-4">
-          <button>
-            <FontAwesomeIcon icon={faBell} className="text-2xl mx-3 text-darkGray" />
-          </button>
+            <div id="google_translate_element" />
+            <GoogleTranslate />
           <ArcanaAuth />
         </div>
       </nav>

@@ -1,23 +1,19 @@
 import { useContext, useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolder } from "@fortawesome/free-solid-svg-icons";
 import {
   contractCall,
   getChallengeStatus,
   getChallengeStatusCode,
   getStatusColor,
 } from "@/utils";
-import { useContext, useEffect } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
 import Popover from "@mui/material/Popover";
 import { faFolder, faInfo, faXmark, faCheck } from "@fortawesome/free-solid-svg-icons";
 
-import { contractCall, getChallengeStatus, getChallengeStatusCode, getStatusColor } from "@/utils";
 import { SnackbarContext } from "@/context/snackbarContext";
 import Modal from "@/components/Modal";
-import Info from "@/components/Info";
 import CropDetailCard from "@/components/CropDetailCard";
 import IconButton from "@/components/IconButton";
 import Button from "@/components/Button";

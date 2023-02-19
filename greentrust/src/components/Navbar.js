@@ -49,7 +49,7 @@ export default function Navar() {
             {(auth?.user && !isRegistered) && <NavbarLink link="/profile/role-choice" icon={faIdCard} />}
           </section>
         </div>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-6 items-center">
             <div id="google_translate_element" />
             <GoogleTranslate />
           <ArcanaAuth />

@@ -74,7 +74,7 @@ const [currentMetric, setCurrentMetric] = useState(
   };
 
   return (
-    <div className=" shadow-2xl">
+    <div className=" shadow-2xl w-[70vw]">
       <HighchartsReact highcharts={Highcharts} options={chartOptions} />
     </div>
   );

@@ -53,7 +53,7 @@ const Crop = () => {
 
 	const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
-	const [hidden, setHidden] = useState(false);
+	const [hidden, setHidden] = useState(true);
 	const { loading, setLoading } = useContext(LoaderContext);
 	const [isFarmer, setIsFarmer] = useState(false);
 	const [farmerId, setFarmerId] = useState("");

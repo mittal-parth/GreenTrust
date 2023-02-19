@@ -88,9 +88,9 @@ export default function FarmInfo() {
               <Info icon={faChartPie} text={`${farmInfo?.size} Acre`} style="text-gray" />
             </div>
             <div className="my-10">
-              {/* {farmer && <FarmerCard
+              {farmer && <FarmerCard
                 profile={farmer.profile}
-              />} */}
+              />}
             </div>
             <div className="flex flex-row gap-10 items-center mb-2">
               <h2 className="mb-0">
@@ -101,7 +101,7 @@ export default function FarmInfo() {
             {crops?.length > 0 ? cropList : <Empty text="No crops registered " />}
 
           </div>
-          <div className="hidden lg:flex shrink min-w-[400px]">
+          <div className="hidden lg:flex shrink max-w-[30vw]">
             <Lottie
               loop
               animationData={farm}

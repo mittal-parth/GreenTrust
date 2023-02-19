@@ -35,7 +35,6 @@ export default function FarmInfo() {
 
       const cropsRes = await contractCall(auth, 'fetchFarmCrops', [farmId]);
       setCrops(cropsRes.data);
-
       const farmerRes = await contractCall(auth, 'farmers', [parseInt(farmRes.data.farmerId._hex)]);
 
       const res = await contractCall(auth, "fetchUserType");
@@ -43,8 +42,6 @@ export default function FarmInfo() {
         const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
           auth.user.address,
         ]);
-        console.log(farmRes.data.farmerId._hex)
-        console.log(farmerIdRes.data._hex, "\n\n HELLO \n")
         if (parseInt(farmRes.data.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
           setHasAccess(true);
         }

@@ -147,6 +147,22 @@ export const getChallengeStatus = (code) => {
   return map[code];
 };
 
+export const getStatusCode = (code , type = 0) => {
+  const map = {
+    0: "OPEN",
+    1: "LOCKED",
+    2: "CLOSED"
+  }
+
+  const colourMap = {
+    0: "bg-primary",
+    1: "bg-yellow",
+    2: "bg-red"
+  }
+  console.log("debug1905", code, type, colourMap[code], map[code])
+  return type ? colourMap[code]:map[code];
+}
+
 export const getStatusColor = (code) => {
   const map = {
     0: "border-yellow",

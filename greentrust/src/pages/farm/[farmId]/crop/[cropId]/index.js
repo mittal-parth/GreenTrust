@@ -152,8 +152,6 @@ const Crop = () => {
 											/>}
 											popover={<QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} />}
 										/>
-										{/* <QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} id="qr-code-el" /> */}
-										{/* <QRCode id="qr-o" /> */}
 									</div>
 									<div className="flex flex-row gap-10">
 										<Info icon={faLocationDot} text={data.farm.location} style="text-red" />

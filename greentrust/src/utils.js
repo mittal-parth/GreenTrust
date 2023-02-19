@@ -159,7 +159,6 @@ export const getStatusCode = (code , type = 0) => {
     1: "bg-yellow",
     2: "bg-red"
   }
-  console.log("debug1905", code, type, colourMap[code], map[code])
   return type ? colourMap[code]:map[code];
 }
 

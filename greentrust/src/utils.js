@@ -2,9 +2,9 @@ import { ethers, BrowserProvider } from "ethers";
 import IpfsHttpClientLite from "ipfs-http-client-lite";
 import { CONTRACT_ADDRESS, PUSH, PIPELINE_ADDRESS } from "@/config";
 import GreenTrustABI from "@/abi/GreenTrust.json";
-import GreenPipelineABI from "@abi/GreenPipeline.json"
+// import GreenPipelineABI from "@abi/GreenPipeline.json"
 import * as PushAPI from "@pushprotocol/restapi";
-const { Framework } = require("@superfluid-finance/sdk-core");
+// const { Framework } = require("@superfluid-finance/sdk-core");
 
 export const uploadFile = async (files) => {
   const projectId = "2Ln8ZP0EreH0IInN40eJm52wZa7";

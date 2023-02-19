@@ -53,6 +53,7 @@ const Crop = () => {
 
 	const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
+	const [hidden, setHidden] = useState(false);
 	const { loading, setLoading } = useContext(LoaderContext);
 	const [isFarmer, setIsFarmer] = useState(false);
 	const [farmerId, setFarmerId] = useState("");
@@ -61,7 +62,32 @@ const Crop = () => {
 	const [hasStaked, setHasStaked] = useState(false);
 	const [isInvalid, setIsInvalid] = useState(false);
 
-
+	var sensorData = [
+		{
+		  time: 1676460952,
+		  data: {
+			temperature: 30,
+			humidity: 50,
+			light: 120,
+		  },
+		},
+		{
+		  time: 1676633752,
+		  data: {
+			temperature: 50,
+			humidity: 10,
+			light: 100,
+		  },
+		},
+		{
+		  time: 1676806552,
+		  data: {
+			temperature: 20,
+			humidity: 50,
+			light: 190,
+		  },
+		},
+	  ];
 	async function getCropDetails() {
 		setLoading(true);
 
@@ -136,6 +162,17 @@ const Crop = () => {
 		<div>
 			{isInvalid && <Alert severity="warning" className="mb-10 text-comfortaa fixed bottom-0 z-10 left-10">A challenge against this crop has be verified to be true</Alert>}
 			<div>
+            <div
+              className={
+                " fixed flex-col inset-0 z-10 backdrop-blur-xl space-y-4 shadow-2xl  h-screen w-screen justify-center items-center " +
+                (hidden ? "hidden" : "flex")
+              }
+            >
+
+			  <SensorGraph sensorData={sensorData} />
+			  <Button text={"Close"} onClick={() => setHidden(true)}>Close</Button>
+
+            </div>
 				<Link href={'/farm/' + data.farmId}>
 					<h1>
 						{data.farm.name}
@@ -192,9 +229,8 @@ const Crop = () => {
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.sensors.length > 0 ? data.sensors.map((sensor) => <>
-								<SensorCard details={sensor} />
-							</>) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
+							{data.sensors.length > 0 ? data.sensors.map((sensor) => (
+                      <SensorCard onClick={() => {setHidden(false)}} details={sensor} />)) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders

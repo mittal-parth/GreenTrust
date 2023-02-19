@@ -4,13 +4,16 @@ import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faLocationDot,
-	faChartPie,
-	faQrcode,
-	faCircleXmark,
-	faMoneyBillWave,
-	faCoins,
-	faPlus
+  faLocationDot,
+  faChartPie,
+  faQrcode,
+  faCircleXmark,
+  faMoneyBillWave,
+  faCoins,
+  faUnlock,
+  faHandHoldingDollar,
+  faShare,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useAuth } from "@/auth/useAuth";
@@ -35,6 +38,8 @@ import HighchartsReact from 'highcharts-react-official'
 import QRCode from "react-qr-code";
 import SensorGraph from "@/components/SensorGraph";
 
+import Lottie from "react-lottie-player";
+import plant from "../../../../../../public/lotties/plant.json";
 
 const Crop = () => {
 	const router = useRouter();
@@ -159,10 +164,12 @@ const Crop = () => {
 				</Link>
 				<div className="flex mb-10">
 					<div className="shrink hidden md:flex">
-						<img
-							src="/images/plant.png"
-							className="mr-10 my-auto object-fill"
-						></img>
+          <Lottie
+                  loop
+                  animationData={plant}
+                  play
+                  className="my-auto object-fill mr-10"
+          />
 					</div>
 					<div className="grow">
 						<div>
@@ -172,7 +179,7 @@ const Crop = () => {
 										<h2 className="mb-0">
 											{data.crop.name}
 										</h2>
-										<Modal 
+										<Modal
 											anchor={<FontAwesomeIcon
 												icon={faQrcode}
 												className="text-gray w-[32px] h-[32px]"

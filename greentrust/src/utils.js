@@ -1,8 +1,10 @@
 import { ethers, BrowserProvider } from "ethers";
 import IpfsHttpClientLite from "ipfs-http-client-lite";
-import { CONTRACT_ADDRESS, PUSH } from "@/config";
+import { CONTRACT_ADDRESS, PUSH, PIPELINE_ADDRESS } from "@/config";
 import GreenTrustABI from "@/abi/GreenTrust.json";
+import GreenPipelineABI from "@abi/GreenPipeline.json"
 import * as PushAPI from "@pushprotocol/restapi";
+const { Framework } = require("@superfluid-finance/sdk-core");
 
 export const uploadFile = async (files) => {
   const projectId = "2Ln8ZP0EreH0IInN40eJm52wZa7";
@@ -172,3 +174,18 @@ export const getStatusColor = (code) => {
   };
   return map[code];
 };
+
+export const createSuperFlow = async (signer, provider, amount) => {
+  const greenPipelineAddress = PIPELINE_ADDRESS;
+  const greenPipeline = new ethers.Contract(greenPipelineAddress, GreenPipelineABI, provider);
+  try{await greenPipeline.connect(signer).createFlowIntoContract(`${amount}`).then(function (tx) {
+    console.log(`
+        Congrats! You just successfully created a flow into the green trust pipeline contract. 
+        Tx Hash: ${tx.hash}
+    `)
+    return tx.hash;
+  })}catch(e){
+    console.log(e)
+  }
+  ;
+}

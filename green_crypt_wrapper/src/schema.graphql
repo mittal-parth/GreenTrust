@@ -1,0 +1,52 @@
+import { Module, Connection } into Ethereum from "wrap://ens/ethereum.polywrap.eth"
+
+type Module {
+    """
+    Module to deploy and interect with the simple-storage smart-contract
+    """
+
+    encrypt(
+        text: String!
+    ): String!
+
+    decrypt(
+        text: String!
+    ): String!
+
+    generateKeys(
+        primeseed: Int!
+    ):Return_keyPair!
+
+    verify(
+        data1: String!
+        data2: String!
+    ): Int!
+
+    encryptAES(
+        text: String!
+    ): String!
+
+    decryptAES(
+        text: String!
+    ): String!
+
+}
+
+type Args_enc {
+  text: String!
+}
+
+type Args_key {
+  primeseed: Int!
+}
+
+type Return_keyPair {
+  publicKey: Int!
+  privateKey: Int!
+}
+
+type Args_verify {
+    data1: String!
+    data2: String!
+}
+

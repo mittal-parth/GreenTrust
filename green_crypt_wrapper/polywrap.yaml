@@ -1,0 +1,10 @@
+format: 0.2.0
+project:
+  name: green_crypt
+  type: wasm/assemblyscript
+source:
+  module: ./src/index.ts
+  schema: ./src/schema.graphql
+extensions:
+  build: ./polywrap.build.yaml
+  deploy: ./polywrap.deploy.yaml

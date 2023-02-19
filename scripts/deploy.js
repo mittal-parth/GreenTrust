@@ -52,11 +52,11 @@ async function main() {
     console.log(err);
   });
   
-  try {
-    await mockData(greenTrust.address, abi);
-  } catch (err) {
-    console.log(err);
-  }
+  // try {
+  //   await mockData(greenTrust.address, abi);
+  // } catch (err) {
+  //   console.log(err);
+  // }
 }
 
 main()

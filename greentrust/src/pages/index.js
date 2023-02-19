@@ -1,3 +1,5 @@
+import ReactDOM from "react";
+
 import { useRouter } from "next/router";
 import { useAuth } from "@/auth/useAuth";
 import { useEffect } from "react";
@@ -6,6 +8,7 @@ import Spinner from "@/components/Spinner";
 import LandingNavbar from "@/components/LandingNavbar";
 import Button from "@/components/Button";
 import { contractCall } from "@/utils";
+import Head from "next/head";
 
 
 const Landing = () => {

@@ -4,7 +4,6 @@ import { useEffect, useState, useContext } from "react";
 
 import FarmCard from "@/components/FarmCard";
 import CropDetailCard from "@/components/CropDetailCard";
-import classes from "@/style";
 import IconButton from "@/components/IconButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { SnackbarContext } from "@/context/snackbarContext";

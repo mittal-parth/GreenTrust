@@ -4,6 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+h1.xar-header-heading {
+  @apply text-gray text-sm mb-0 font-bold;
+}
+
+/* button[style="position: fixed; width: 117px; height: 117px; border: none; border-radius: 50%; box-shadow: rgba(0, 0, 0, 0.25) 4px 5px 4px; margin: 0px auto; cursor: pointer; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2147483647; background-color: rgb(237, 237, 237); right: 30px; bottom: 30px;"] {
+  @apply !hidden;
+} */
+
+body > button[style] {
+  @apply !w-24 !h-24 border-none;
+}
+body > button[style] > img {
+  @apply !w-fit
+}
+body > button[style] > button[style] {
+  @apply -top-20;
+}
+
 @layer base {
   html {
     @apply font-comfortaa;

@@ -1,0 +1,18 @@
+[
+    {
+        "sensorId": 1,
+        "data": {
+            "timestamp": "2019-01-01T00:00:00",
+            "temperature": 25,
+            "humidity": 50
+        }
+    },
+    {
+        "sensorId": 1,
+        "data": {
+            "timestamp": "2019-01-02T00:00:01",
+            "temperature": 27,
+            "humidity": 75
+        }
+    }
+]

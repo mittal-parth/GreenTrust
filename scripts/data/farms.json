@@ -1,0 +1,18 @@
+[
+    {
+        "size": "100",
+        "name": "Farm 1",
+        "latitude": "40.7128",
+        "longitude": "74.0060",
+        "location": "New York, NY",
+        "documents": "dbfa7ftl9rgfty7g5y6ju"
+    },
+    {
+        "size": "200",
+        "name": "Farm 2",
+        "latitude": "40.7128",
+        "longitude": "74.0060",
+        "location": "New York, NY",
+        "documents": "dbfa7ftl9rgfty7g5y6ju"
+    }
+]

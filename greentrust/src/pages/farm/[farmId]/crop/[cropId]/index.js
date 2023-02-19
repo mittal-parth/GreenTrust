@@ -12,6 +12,7 @@ import {
 	faCoins,
 	faPlus
 } from "@fortawesome/free-solid-svg-icons";
+import Alert from '@mui/material/Alert';
 
 import { useAuth } from "@/auth/useAuth";
 import SensorCard from "@/components/SensorCard";
@@ -47,6 +48,8 @@ const Crop = () => {
 	const [userType, setUserType] = useState(null);
 	const [hasAccess, setHasAccess] = useState(false);
 	const [hasStaked, setHasStaked] = useState(false);
+	const [isInvalid, setIsInvalid] = useState(false);
+
 
 	async function getCropDetails() {
 		setLoading(true);
@@ -78,8 +81,13 @@ const Crop = () => {
 			res = await contractCall(auth, "fetchCropChallenges", [cropId]);
 
 			res = await contractCall(auth, "fetchAllChallenges", []);
-
 			data.challenges = res.data;
+			for (let challenge of data.challenges) {
+				if (challenge.challenged == cropId && challenge.status == 3) {
+					setIsInvalid(true);
+				}
+			}
+
 			data.stakeholders = [];
 			for (let stake of data.stakes) {
 				res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
@@ -115,13 +123,14 @@ const Crop = () => {
 
 	return (<>{data && (
 		<div>
+			{isInvalid && <Alert severity="warning" className="mb-10 text-comfortaa fixed bottom-0 z-10 left-10">A challenge against this crop has be verified to be true</Alert>}
 			<div>
 				<Link href={'/farm/' + data.farmId}>
 					<h1>
 						{data.farm.name}
 					</h1>
 				</Link>
-				<div className="flex mb-10">
+				<div className={`flex mb-10 opacity-${isInvalid ? '50' : '100'}`}>
 					<div className="shrink hidden md:flex">
 						<img
 							src="/images/plant.png"

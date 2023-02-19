@@ -16,7 +16,7 @@ export default function Register() {
             title="Build your profile"
             text="Fill up the details asked and upload supporting documents."
             image={profile}
-            imageStyle={type == "farmer" ? "!max-w-[20vw]" : ""}
+            imageStyle={type == "farmer" ? "!max-w-[20vw]" : "!max-w-[20vw]"}
         />
     </>)
 }

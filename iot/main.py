@@ -4,6 +4,9 @@ import os
 from web3 import Web3, HTTPProvider
 from dotenv import load_dotenv
 
+from data import generate_reading, generate_series
+from ipfs import save, upload
+
 
 load_dotenv()
 
@@ -13,7 +16,7 @@ CHAIN_ID = 5001
 
 w3 = Web3(HTTPProvider(RPC_ENDPOINT))
 
-with open("abi.json", "r") as file:
+with open('abi.json', 'r') as file:
     abi = json.loads(file.read())
 
 private_key = str(os.getenv('PRIVATE_KEY'))
@@ -39,7 +42,16 @@ def sendTx(sensorId, hash):
     print(tx_receipt)
 
 def main():
-    sendTx(1, 'QmZoeWTxygLjzSVqkxLcUwbr4mpjMxAVaASXpDbGZ5DzCs')
+    data = generate_series(10)
+    # with open('data.json', 'r') as file:
+    #     data = json.loads(file.read())
+    # data = generate_series(10)
+    save(data)
+    hash = upload({
+        'file': open('data.json', 'rb')
+    })
+    sendTx(1, hash)
+
 
 if __name__ == '__main__':
     main()

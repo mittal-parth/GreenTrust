@@ -1,11 +1,12 @@
 import os
 from datetime import datetime
 import random
+import time
 
 
 def generate_reading():
     return {
-        'time': str(datetime.now()),
+        'time': int(time.mktime(datetime.now().timetuple())),
         'data': {
             'NPK': random.random() * 20,
             'Temperature': random.random() * 45,
@@ -14,8 +15,13 @@ def generate_reading():
     }
 
 def generate_series(length):
+    timestamp = int(time.mktime(datetime.now().timetuple()))
+
     series = []
     for _ in range(length):
-        series.append(generate_reading())
+        reading = generate_reading()
+        reading['time'] = timestamp
+        series.append(reading)
+        timestamp += 2 * 24 * 60 * 60
     
     return series

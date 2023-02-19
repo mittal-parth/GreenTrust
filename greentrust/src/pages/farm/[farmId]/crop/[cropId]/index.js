@@ -18,7 +18,7 @@ import { useAuth } from "@/auth/useAuth";
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
 import Button from "@/components/Button";
-import { contractCall, sendNotification } from "@/utils";
+import { CAROUSEL_RESPONSIVE_SETTINGS, contractCall, sendNotification } from "@/utils";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
@@ -27,8 +27,8 @@ import IconButton from "@/components/IconButton";
 import Empty from "@/components/Empty";
 import Modal from "@/components/Modal";
 import QRCard from "@/components/QRCard";
+import CustomCarousel from "@/components/CustomCarousel";
 import { HOST } from "@/config";
-import QRCode from "react-qr-code";
 
 
 const Crop = () => {
@@ -250,11 +250,11 @@ const Crop = () => {
 					{data.challenges.length > 0 && <><h3>
 						Pending Challenges
 					</h3>
-						{data.challenges.map((challenge) => (
-							<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-								<ChallengeCard challenge={challenge} full={false} />
-							</div>
-						))}
+					<div className="static my-8">
+						<CustomCarousel responsive={CAROUSEL_RESPONSIVE_SETTINGS}>{data.challenges?.map((challenge, index) => (
+							<ChallengeCard key={index} challenge={challenge} full={false} />
+						))}</CustomCarousel>
+					</div>
 					</>}
 				</div>
 			</div>

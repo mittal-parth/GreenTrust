@@ -156,3 +156,22 @@ export const getStatusColor = (code) => {
   };
   return map[code];
 };
+
+export const CAROUSEL_RESPONSIVE_SETTINGS = {
+  lg: {
+    breakpoint: { max: 3000, min: 1500 },
+    items: 4,
+  },
+  md: {
+    breakpoint: { max: 1500, min: 1200 },
+    items: 3,
+  },
+  sm: {
+    breakpoint: { max: 1200, min: 720 },
+    items: 2,
+  },
+  xs: {
+    breakpoint: { max: 720, min: 0 },
+    items: 1,
+  }
+}

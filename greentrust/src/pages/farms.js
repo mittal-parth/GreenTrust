@@ -45,9 +45,9 @@ export default function Farms() {
     return (
         <div>
             <h1>Registered Farms</h1>
-            <div className="grid">
+            <div className="  xs:flex xs:flex-col sm:grid sm:grid-cols-3 md:grid-cols-3 md:mx-0 lg:grid-cols-3 xl:grid-cols-4">
                 {farms && farms.length > 0 ? farms.map((farm, index) => {
-                    return <div className=" mb-3"><Link href={`/farm/${farm.id}`}> <FarmCard key={index} farm={farm} /></Link></div>
+                    return <div className="p-4 mb-3 flex justify-center sm:flex sm:justify-center md:flex md:justify-between"><Link href={`/farm/${farm.id}`}> <FarmCard key={index} farm={farm} /></Link></div>
                 }) : <Empty text="No farms have been registered yet!" />
                 }
             </div>

@@ -185,7 +185,7 @@ const Crop = () => {
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
 							{data.sensors.length > 0 ? data.sensors.map((sensor) => <>
 								<SensorCard details={sensor} />
-							</>) : <Empty text="No sensor added yet!" />}
+							</>) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders

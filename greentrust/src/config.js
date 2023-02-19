@@ -1,5 +1,5 @@
 export const APP_ADDRESS = "851e2f9b3e599f9ea4f8f1a3c2c9012d3543dc2b";
-export const SWITCH_NETWORK_CONFIG = {
+export const MANTLE_NETWORK_CONFIG = {
   chainId: "0x1389",
   chainName: "Mantle Testnet",
   nativeCurrency: {
@@ -10,11 +10,22 @@ export const SWITCH_NETWORK_CONFIG = {
   rpcUrls: ["https://rpc.testnet.mantle.xyz/"],
   blockExplorerUrls: ["https://explorer.testnet.mantle.xyz/"],
 };
+export const POLYGON_NETWORK_CONFIG = {
+  chainId: "0x13881",
+  chainName: "Matic Mumbai",
+  nativeCurrency: {
+    name: "MATIC",
+    symbol: "MATIC",
+    decimals: 18,
+  },
+  rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
+  blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+};
 export const PUSH =
   "663f25c970ed54389f0d1c55105eb952244ce90332b3d1049459a6c2e3ce574a";
 export const CHALLENGE_AMOUNT = 1000000;
 export const STAKE_DURATION = 30;
+export const FLOW_RATE = 10;
 export const HOST = "localhost:3002"
 export const PIPELINE_ADDRESS = "0x6ac5F21B747482c820036c3d473E2a248B9d32ef";
-export const CONTRACT_ADDRESS = "0x899e37008cf147e32f06D6E1f2F45CA2a1C47E22"
-
+export const CONTRACT_ADDRESS = "0x60B19871c5DbF423240BE920EcB4BA68010059D4"

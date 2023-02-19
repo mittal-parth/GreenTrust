@@ -62,7 +62,6 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
       getCropData();
     }
   }, [])
-  console.log("debug:", challenge)
 
   return (<div>
     <div className={`flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full border-l-4 ${getStatusColor(challenge.status)}`}>

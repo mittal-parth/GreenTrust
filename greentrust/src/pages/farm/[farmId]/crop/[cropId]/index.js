@@ -24,6 +24,10 @@ import Info from "@/components/Info";
 import ChallengeCard from "@/components/ChallengeCard";
 import IconButton from "@/components/IconButton";
 import Empty from "@/components/Empty";
+import Modal from "@/components/Modal";
+import QRCard from "@/components/QRCard";
+import { HOST } from "@/config";
+import QRCode from "react-qr-code";
 
 
 const Crop = () => {
@@ -72,13 +76,10 @@ const Crop = () => {
 			data.stakes = res.data;
 
 			res = await contractCall(auth, "fetchCropChallenges", [cropId]);
-			console.log('debug1:', res.data);
 
 			res = await contractCall(auth, "fetchAllChallenges", []);
-			console.log('debug2:', res.data);
 
 			data.challenges = res.data;
-			// console.log("debug", parseInt(data.challenges[0].challenged._hex), "Challenges")
 			data.stakeholders = [];
 			for (let stake of data.stakes) {
 				res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
@@ -93,8 +94,6 @@ const Crop = () => {
 				const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
 					auth.user.address,
 				]);
-				console.log(parseInt(data.farm.farmerId._hex), "Farmer Id")
-				console.log(parseInt(farmerIdRes.data._hex), "sad")
 				if (parseInt(data.farm.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
 					setHasAccess(true);
 				}
@@ -137,10 +136,15 @@ const Crop = () => {
 										<h2 className="mb-0">
 											{data.crop.name}
 										</h2>
-										<FontAwesomeIcon
-											icon={faQrcode}
-											className="text-gray w-[32px] h-[32px]"
+										<Modal 
+											anchor={<FontAwesomeIcon
+												icon={faQrcode}
+												className="text-gray w-[32px] h-[32px]"
+											/>}
+											popover={<QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} />}
 										/>
+										{/* <QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} id="qr-code-el" /> */}
+										{/* <QRCode id="qr-o" /> */}
 									</div>
 									<div className="flex flex-row gap-10">
 										<Info icon={faLocationDot} text={data.farm.location} style="text-red" />
@@ -170,7 +174,7 @@ const Crop = () => {
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.length > 0 ? data.sensors.map((sensor) => <>
+							{data.sensors.length > 0 ? data.sensors.map((sensor) => <>
 								<SensorCard details={sensor} />
 							</>) : <Empty text="No sensor added yet!" />}
 						</div>
@@ -200,7 +204,6 @@ const Crop = () => {
 											setLoading(true);
 
 											try {
-												console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
 												await contractCall(auth, 'addStake', [cropId, { value: parseInt(data.crop.stakeAmount._hex) }])
 											}
 											catch (err) {
@@ -220,9 +223,7 @@ const Crop = () => {
 											setLoading(true);
 
 											try {
-												console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
-												await sendNotification("Subject", "body");
-												// await contractCall(auth, 'addStake', [cropId, { value: parseInt(data.crop.stakeAmount._hex) }])
+												await sendNotification("sub", "bod");
 											}
 											catch (err) {
 												setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })

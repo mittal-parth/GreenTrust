@@ -3,15 +3,13 @@ import { useRouter } from "next/router";
 
 import { useAuth } from "@/auth/useAuth";
 
-import { LoaderContext } from "@/context/loaderContext";
-import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall, uploadFile } from "@/utils";
 import Form from "@/components/Form";
+import { LoaderContext } from "@/context/loaderContext";
 
 
 export default function FarmerRegistrationForm() {
     const { loading, setLoading } = useContext(LoaderContext);
-    const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
     const router = useRouter();
 
@@ -36,61 +34,15 @@ export default function FarmerRegistrationForm() {
     const [proofs, setProofs] = useState([]);
     
     
-    const handleSubmit = async (e) => {
-        setLoading(true);
+    const handleSubmit = async (picHash, docsHash) => {
+        data.profilePic = picHash;
         
-        e.preventDefault();
-        let proofsData = {}
-        proofsData.proofs = []
-        // Hashing pic
-        if (pic) {
-            await uploadFile(Object.values(pic)).then((res) => {
-                data.profilePic = res[0][0].hash;
-            });
-        }
+        await contractCall(auth, 'registerFarmer', [
+            data,
+            docsHash,
+        ]);
 
-        // Hashing IDs
-        if (proofs.length == 0) {
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: "Please upload a govt. issued ID card",
-            });
-            return;
-        }
-        const proofHashes = await uploadFile(Object.values(proofs));
-        var docHashes = ''
-        var fileNames = proofs.map((proof) => proof.path);
-        
-        proofHashes.forEach((fH,index) => {
-            var proof = {}
-            proof.name = fileNames[index]?.split(".")[0] || "Proof"
-            proof.hash = fH[0].hash
-            proofsData.proofs = [...proofsData.proofs, proof]
-        });
-        proofsData = JSON.stringify(proofsData)
-        postFarmerInfo(JSON.stringify(data), proofsData);
-    };
-
-    const postFarmerInfo = async (profile, proofsData) => {
-
-        try {
-            await contractCall(auth, 'registerFarmer', [
-                profile,
-                proofsData,
-            ]);
-
-            router.replace('/dashboard');
-        }
-        catch (err) {
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: `Registration failed`,
-            });
-        }
-
-        setLoading(false);
+        router.replace('/dashboard');
     };
 
     return (
@@ -120,6 +72,7 @@ export default function FarmerRegistrationForm() {
                     id: 'pic',
                     isFile: true,
                     setFile: setPic,
+                    file: pic,
                 },
                 {
                     label: 'Document Proofs',
@@ -127,6 +80,8 @@ export default function FarmerRegistrationForm() {
                     isFile: true,
                     isMultiple: true,
                     setFile: setProofs,
+                    file: proofs,
+                    dataLabel: 'proofs'
                 }
             ]}
             setData={setData}

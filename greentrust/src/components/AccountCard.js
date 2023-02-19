@@ -14,8 +14,9 @@ export default function AccountCard({ auth }) {
                 icon={faGear}
                 className="text-primary text-xl cursor-pointer hover:scale-105"
             />
-            <Button text="Logout" styles="bg-white border-[1.5px] border-primary !text-primary text-base hover:bg-primary hover:!text-white px-6" />
-
+            <Button text="Logout" styles="bg-white border-[1.5px] border-primary !text-primary text-base hover:bg-primary hover:!text-white px-6"
+                onClick={() => auth?.logout()}
+            />
         </div>
     </div>)
 }

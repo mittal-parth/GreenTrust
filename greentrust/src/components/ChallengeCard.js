@@ -76,12 +76,7 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
           </p>
         </div>
         <a>
-<<<<<<< HEAD
-          {/* <Modal anchor={<Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />} popover={<SupportDocument documents={JSON.parse(challenge.documents).proofs}/>} /> */}
-          
-=======
           <Modal anchor={<Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />} popover={<SupportDocument documents={challenge.documents ? JSON.parse(challenge.documents).proofs : ""}/>} />
->>>>>>> aa61bb8588297ef8f9a8e78030c718e288c00d0a
         </a>
         <div className={`${full ? "mt-4" : ""} flex-row flex gap-2`}>
           {status == 0 && <Button text="Accept" styles="text-sm px-6 py-2" onClick={() => handleOnClick(1)} />}

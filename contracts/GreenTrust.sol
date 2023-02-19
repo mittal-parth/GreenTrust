@@ -148,11 +148,18 @@ contract GreenTrust is GreenTrustFarmer {
                 crops[stakes[_stakeId].cropId].harvestedOn + 90 days,
             "St0T"
         );
-        stakes[_stakeId].status = StakeStatus.RELEASED;
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (
+                stakes[i].cropId == stakes[_stakeId].cropId &&
+                stakes[i].status == defaultStakeStatus
+            ) {
+                stakes[_stakeId].status = StakeStatus.RELEASED;
+                payable(stakes[_stakeId].stakeholder).transfer(
+                    crops[stakes[_stakeId].cropId].stakeAmount
+                );
+            }
+        }
         crops[stakes[_stakeId].cropId].status = CropStatus.CLOSED;
-        payable(msg.sender).transfer(
-            crops[stakes[_stakeId].cropId].stakeAmount
-        );
     }
 
     function giveVerdict(uint256 _challengeId, ChallengeStatus _status) public {
@@ -202,7 +209,7 @@ contract GreenTrust is GreenTrustFarmer {
             }
         }
         Challenge[] memory cropChallenges = new Challenge[](tempNumChallenges);
-        for (uint256 i = 0; i < tempNumChallenges; i++) {
+        for (uint256 i = 1; i <= numChallenges; i++) {
             if (challenges[i].challenged == _cropId) {
                 cropChallenges[j] = challenges[i];
                 j++;

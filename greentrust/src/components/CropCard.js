@@ -1,23 +1,23 @@
- import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDays, faSeedling } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import Info from "./Info";
+import { getStatusCode } from "@/utils";
 
 export default function CropCard({ cropDetails }) {
+  console.log(cropDetails, "This is crop details")
+  let details = JSON.parse(cropDetails.details);
+  details.status = cropDetails.status;
+
+  const sowedOn = new Date(details.sowedOn * 1000).toLocaleDateString();
+  console.log("debug1902" , details)
   return (
-    <div className="rounded-[20px]  shadow-xl flex justify-center items-center w-fit mx-3 px-3">
-      <div className=" my-6 space-y-3 ">
-        <div className="flex flex-row items-center">
-        <FontAwesomeIcon icon={faSeedling}  style={{ color: "brown" }}/>
-          <p className="font-comfortaa font-bold text-xl text-darkGray ml-3">
-            {cropDetails.get("cropName")}
-          </p>
-        </div>
-        <div className="flex flex-row">
-          <FontAwesomeIcon icon={faCalendarDays} style={{ color: "black" }}/>
-          <p className="font-comfortaa font-bold  text-sm text-darkGray ml-3">
-            {cropDetails.get("sowingDate")}
-          </p>
-        </div>
+    <Link href={`/farm/${cropDetails.farmId}/crop/${cropDetails.id}`}>
+      <div className="relative flex flex-col gap-2.5 py-6 px-5 shadow-lg rounded-2xl w-full hover:scale-105">
+        <div className={"absolute text-black top-2 right-2 p-1 rounded " + getStatusCode(details.status, 1)}> {getStatusCode(details.status)}</div>
+        <Info icon={faSeedling} text={details.name} style="text-brown !w-[32px] !h-[32px]" textStyle="font-semibold text-xl" />
+        <Info icon={faCalendarDays} text={sowedOn} style="text-gray !w-[18px] !h-[18px]" iconDivStyle="w-[32px]" textStyle="!text-gray font-bold" />
       </div>
-    </div>
+    </Link>
   );
 }

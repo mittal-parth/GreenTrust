@@ -19,268 +19,281 @@ contract GreenTrustFarmer {
     struct Farmer {
         uint256 id;
         address payable walletAddress;
-        string name;
-        string currentAddress;
-        string farmerId;
-        string govtId;
-        string[] idCards;
+        string profile;
+        string idCards;
         bool isValid;
     }
-    mapping(address => uint256) internal addressToFarmerIds;
-    Farmer[] internal farmers;
-    event farmerRegistered(
-        address indexed farmerAddress,
-        string name,
-        uint256 id
-    );
-    event farmerUpdated(address indexed farmerAddress, string name, uint256 id);
-
+    mapping(address => uint256) public addressToFarmerIds;
+    mapping(uint256 => Farmer) public farmers;
+    uint256 public numFarmers;
     struct Farm {
         uint256 id;
-        uint256 size;
-        uint256 location;
+        string name;
+        string size;
+        string latitude;
+        string longitude;
+        string location;
         uint256 farmerId;
-        string[] documents;
+        string documents;
         bool isValid;
     }
-    Farm[] internal farms;
-    event farmAdded(uint256 farmId, uint256 farmerId);
+    mapping(uint256 => Farm) public farms;
+    uint256 public numFarms;
 
     struct Crop {
         uint256 id;
-        uint256 createdOn;
-        uint256 sowedOn;
-        uint256 size;
+        uint256 harvestedOn;
+        string details;
+        uint256 stakeAmount;
         uint256 farmId;
-        string cropName;
-        uint256 duration;
         CropStatus status;
         bool isValid;
     }
-    Crop[] internal crops;
+    mapping(uint256 => Crop) public crops;
+    mapping(uint256 => mapping(address => bool)) public hasStaked;
+    uint256 public numCrops;
 
     struct Sensor {
         uint256 id;
         uint256 cropId;
+        string name;
         string data;
         bool isValid;
     }
-    Sensor[] internal sensors;
-    event sensorAdded(uint256 id, uint256 cropId);
-    event sensorDataAdded(uint256 sensorId, string data);
+    mapping(uint256 => Sensor) public sensors;
+    uint256 public numSensors;
 
     struct Stake {
         uint256 id;
-        uint256 amount;
         uint256 cropId;
         address payable stakeholder;
         StakeStatus status;
         bool isValid;
     }
-    Stake[] internal stakes;
-    event stakeAdded(
-        uint256 id,
-        uint256 cropId,
-        uint256 amount,
-        address stakeholder
-    );
+    mapping(uint256 => Stake) public stakes;
+    uint256 public numStakes;
 
-    // Functions for farmers
-    function fetchFarmerProfile() public view returns (Farmer memory) {
-        require(
-            addressToFarmerIds[msg.sender] != 0,
-            "Farmer not registered with this wallet"
-        );
-        return farmers[addressToFarmerIds[msg.sender] - 1];
-    }
-
-    function updateFarmerProfile(
+    function addFarm(
+        string memory _size,
         string memory _name,
-        string memory _currentAddress,
-        string memory _farmerId,
-        string memory _govtId,
-        string[] memory _idCards
-    ) public returns (Farmer memory) {
-        require(
-            addressToFarmerIds[msg.sender] != 0,
-            "Farmer not registered with this wallet"
-        );
-        Farmer memory temp = Farmer(
-            addressToFarmerIds[msg.sender],
-            payable(msg.sender),
-            _name,
-            _currentAddress,
-            _farmerId,
-            _govtId,
-            _idCards,
-            true
-        );
-        farmers[addressToFarmerIds[msg.sender] - 1] = temp;
-        emit farmerUpdated(msg.sender, _name, addressToFarmerIds[msg.sender]);
-        return farmers[addressToFarmerIds[msg.sender] - 1];
+        string memory _latitude,
+        string memory _longitude,
+        string memory _location,
+        string memory _documents
+    ) public {
+        require(addressToFarmerIds[msg.sender] != 0, "F0F");
+        numFarms++;
+        farms[numFarms].id = numFarms;
+        farms[numFarms].size = _size;
+        farms[numFarms].name = _name;
+        farms[numFarms].latitude = _latitude;
+        farms[numFarms].longitude = _longitude;
+        farms[numFarms].location = _location;
+        farms[numFarms].farmerId = addressToFarmerIds[msg.sender];
+        farms[numFarms].documents = _documents;
+        farms[numFarms].isValid = true;
     }
 
-    function AddFarm(
-        uint256 _size,
-        uint256 _location,
-        string[] memory _documents
-    ) public returns (Farm memory) {
+    function addCrop(
+        string memory _details,
+        uint256 _harvestedOn,
+        uint256 _farmId,
+        uint256 _stakeAmount
+    ) public {
+        require(addressToFarmerIds[msg.sender] != 0, "F0C");
         require(
-            addressToFarmerIds[msg.sender] != 0,
-            "Only registered farmers can add farms"
+            farms[_farmId].farmerId == addressToFarmerIds[msg.sender],
+            "F0C"
         );
-        Farm memory temp = Farm(
-            farms.length + 1,
-            _size,
-            _location,
-            addressToFarmerIds[msg.sender],
-            _documents,
-            true
-        );
-        farms.push(temp);
-        emit farmAdded(farms.length, addressToFarmerIds[msg.sender]);
-        return farms[farms.length - 1];
+        numCrops++;
+        crops[numCrops].id = numCrops;
+        crops[numCrops].harvestedOn = _harvestedOn;
+        crops[numCrops].stakeAmount = _stakeAmount;
+        crops[numCrops].details = _details;
+        crops[numCrops].farmId = _farmId;
+        crops[numCrops].status = defaultCropStatus;
+        crops[numCrops].isValid = true;
     }
 
-    function AddSensor(uint256 _cropId, string memory _data)
-        public
-        returns (Sensor memory)
-    {
-        require(
-            addressToFarmerIds[msg.sender] != 0,
-            "Only registered farmers can add sensors"
-        );
-        require(crops[_cropId].isValid, "Crop does not exist");
+    function addSensor(uint256 _cropId, string memory _name) public {
+        require(addressToFarmerIds[msg.sender] != 0, "F0S");
+        require(crops[_cropId].isValid, "Cr0");
         require(
             farms[crops[_cropId].farmId].farmerId ==
                 addressToFarmerIds[msg.sender],
-            "Only registered farmers can add sensors to their crops"
+            "F0S"
         );
-        Sensor memory temp = Sensor(sensors.length + 1, _cropId, _data, true);
-        sensors.push(temp);
-        emit sensorAdded(sensors.length, _cropId);
-        return sensors[sensors.length - 1];
+        numSensors++;
+        sensors[numSensors].id = numSensors;
+        sensors[numSensors].cropId = _cropId;
+        sensors[numSensors].name = _name;
+        sensors[numSensors].isValid = true;
     }
 
-    function AddSensorData(uint256 _sensorId, string memory _data)
-        public
-        returns (Sensor memory)
-    {
-        require(
-            addressToFarmerIds[msg.sender] != 0,
-            "Only registered farmers can add sensor data"
-        );
-        require(sensors[_sensorId].isValid, "Sensor does not exist");
-        require(
-            farms[crops[sensors[_sensorId].cropId].farmId].farmerId ==
-                addressToFarmerIds[msg.sender],
-            "Only registered farmers can add sensor data to their sensors"
-        );
-        //to discuss status code
-        require(
-            crops[sensors[_sensorId].cropId].status == CropStatus.OPEN,
-            "Crop does not exist"
-        );
+    function addSensorData(uint256 _sensorId, string memory _data) public {
+        require(sensors[_sensorId].isValid, "S0");
         sensors[_sensorId].data = _data;
-        emit sensorDataAdded(_sensorId, _data);
-        return sensors[_sensorId];
     }
 
-    function FetchFarmerFarms(uint256 _farmerId)
+    function fetchFarmerFarms(uint256 _farmerId)
         public
         view
         returns (Farm[] memory)
     {
         require(
-            (_farmerId > 0 && _farmerId <= farmers.length) ||
+            (_farmerId > 0 && _farmerId <= numFarmers) ||
                 addressToFarmerIds[msg.sender] > 0,
-            "Farmer does not exist"
+            "F0"
         );
-        uint256 queryFarmer;
-        if (_farmerId > 0) {
-            queryFarmer = _farmerId;
-        } else {
-            queryFarmer = addressToFarmerIds[msg.sender];
+        if (_farmerId == 0) {
+            _farmerId = addressToFarmerIds[msg.sender];
         }
-        uint256 numFarms;
+        uint256 tempNumFarms;
         uint256 j;
-        for (uint256 i = 0; i < farms.length; i++) {
-            if (farms[i].farmerId == queryFarmer && farms[i].isValid) {
-                numFarms++;
+        for (uint256 i = 1; i <= numFarms; i++) {
+            if (farms[i].farmerId == _farmerId && farms[i].isValid) {
+                tempNumFarms++;
             }
         }
-        Farm[] memory temp;
-        for (uint256 i = 0; i < farms.length; i++) {
-            if (farms[i].farmerId == queryFarmer && farms[i].isValid) {
+        Farm[] memory temp = new Farm[](tempNumFarms);
+        for (uint256 i = 1; i <= numFarms; i++) {
+            if (farms[i].farmerId == _farmerId && farms[i].isValid) {
                 temp[j] = farms[i];
+                j++;
             }
         }
         return temp;
     }
 
-    function fetchCropDetails(uint256 _cropId)
+    function fetchCropSensors(uint256 _cropId)
         public
         view
-        returns (Crop memory)
+        returns (Sensor[] memory)
     {
         require(
-            _cropId > 0 && _cropId <= crops.length && crops[_cropId].isValid,
-            "Crop does not exist"
+            _cropId > 0 && _cropId <= numCrops && crops[_cropId].isValid,
+            "Cr0"
         );
-        return crops[_cropId];
+        uint256 tempNumSensors;
+        uint256 j;
+        for (uint256 i = 1; i <= numSensors; i++) {
+            if (sensors[i].cropId == _cropId && sensors[i].isValid) {
+                tempNumSensors++;
+            }
+        }
+        Sensor[] memory temp = new Sensor[](tempNumSensors);
+        for (uint256 i = 1; i <= numSensors; i++) {
+            if (sensors[i].cropId == _cropId && sensors[i].isValid) {
+                temp[j] = sensors[i];
+                j++;
+            }
+        }
+        return temp;
     }
 
-    function fetchFarmDetails(uint256 _farmId)
+    function fetchCropStakes(uint256 _cropId)
         public
         view
-        returns (Farm memory)
+        returns (Stake[] memory)
     {
         require(
-            _farmId > 0 && _farmId <= farms.length && farms[_farmId].isValid,
-            "Farm does not exist"
+            _cropId > 0 && _cropId <= numCrops && crops[_cropId].isValid,
+            "Cr0"
         );
-        return farms[_farmId];
+        uint256 tempNumStakes;
+        uint256 j;
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (stakes[i].cropId == _cropId && stakes[i].isValid) {
+                tempNumStakes++;
+            }
+        }
+        Stake[] memory temp = new Stake[](tempNumStakes);
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (stakes[i].cropId == _cropId && stakes[i].isValid) {
+                temp[j] = stakes[i];
+                j++;
+            }
+        }
+        return temp;
     }
 
-    function fetchFarmerDetails(uint256 _farmerId)
+    function fetchFarmCrops(uint256 _farmId)
         public
         view
-        returns (Farmer memory)
+        returns (Crop[] memory cropList)
     {
         require(
-            _farmerId > 0 &&
-                _farmerId <= farmers.length &&
-                farmers[_farmerId].isValid,
-            "Farmer does not exist"
+            _farmId > 0 && _farmId <= numFarms && farms[_farmId].isValid,
+            "F0"
         );
-        return farmers[_farmerId];
+        uint256 tempNumCrops;
+        uint256 j;
+        for (uint256 i = 1; i <= numCrops; i++) {
+            if (crops[i].farmId == _farmId && crops[i].isValid) {
+                tempNumCrops++;
+            }
+        }
+        Crop[] memory temp = new Crop[](tempNumCrops);
+        for (uint256 i = 1; i <= numCrops; i++) {
+            if (crops[i].farmId == _farmId && crops[i].isValid) {
+                temp[j] = crops[i];
+                j++;
+            }
+        }
+        return temp;
     }
 
-    function fetchSensorDetails(uint256 _sensorId)
+    function fetchFarmerStakes(uint256 _farmerId)
         public
         view
-        returns (Sensor memory)
+        returns (Stake[] memory)
     {
         require(
-            _sensorId > 0 &&
-                _sensorId <= sensors.length &&
-                sensors[_sensorId].isValid,
-            "Sensor does not exist"
+            (_farmerId > 0 && _farmerId <= numFarmers) ||
+                addressToFarmerIds[msg.sender] != 0,
+            "F0"
         );
-        return sensors[_sensorId];
+        if (_farmerId == 0) {
+            _farmerId = addressToFarmerIds[msg.sender];
+        }
+        uint256 tempNumStakes;
+        uint256 j;
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (stakes[i].stakeholder == msg.sender && stakes[i].isValid) {
+                tempNumStakes++;
+            }
+        }
+        Stake[] memory temp = new Stake[](tempNumStakes);
+        for (uint256 i = 1; i <= numStakes; i++) {
+            if (stakes[i].stakeholder == msg.sender && stakes[i].isValid) {
+                temp[j] = stakes[i];
+                j++;
+            }
+        }
+        return temp;
     }
 
-    function fetchStakeDetails(uint256 _stakeId)
-        public
-        view
-        returns (Stake memory)
-    {
+    function fetchAllFarms() public view returns (Farm[] memory) {
+        Farm[] memory temp = new Farm[](numFarms);
+        for (uint256 i = 1; i <= numFarms; i++) {
+            temp[i - 1] = farms[i];
+        }
+        return temp;
+    }
+
+    function cropHarvested(uint256 _cropId) public {
         require(
-            _stakeId > 0 &&
-                _stakeId <= stakes.length &&
-                stakes[_stakeId].isValid,
-            "Stake does not exist"
+            crops[_cropId].isValid
         );
-        return stakes[_stakeId];
+        require(
+            farms[crops[_cropId].farmId].farmerId ==
+                addressToFarmerIds[msg.sender],
+            "F0S"
+        );
+        require(
+            crops[_cropId].harvestedOn == 0,
+            "Cr0H");
+        crops[_cropId].harvestedOn = block.timestamp;
+
     }
 }

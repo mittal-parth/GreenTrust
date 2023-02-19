@@ -14,6 +14,9 @@ const nextConfig = withPWA({
     return config;
   },
   reactStrictMode: true,
+  images: {
+    unoptimized: true
+  }
 });
 
 module.exports = nextConfig;

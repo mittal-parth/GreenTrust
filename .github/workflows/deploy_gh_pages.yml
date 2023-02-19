@@ -22,7 +22,7 @@ jobs:
       - name: Install and build 🔧
         run: |
           npm install
-          npm run build
+          npm run export
           cd out
           touch .nojekyll
 

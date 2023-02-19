@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 3002",
     "lint": "next lint",
-    "export": "next build && next export"
+    "export": "next build && next start"
   },
   "dependencies": {
     "@arcana/auth": "^1.0.1",

@@ -6,7 +6,7 @@ import IconButton from "./IconButton";
 
 export default function CustomCarousel({ children, responsive }) {
   return (<Carousel
-    className="overflow-visible"
+    className="!overflow-visible"
     swipeable={true}
     draggable={false}
     // showDots={true}

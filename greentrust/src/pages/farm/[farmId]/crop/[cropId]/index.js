@@ -116,8 +116,7 @@ const Crop = () => {
 			data.stakes = res.data;
 
 			res = await contractCall(auth, "fetchCropChallenges", [cropId]);
-
-			res = await contractCall(auth, "fetchAllChallenges", []);
+			// res = await contractCall(auth, "fetchAllChallenges", []);
 			data.challenges = res.data;
 			for (let challenge of data.challenges) {
 				if (challenge.challenged == cropId && challenge.status == 3) {
@@ -210,7 +209,7 @@ const Crop = () => {
 										<Modal 
 											anchor={<FontAwesomeIcon
 												icon={faQrcode}
-												className="text-gray w-[32px] h-[32px]"
+												className="text-gray !w-[32px] !h-[32px]"
 											/>}
 											popover={<QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} />}
 										/>

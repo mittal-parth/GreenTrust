@@ -79,6 +79,10 @@ body > button[style] > button[style] {
     @apply border-darkGray border-[1.5px];
   }
 
+  .carousel-contaier {
+    @apply !overflow-visible;
+  }
+
   .carousel-dot-list li.react-multi-carousel-dot--active button {
     @apply !bg-gray/20;
   }

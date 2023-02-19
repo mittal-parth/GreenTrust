@@ -6,25 +6,22 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";
 import FormPage from "@/components/FormPage";
 import Form from "@/components/Form";
+import plant from '@/../../public/lotties/plant.json';
 
 
 export default function Add() {
   const { loading, setLoading } = useContext(LoaderContext);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-  
+
   const router = useRouter();
 
   const { farmId, cropId } = router.query;
 
   const auth = useAuth();
-  
-  const [data, setData] = useState({})
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    setLoading(true);
 
+  const [data, setData] = useState({})
+
+  const handleSubmit = async (e) => {
     const details = JSON.stringify({
       name: data.name,
       sowedOn: Math.floor(new Date(data.sowedOn).getTime() / 1000),
@@ -32,41 +29,14 @@ export default function Add() {
       size: data.size
     });
 
-    console.log('debug:', details, farmId, data.stakeAmount);
+    const res = await contractCall(auth, "addCrop", [
+      details,
+      0,
+      farmId,
+      data.stakeAmount
+    ]);
 
-    if (auth.user) {
-      postCrop(details);
-    } else {
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: `Sign-in required`,
-      });
-    }
-  };
-
-  const postCrop = async (details) => {
-    try {
-      const res = await contractCall(auth, "addCrop", [
-        details,
-        0,
-        farmId,
-        data.stakeAmount
-      ]);
-
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: "Success",
-        severity: "success"
-      });
-
-      router.replace('/farm/' + farmId);
-    } catch (err) {
-      setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
-    }
-
-    setLoading(false);
+    router.push('/farm/' + farmId);
   };
 
   return (
@@ -104,7 +74,7 @@ export default function Add() {
       />}
       title="Add a crop"
       text="Provide the details asked in the form."
-      image="/images/plant.png"
+      image={plant}
     />
   );
 }

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
+import { ethers } from "ethers";
 import { useAuth } from "@/auth/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
+import GoogleTranslate from "./GoogleTranslate";
 
-import { ArcanaAuth } from './Layout';
+import { ArcanaAuth } from "./Layout";
 import Logo from "./Logo";
 import NavbarLink from "./NavbarLink";
 import { faHouse, faIdCard, faTractor } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +16,7 @@ import { contractCall } from "@/utils";
 export default function Navar() {
   const auth = useAuth();
 
-  
+
   const [isRegistered, setIsRegistered] = useState(false);
 
   const checkUser = async () => {
@@ -41,15 +43,15 @@ export default function Navar() {
         <div className="flex flex-row gap-12 items-center">
           <Logo />
           <section className="flex flex-row gap-4">
+
             <NavbarLink link="/dashboard" icon={faHouse} />
             <NavbarLink link="/farms" icon={faTractor} />
             {(auth?.user && !isRegistered) && <NavbarLink link="/profile/role-choice" icon={faIdCard} />}
           </section>
         </div>
         <div className="flex flex-row gap-4">
-          <button>
-            <FontAwesomeIcon icon={faBell} className="text-2xl mx-3 text-darkGray" />
-          </button>
+            <div id="google_translate_element" />
+            <GoogleTranslate />
           <ArcanaAuth />
         </div>
       </nav>

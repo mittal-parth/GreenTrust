@@ -14,6 +14,8 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+import Modal from './Modal';
+import AccountCard from './AccountCard';
 
 
 export function ArcanaAuth() {
@@ -30,12 +32,13 @@ export function ArcanaAuth() {
     <>
       {auth.loading
         ? <Skeleton variant="circular" width={44} height={44} />
-        : <div className="w-[44px] h-[44px] bg-primary rounded-full shadow-sm hover:scale-105 flex items-center justify-center">
-          <FontAwesomeIcon
+        : <Modal
+          anchor={<div className="w-[44px] h-[44px] bg-primary rounded-full shadow-sm hover:scale-105 flex items-center justify-center"><FontAwesomeIcon
             icon={faUser}
             className="text-white"
-          />
-        </div>
+          /></div>}
+          popover={<AccountCard auth={auth} />}
+        />
       }
     </>
   )

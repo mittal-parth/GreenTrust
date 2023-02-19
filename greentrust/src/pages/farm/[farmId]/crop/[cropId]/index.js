@@ -4,27 +4,42 @@ import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faLocationDot,
-	faChartPie,
-	faQrcode,
-	faCircleXmark,
-	faMoneyBillWave,
-	faCoins,
-	faPlus
+  faLocationDot,
+  faChartPie,
+  faQrcode,
+  faCircleXmark,
+  faMoneyBillWave,
+  faCoins,
+  faUnlock,
+  faHandHoldingDollar,
+  faShare,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useAuth } from "@/auth/useAuth";
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
 import Button from "@/components/Button";
-import { contractCall } from "@/utils";
+import { contractCall, sendNotification } from "@/utils";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
 import ChallengeCard from "@/components/ChallengeCard";
 import IconButton from "@/components/IconButton";
 import Empty from "@/components/Empty";
+import Modal from "@/components/Modal";
+import QRCard from "@/components/QRCard";
+import { HOST } from "@/config";
 
+import Highcharts from 'highcharts'
+
+import HighchartsExporting from 'highcharts/modules/exporting'
+import HighchartsReact from 'highcharts-react-official'
+import QRCode from "react-qr-code";
+import SensorGraph from "@/components/SensorGraph";
+
+import Lottie from "react-lottie-player";
+import plant from "../../../../../../public/lotties/plant.json";
 
 const Crop = () => {
 	const router = useRouter();
@@ -43,10 +58,38 @@ const Crop = () => {
 	const [userType, setUserType] = useState(null);
 	const [hasAccess, setHasAccess] = useState(false);
 	const [hasStaked, setHasStaked] = useState(false);
+	
+	var sensorData = [
+		{
+			"time": 1676460952,
+			"data" : {
+				"temperature": 30,
+				"humidity": 50,
+				"light": 120,
+			}
+		},
+		{
+			"time": 1676633752,
+			"data" : {
+				"temperature": 50,
+				"humidity": 10,
+				"light": 100,
+			}
+		},
+		{
+			"time":1676806552,
+			"data" : {
+				"temperature": 20,
+				"humidity": 50,
+				"light": 190,
+			}
+		},
+
+
+	]
 
 	async function getCropDetails() {
 		setLoading(true);
-
 		const data = {};
 
 		let res;
@@ -72,10 +115,10 @@ const Crop = () => {
 			data.stakes = res.data;
 
 			res = await contractCall(auth, "fetchCropChallenges", [cropId]);
-			// res = await contractCall(auth, "fetchAllChallenges", []);
+
+			res = await contractCall(auth, "fetchAllChallenges", []);
 
 			data.challenges = res.data;
-			// console.log("debug", parseInt(data.challenges[0].challenged._hex), "Challenges")
 			data.stakeholders = [];
 			for (let stake of data.stakes) {
 				res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
@@ -90,8 +133,6 @@ const Crop = () => {
 				const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
 					auth.user.address,
 				]);
-				console.log(parseInt(data.farm.farmerId._hex), "Farmer Id")
-				console.log(parseInt(farmerIdRes.data._hex), "sad")
 				if (parseInt(data.farm.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
 					setHasAccess(true);
 				}
@@ -104,13 +145,15 @@ const Crop = () => {
 		}
 		setLoading(false);
 	}
+	
 
 	useEffect(() => {
 		if (auth.user) {
 			getCropDetails();
 		}
 	}, [auth.user, auth.loading])
-
+	console.log("debug1908", data);
+	
 	return (<>{data && (
 		<div>
 			<div>
@@ -121,10 +164,12 @@ const Crop = () => {
 				</Link>
 				<div className="flex mb-10">
 					<div className="shrink hidden md:flex">
-						<img
-							src="/images/plant.png"
-							className="mr-10 my-auto object-fill"
-						></img>
+          <Lottie
+                  loop
+                  animationData={plant}
+                  play
+                  className="my-auto object-fill mr-10"
+          />
 					</div>
 					<div className="grow">
 						<div>
@@ -134,10 +179,15 @@ const Crop = () => {
 										<h2 className="mb-0">
 											{data.crop.name}
 										</h2>
-										<FontAwesomeIcon
-											icon={faQrcode}
-											className="text-gray w-[32px] h-[32px]"
+										<Modal
+											anchor={<FontAwesomeIcon
+												icon={faQrcode}
+												className="text-gray w-[32px] h-[32px]"
+											/>}
+											popover={<QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} />}
 										/>
+										{/* <QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} id="qr-code-el" /> */}
+										{/* <QRCode id="qr-o" /> */}
 									</div>
 									<div className="flex flex-row gap-10">
 										<Info icon={faLocationDot} text={data.farm.location} style="text-red" />
@@ -164,12 +214,13 @@ const Crop = () => {
 							<h3 className="mb-0">
 								Sensors
 							</h3>
+							
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.length > 0 ? data.sensors.map((sensor) => <>
-								<SensorCard details={sensor} />
-							</>) : <Empty text="No sensor added yet!" />}
+							{data.sensors.length > 0 ? data.sensors.map((sensor) => 
+								<Modal anchor = {<SensorCard details={sensor} />} popover={<SensorGraph sensorData={sensorData}/>}/>
+								) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders
@@ -197,13 +248,30 @@ const Crop = () => {
 											setLoading(true);
 
 											try {
-												console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
 												await contractCall(auth, 'addStake', [cropId, { value: parseInt(data.crop.stakeAmount._hex) }])
 											}
 											catch (err) {
 												setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
 											}
+											setLoading(false);
+										}}
+									/>
+									: <div></div>}
 
+								{true ?
+									<Button
+										text="Request Sponsorship"
+										icon={faCoins}
+										styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+										onClick={async () => {
+											setLoading(true);
+
+											try {
+												await sendNotification("sub", "bod");
+											}
+											catch (err) {
+												setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
+											}
 											setLoading(false);
 										}}
 									/>
@@ -219,9 +287,7 @@ const Crop = () => {
 					</h3>
 						{data.challenges.map((challenge) => (
 							<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-								<ChallengeCard challenge={{
-									description: challenge.description,
-								}} full={false} />
+								<ChallengeCard challenge={challenge} full={false} />
 							</div>
 						))}
 					</>}

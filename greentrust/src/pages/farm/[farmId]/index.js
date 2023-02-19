@@ -12,6 +12,9 @@ import Info from "@/components/Info";
 import Link from "next/link";
 import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import IconButton from "@/components/IconButton";
+import Lottie from 'react-lottie-player'
+import farm from '../../../../public/lotties/farm.json'
+import Empty from "@/components/Empty";
 
 export default function FarmInfo() {
   const auth = useAuth();
@@ -34,7 +37,6 @@ export default function FarmInfo() {
 
       const cropsRes = await contractCall(auth, 'fetchFarmCrops', [farmId]);
       setCrops(cropsRes.data);
-
       const farmerRes = await contractCall(auth, 'farmers', [parseInt(farmRes.data.farmerId._hex)]);
 
       const res = await contractCall(auth, "fetchUserType");
@@ -42,8 +44,6 @@ export default function FarmInfo() {
         const farmerIdRes = await contractCall(auth, "addressToFarmerIds", [
           auth.user.address,
         ]);
-        console.log(farmRes.data.farmerId._hex)
-        console.log(farmerIdRes.data._hex, "\n\n HELLO \n")
         if (parseInt(farmRes.data.farmerId._hex) == parseInt(farmerIdRes.data._hex)) {
           setHasAccess(true);
         }
@@ -96,14 +96,15 @@ export default function FarmInfo() {
               </h2>
               {hasAccess && <Link href={`/farm/${farmId}/crop/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
             </div>
-            {crops?.length > 0 ? cropList : <p className="text-darkGray">No crops registered yet!</p>}
+            {crops?.length > 0 ? cropList : <Empty text = "No crops registered " />}
 
           </div>
           <div className="hidden lg:flex shrink min-w-[400px]">
-            <img
-              src="/images/farmer.png"
-              className="my-auto object-fill"
-            ></img>
+            <Lottie
+            loop
+            animationData={farm}
+            play
+            className="my-auto object-fill"/>
           </div>
         </div>
       </div>

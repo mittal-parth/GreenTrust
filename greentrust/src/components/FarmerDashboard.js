@@ -4,7 +4,6 @@ import { useEffect, useState, useContext } from "react";
 
 import FarmCard from "@/components/FarmCard";
 import CropDetailCard from "@/components/CropDetailCard";
-import classes from "@/style";
 import IconButton from "@/components/IconButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { SnackbarContext } from "@/context/snackbarContext";
@@ -35,13 +34,11 @@ export default function FarmerDashboard({ auth }) {
         const stake = stakesRes.data[i];
         const cropRes = await contractCall(auth, "crops", [stake.cropId]);
         const farmRes = await contractCall(auth, "farms", [cropRes.data.farmId])
-        for(let i = 0; i < 10; i++) {
-          farmerStakes.push({
-            ...stake,
-            crop: cropRes.data,
-            farm: farmRes.data
-          });
-        }
+        farmerStakes.push({
+          ...stake,
+          crop: cropRes.data,
+          farm: farmRes.data
+        });
       }
       setStakes(farmerStakes);
     }

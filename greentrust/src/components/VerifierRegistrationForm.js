@@ -11,6 +11,7 @@ import Form from "@/components/Form";
 
 export default function VerifierRegistrationForm() {
     const { loading, setLoading } = useContext(LoaderContext);
+    
     const router = useRouter();
 
     const auth = useAuth();
@@ -29,57 +30,16 @@ export default function VerifierRegistrationForm() {
 
     const [verifierProfile, setVerifierProfile] = useState({});
     const [ids, setIds] = useState([]);
-    const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (idCardsHash) => {
+        await contractCall(auth, "registerVerifier", [
+            verifierProfile.name,
+            verifierProfile.currentAddress,
+            idCardsHash,
+        ]);
 
-        if (ids.length == 0) {
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: `Please upload a govt. issued ID card`,
-            });
-            return;
-        }
-
-        const fileHashes = await uploadFile(Object.values(ids));
-        let idCardsHash = ""
-        fileHashes.forEach((fH) => {
-            idCardsHash += fH[0].hash + " "
-        });
-
-        postVerifierInfo(idCardsHash);
+        router.replace('/dashboard');
     };
-
-    const postVerifierInfo = async (idCardsHash) => {
-        setLoading(true);
-
-        try {
-            await contractCall(auth, "registerVerifier", [
-                verifierProfile.name,
-                verifierProfile.currentAddress,
-                idCardsHash,
-            ]);
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: `Registration successful`,
-                severity: "success",
-            });
-
-            router.replace('/dashboard');
-        } catch (err) {
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: `Registration failed`,
-            });
-        }
-
-        setLoading(false);
-    };
-
 
     return (
         <Form
@@ -99,6 +59,8 @@ export default function VerifierRegistrationForm() {
                     isFile: true,
                     isMultiple: true,
                     setFile: setIds,
+                    file: ids,
+                    dataLabel: 'ids'
                 }
             ]}
             setData={setVerifierProfile}

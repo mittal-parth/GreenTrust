@@ -4,7 +4,7 @@ const withPWA = require("next-pwa")({
   disable: process.env.NODE_ENV === 'development',
   skipWaiting: true,
 });
- 
+
 const nextConfig = withPWA({
   webpack(config) {
     config.resolve.fallback = {
@@ -13,7 +13,10 @@ const nextConfig = withPWA({
     };
     return config;
   },
+  images: {
+    unoptimized: true,
+  },
   reactStrictMode: true,
 });
- 
+
 module.exports = nextConfig;

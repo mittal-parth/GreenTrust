@@ -2,9 +2,10 @@ import { ethers, BrowserProvider } from "ethers";
 import IpfsHttpClientLite from "ipfs-http-client-lite";
 import { CONTRACT_ADDRESS, PUSH, PIPELINE_ADDRESS } from "@/config";
 import GreenTrustABI from "@/abi/GreenTrust.json";
-import GreenPipelineABI from "@abi/GreenPipeline.json"
+import GreenPipelineABI from "@abi/GreenPipeline.json";
 import * as PushAPI from "@pushprotocol/restapi";
 const { Framework } = require("@superfluid-finance/sdk-core");
+import { PolywrapClient } from "@polywrap/client-js";
 
 export const uploadFile = async (files) => {
   const projectId = "2Ln8ZP0EreH0IInN40eJm52wZa7";
@@ -17,6 +18,7 @@ export const uploadFile = async (files) => {
       Authorization: auth,
     },
   });
+
   console.log(ipfs);
   const res = [];
   for (const file of files) {
@@ -25,6 +27,38 @@ export const uploadFile = async (files) => {
     res.push(fileRes);
   }
 
+  return res;
+};
+
+export const encrypt = async (strings) => {
+  const client = new PolywrapClient();
+  const res = [];
+  for (const string of strings) {
+    const result = await client.query({
+      uri: "ens/greentrust.eth",
+      method: "encrypt",
+      args: {
+        text: string,
+      },
+    });
+    res.push(result);
+  }
+  return res;
+};
+
+export const decrypt = async (strings) => {
+  const client = new PolywrapClient();
+  const res = [];
+  for (const string of strings) {
+    const result = await client.query({
+      uri: "ens/greentrust.eth",
+      method: "decrypt",
+      args: {
+        text: string,
+      },
+    });
+    res.push(result);
+  }
   return res;
 };
 
@@ -108,6 +142,38 @@ export const sendNotification = async (title, body) => {
   }
 };
 
+export const sendNotificationTo = async (title, body,addr) => {
+  try {
+    console.log(process.env.PUSH);
+    const PK = PUSH;
+    const Pkey = `0x${PK}`;
+    const signer = new ethers.Wallet(Pkey);
+    // apiResponse?.status === 204, if sent successfully!
+    const apiResponse = await PushAPI.payloads.sendNotification({
+      signer,
+      type: 3, // target
+      identityType: 0, // Minimal payload
+      notification: {
+        title: title,
+        body: body,
+      },
+      payload: {
+        title: title,
+        body: body,
+        cta: "",
+        img: "",
+      },
+      recipients: `eip155:5:${addr}`, // recipient address
+      channel: "eip155:5:0x384B24d2B78020e467b5e1f70f1b351078eb34dC", // your channel address
+      env: "staging",
+    });
+    console.log(apiResponse);
+  } catch (e) {
+    console.log(e);
+  }
+};
+// apiResponse?.status === 204, if sent successfully!
+
 export const sendNotificationAll = async (signer, title, body) => {
   // apiResponse?.status === 204, if sent successfully!
   const apiResponse = await PushAPI.payloads.sendNotification({
@@ -149,21 +215,21 @@ export const getChallengeStatus = (code) => {
   return map[code];
 };
 
-export const getStatusCode = (code , type = 0) => {
+export const getStatusCode = (code, type = 0) => {
   const map = {
     0: "OPEN",
     1: "LOCKED",
-    2: "CLOSED"
-  }
+    2: "CLOSED",
+  };
 
   const colourMap = {
     0: "bg-primary",
     1: "bg-yellow",
-    2: "bg-red"
-  }
-  console.log("debug1905", code, type, colourMap[code], map[code])
-  return type ? colourMap[code]:map[code];
-}
+    2: "bg-red",
+  };
+  console.log("debug1905", code, type, colourMap[code], map[code]);
+  return type ? colourMap[code] : map[code];
+};
 
 export const getStatusColor = (code) => {
   const map = {
@@ -177,15 +243,23 @@ export const getStatusColor = (code) => {
 
 export const createSuperFlow = async (signer, provider, amount) => {
   const greenPipelineAddress = PIPELINE_ADDRESS;
-  const greenPipeline = new ethers.Contract(greenPipelineAddress, GreenPipelineABI, provider);
-  try{await greenPipeline.connect(signer).createFlowIntoContract(`${amount}`).then(function (tx) {
-    console.log(`
+  const greenPipeline = new ethers.Contract(
+    greenPipelineAddress,
+    GreenPipelineABI,
+    provider
+  );
+  try {
+    await greenPipeline
+      .connect(signer)
+      .createFlowIntoContract(`${amount}`)
+      .then(function (tx) {
+        console.log(`
         Congrats! You just successfully created a flow into the green trust pipeline contract. 
         Tx Hash: ${tx.hash}
-    `)
-    return tx.hash;
-  })}catch(e){
-    console.log(e)
+    `);
+        return tx.hash;
+      });
+  } catch (e) {
+    console.log(e);
   }
-  ;
-}
+};

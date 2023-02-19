@@ -17,7 +17,7 @@ import { useAuth } from "@/auth/useAuth";
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
 import Button from "@/components/Button";
-import { contractCall } from "@/utils";
+import { contractCall, sendNotification } from "@/utils";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
@@ -72,7 +72,10 @@ const Crop = () => {
 			data.stakes = res.data;
 
 			res = await contractCall(auth, "fetchCropChallenges", [cropId]);
-			// res = await contractCall(auth, "fetchAllChallenges", []);
+			console.log('debug1:', res.data);
+
+			res = await contractCall(auth, "fetchAllChallenges", []);
+			console.log('debug2:', res.data);
 
 			data.challenges = res.data;
 			// console.log("debug", parseInt(data.challenges[0].challenged._hex), "Challenges")
@@ -203,7 +206,27 @@ const Crop = () => {
 											catch (err) {
 												setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
 											}
+											setLoading(false);
+										}}
+									/>
+									: <div></div>}
 
+								{true ?
+									<Button
+										text="Request Sponsorship"
+										icon={faCoins}
+										styles="!px-8 !justify-between !py-2 !gap-3 mt-4 xl:mt-0"
+										onClick={async () => {
+											setLoading(true);
+
+											try {
+												console.log(parseInt(data.crop.stakeAmount._hex), "Stake Amount");
+												await sendNotification("Subject", "body");
+												// await contractCall(auth, 'addStake', [cropId, { value: parseInt(data.crop.stakeAmount._hex) }])
+											}
+											catch (err) {
+												setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
+											}
 											setLoading(false);
 										}}
 									/>
@@ -219,9 +242,7 @@ const Crop = () => {
 					</h3>
 						{data.challenges.map((challenge) => (
 							<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-								<ChallengeCard challenge={{
-									description: challenge.description,
-								}} full={false} />
+								<ChallengeCard challenge={challenge} full={false} />
 							</div>
 						))}
 					</>}

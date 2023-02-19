@@ -35,13 +35,11 @@ export default function FarmerDashboard({ auth }) {
         const stake = stakesRes.data[i];
         const cropRes = await contractCall(auth, "crops", [stake.cropId]);
         const farmRes = await contractCall(auth, "farms", [cropRes.data.farmId])
-        for(let i = 0; i < 10; i++) {
-          farmerStakes.push({
-            ...stake,
-            crop: cropRes.data,
-            farm: farmRes.data
-          });
-        }
+        farmerStakes.push({
+          ...stake,
+          crop: cropRes.data,
+          farm: farmRes.data
+        });
       }
       setStakes(farmerStakes);
     }

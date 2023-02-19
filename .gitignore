@@ -4,3 +4,5 @@ cache/
 artifacts/
 
 .env
+# Local Netlify folder
+.netlify

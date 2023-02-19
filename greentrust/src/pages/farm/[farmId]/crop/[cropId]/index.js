@@ -167,9 +167,9 @@ const Crop = () => {
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.length > 0 ? data.sensors.map((sensor) => <>
+							{data.sensors.length > 0 ? data.sensors.map((sensor) => <>
 								<SensorCard details={sensor} />
-							</>) : <Empty text="No sensor added yet!" />}
+							</>) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders

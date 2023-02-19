@@ -15,15 +15,11 @@ import SupportDocument from "./SupportDocument";
 
 
 export default function ChallengeCard({ challenge, status, auth, full = true }) {
+  console.log("challenge", challenge)
   const { loading, setLoading } = useContext(LoaderContext);
-  const [cropData, setCropData] = useState(null);
-  
-  
-  
- 
-
-  
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
+
+  const [cropData, setCropData] = useState(null);
 
   const [stake, setStake] = useState(null);
 
@@ -43,7 +39,7 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
       setSnackbarInfo({
         ...snackbarInfo,
         open: true,
-        message: "Transaction Failed",
+        message: "Failure",
       });
     }
     setLoading(false)
@@ -66,9 +62,9 @@ export default function ChallengeCard({ challenge, status, auth, full = true }) 
       getCropData();
     }
   }, [])
-console.log("debugg", challenge)
+
   return (<div>
-    <div className={`flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full border-l-4 border-${getStatusColor(challenge.status) == 'Open' ? 'yellow' : 'red'} max-w-[280px]`}>
+    <div className={`flex-none bg-white rounded-lg shadow-lg mr-6 p-4 w-full border-l-4 ${getStatusColor(challenge.status)}`}>
       <div className="flex flex-col justify-evenly py-2 px-2">
         {full && <div className="flex justify-between mb-4 items-center">
           {stake && <p className="text-xl font-bold whitespace-nowrap overflow-hidden text-ellipsis">{stake.farm.name}</p>}
@@ -80,14 +76,18 @@ console.log("debugg", challenge)
           </p>
         </div>
         <a>
+<<<<<<< HEAD
           {/* <Modal anchor={<Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />} popover={<SupportDocument documents={JSON.parse(challenge.documents).proofs}/>} /> */}
           
+=======
+          <Modal anchor={<Info text="Supporting Documents" icon={faFolder} style="text-blue" textStyle="!text-blue" />} popover={<SupportDocument documents={challenge.documents ? JSON.parse(challenge.documents).proofs : ""}/>} />
+>>>>>>> aa61bb8588297ef8f9a8e78030c718e288c00d0a
         </a>
         <div className={`${full ? "mt-4" : ""} flex-row flex gap-2`}>
-          {status == 1 && <Button text="Accept" styles="text-sm px-6 py-2" onClick={() => handleOnClick(1)} />}
-          {status == 0 && <>
+          {status == 0 && <Button text="Accept" styles="text-sm px-6 py-2" onClick={() => handleOnClick(1)} />}
+          {status == 1 && <>
             <IconButton icon={faCheck} styles="!bg-primary" onClick={() => handleOnClick(2)} />
-            <IconButton icon={faXmark} styles="!bg-red" onClick={() => handleOnClick(2)} />
+            <IconButton icon={faXmark} styles="!bg-red" onClick={() => handleOnClick(3)} />
           </>}
         </div>
       </div>

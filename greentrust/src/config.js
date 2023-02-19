@@ -15,3 +15,5 @@ export const PUSH =
 export const CHALLENGE_AMOUNT = 1000000;
 export const STAKE_DURATION = 30;
 export const CONTRACT_ADDRESS = "0x6D5417B75E11ab99f50B2FE756360792741E68b2";
+
+export const HOST = "localhost:3002"

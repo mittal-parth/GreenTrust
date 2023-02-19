@@ -83,7 +83,7 @@ export default function VerifierDashboard() {
 				<div className="static my-8">
 					{pendingReviews && pendingReviews.length > 0
 						? <CustomCarousel responsive={cardsResponsive}>{pendingReviews?.map((challenge, index) => (
-							<ChallengeCard key={index} challenge={challenge} auth={auth} status={0} />
+							<ChallengeCard key={index} challenge={challenge} auth={auth} status={1} />
 						))}</CustomCarousel>
 						: <Empty text="You do not have any pending reviews" />
 					}
@@ -103,7 +103,7 @@ export default function VerifierDashboard() {
 				<div className="static my-8">
 					{archive && archive.length > 0
 						? <CustomCarousel responsive={cardsResponsive}>{archive?.map((challenge, index) => (
-							<ChallengeCard key={index} challenge={challenge} auth={auth} status={0} />
+							<ChallengeCard key={index} challenge={challenge} auth={auth} status={2} />
 						))}</CustomCarousel>
 						: <Empty text="You do not have any pending reviews" />
 					}

@@ -20,6 +20,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/material": "^5.11.9",
     "@next/font": "13.1.6",
+    "@opentelemetry/core": "^1.9.1",
     "@polywrap/client-js": "^0.9.6",
     "@pushprotocol/restapi": "^0.6.0",
     "@pushprotocol/uiembed": "^0.2.0",

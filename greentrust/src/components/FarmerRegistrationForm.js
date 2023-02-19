@@ -27,18 +27,18 @@ export default function FarmerRegistrationForm() {
         }
     }, [])
 
-
     const [data, setData] = useState({});
 
     const [pic, setPic] = useState([]);
     const [proofs, setProofs] = useState([]);
     
-    
     const handleSubmit = async (picHash, docsHash) => {
         data.profilePic = picHash;
+
+        console.log('debug:', data, docsHash);
         
         await contractCall(auth, 'registerFarmer', [
-            data,
+            JSON.stringify(data),
             docsHash,
         ]);
 
@@ -81,7 +81,7 @@ export default function FarmerRegistrationForm() {
                     isMultiple: true,
                     setFile: setProofs,
                     file: proofs,
-                    dataLabel: 'proofs'
+                    dataLabel: 'proofs' 
                 }
             ]}
             setData={setData}

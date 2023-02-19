@@ -7,7 +7,7 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall, uploadFile } from "@/utils";
 import Form from "@/components/Form";
 import FormPage from "@/components/FormPage";
-import farmer from '@/../../public/lotties/farmer.json';
+import farmer from '@/../../public/lotties/farm.json';
 
 
 export default function Add() {
@@ -101,6 +101,7 @@ export default function Add() {
       title="Setup your farm"
       text="Provide the details asked in the form."
       image={farmer}
+      imageStyle="!max-w-[30vw]"
     />
   );
 }

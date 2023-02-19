@@ -15,12 +15,13 @@ import {
   faShare,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import Alert from '@mui/material/Alert';
 
 import { useAuth } from "@/auth/useAuth";
 import SensorCard from "@/components/SensorCard";
 import FarmerCard from "@/components/FarmerInfoCard";
 import Button from "@/components/Button";
-import { contractCall, sendNotification } from "@/utils";
+import { CAROUSEL_RESPONSIVE_SETTINGS, contractCall, sendNotification } from "@/utils";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Info from "@/components/Info";
@@ -29,13 +30,13 @@ import IconButton from "@/components/IconButton";
 import Empty from "@/components/Empty";
 import Modal from "@/components/Modal";
 import QRCard from "@/components/QRCard";
+import CustomCarousel from "@/components/CustomCarousel";
 import { HOST } from "@/config";
 
-import Highcharts from 'highcharts'
+import Highcharts from "highcharts";
 
-import HighchartsExporting from 'highcharts/modules/exporting'
-import HighchartsReact from 'highcharts-react-official'
-import QRCode from "react-qr-code";
+import HighchartsExporting from "highcharts/modules/exporting";
+import HighchartsReact from "highcharts-react-official";
 import SensorGraph from "@/components/SensorGraph";
 
 import Lottie from "react-lottie-player";
@@ -51,45 +52,45 @@ const Crop = () => {
 	const [data, setData] = useState(null);
 
 	const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-
+	var mockData = [
+		{
+		  time: 1676460952,
+		  data: {
+			temperature: 30,
+			humidity: 50,
+			light: 120,
+		  },
+		},
+		{
+		  time: 1676633752,
+		  data: {
+			temperature: 50,
+			humidity: 10,
+			light: 100,
+		  },
+		},
+		{
+		  time: 1676806552,
+		  data: {
+			temperature: 20,
+			humidity: 50,
+			light: 190,
+		  },
+		},
+	  ];
+	const [hidden, setHidden] = useState(true);
 	const { loading, setLoading } = useContext(LoaderContext);
 	const [isFarmer, setIsFarmer] = useState(false);
 	const [farmerId, setFarmerId] = useState("");
 	const [userType, setUserType] = useState(null);
 	const [hasAccess, setHasAccess] = useState(false);
 	const [hasStaked, setHasStaked] = useState(false);
+	const [isInvalid, setIsInvalid] = useState(false);
+	const [sensorData, setSensorData] = useState(mockData);
 	
-	var sensorData = [
-		{
-			"time": 1676460952,
-			"data" : {
-				"temperature": 30,
-				"humidity": 50,
-				"light": 120,
-			}
-		},
-		{
-			"time": 1676633752,
-			"data" : {
-				"temperature": 50,
-				"humidity": 10,
-				"light": 100,
-			}
-		},
-		{
-			"time":1676806552,
-			"data" : {
-				"temperature": 20,
-				"humidity": 50,
-				"light": 190,
-			}
-		},
-
-
-	]
-
 	async function getCropDetails() {
 		setLoading(true);
+
 		const data = {};
 
 		let res;
@@ -117,8 +118,13 @@ const Crop = () => {
 			res = await contractCall(auth, "fetchCropChallenges", [cropId]);
 
 			res = await contractCall(auth, "fetchAllChallenges", []);
-
 			data.challenges = res.data;
+			for (let challenge of data.challenges) {
+				if (challenge.challenged == cropId && challenge.status == 3) {
+					setIsInvalid(true);
+				}
+			}
+
 			data.stakeholders = [];
 			for (let stake of data.stakes) {
 				res = await contractCall(auth, 'addressToFarmerIds', [stake.stakeholder])
@@ -137,39 +143,61 @@ const Crop = () => {
 					setHasAccess(true);
 				}
 			}
-
 			setData(data);
+			
+			if(data.sensors.length > 0){
+				
+				res = await contractCall(auth, "sensors", [parseInt(data.sensors[0].id._hex)]);
+				console.log("sensors", res.data.data);
+			}
+			
+			if(res.data.data != null){
+				console.log("sensors2", res.data.data);
+
+				res = await fetch(`https://ipfs.io/ipfs/${res.data.data}`);
+				const sensorData = await res.json();
+				console.log("sensors1", sensorData);
+						setSensorData(sensorData);
+			}
 		}
 		catch (err) {
 			setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })
 		}
 		setLoading(false);
 	}
-	
 
 	useEffect(() => {
 		if (auth.user) {
 			getCropDetails();
 		}
 	}, [auth.user, auth.loading])
-	console.log("debug1908", data);
-	
+
 	return (<>{data && (
 		<div>
+			{isInvalid && <Alert severity="warning" className="mb-10 text-comfortaa fixed bottom-0 z-10 left-10">A challenge against this crop has be verified to be true</Alert>}
 			<div>
+            <div
+              className={
+                " fixed flex-col inset-0 z-10 backdrop-blur-xl space-y-4 shadow-2xl  h-screen w-screen justify-center items-center " +
+                (hidden ? "hidden" : "flex")
+              }
+            >
+
+			  <SensorGraph sensorData={sensorData} />
+			  <Button text={"Close"} onClick={() => setHidden(true)}>Close</Button>
+
+            </div>
 				<Link href={'/farm/' + data.farmId}>
 					<h1>
 						{data.farm.name}
 					</h1>
 				</Link>
-				<div className="flex mb-10">
+				<div className={`flex mb-10 opacity-${isInvalid ? '50' : '100'}`}>
 					<div className="shrink hidden md:flex">
-          <Lottie
-                  loop
-                  animationData={plant}
-                  play
-                  className="my-auto object-fill mr-10"
-          />
+						<img
+							src="/images/plant.png"
+							className="mr-10 my-auto object-fill"
+						></img>
 					</div>
 					<div className="grow">
 						<div>
@@ -179,15 +207,13 @@ const Crop = () => {
 										<h2 className="mb-0">
 											{data.crop.name}
 										</h2>
-										<Modal
+										<Modal 
 											anchor={<FontAwesomeIcon
 												icon={faQrcode}
 												className="text-gray w-[32px] h-[32px]"
 											/>}
 											popover={<QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} />}
 										/>
-										{/* <QRCard value={`${HOST}/farm/${farmId}/crop/${cropId}`} id="qr-code-el" /> */}
-										{/* <QRCode id="qr-o" /> */}
 									</div>
 									<div className="flex flex-row gap-10">
 										<Info icon={faLocationDot} text={data.farm.location} style="text-red" />
@@ -214,13 +240,11 @@ const Crop = () => {
 							<h3 className="mb-0">
 								Sensors
 							</h3>
-							
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.sensors.length > 0 ? data.sensors.map((sensor) => 
-								<Modal anchor = {<SensorCard details={sensor} />} popover={<SensorGraph sensorData={sensorData}/>}/>
-								) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
+							{data.sensors.length > 0 ? data.sensors.map((sensor) => (
+                      <SensorCard onClick={() => {setHidden(false)}} details={sensor} />)) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders
@@ -285,11 +309,11 @@ const Crop = () => {
 					{data.challenges.length > 0 && <><h3>
 						Pending Challenges
 					</h3>
-						{data.challenges.map((challenge) => (
-							<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-								<ChallengeCard challenge={challenge} full={false} />
-							</div>
-						))}
+					<div className="static my-8">
+						<CustomCarousel responsive={CAROUSEL_RESPONSIVE_SETTINGS}>{data.challenges?.map((challenge, index) => (
+							<ChallengeCard key={index} challenge={challenge} full={false} />
+						))}</CustomCarousel>
+					</div>
 					</>}
 				</div>
 			</div>

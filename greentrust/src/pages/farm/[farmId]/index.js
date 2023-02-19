@@ -1,5 +1,4 @@
 import CropCard from "@/components/CropCard";
-import FarmerDefaultCard from "@/components/FarmerInfoCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faChartPie, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect, useContext } from "react";
@@ -15,6 +14,7 @@ import IconButton from "@/components/IconButton";
 import Lottie from 'react-lottie-player'
 import farm from '../../../../public/lotties/farm.json'
 import Empty from "@/components/Empty";
+import FarmerCard from "@/components/FarmerInfoCard";
 
 export default function FarmInfo() {
   const auth = useAuth();
@@ -34,6 +34,7 @@ export default function FarmInfo() {
     try {
       const farmRes = await contractCall(auth, 'farms', [farmId]);
       setFarmInfo(farmRes.data);
+      console.log('farmRes debug:', farmRes.data);
 
       const cropsRes = await contractCall(auth, 'fetchFarmCrops', [farmId]);
       setCrops(cropsRes.data);
@@ -49,6 +50,7 @@ export default function FarmInfo() {
         }
       }
       setFarmer(farmerRes.data);
+      console.log('farmer debug:', farmRes.data.profile)
 
     }
     catch (err) {
@@ -86,7 +88,7 @@ export default function FarmInfo() {
               <Info icon={faChartPie} text={`${farmInfo?.size} Acre`} style="text-gray" />
             </div>
             <div className="my-10">
-              {farmer && <FarmerDefaultCard
+              {farmer && <FarmerCard
                 profile={farmer.profile}
               />}
             </div>
@@ -96,15 +98,15 @@ export default function FarmInfo() {
               </h2>
               {hasAccess && <Link href={`/farm/${farmId}/crop/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
             </div>
-            {crops?.length > 0 ? cropList : <Empty text = "No crops registered " />}
+            {crops?.length > 0 ? cropList : <Empty text="No crops registered " />}
 
           </div>
-          <div className="hidden lg:flex shrink min-w-[400px]">
+          <div className="hidden lg:flex shrink max-w-[30vw]">
             <Lottie
-            loop
-            animationData={farm}
-            play
-            className="my-auto object-fill"/>
+              loop
+              animationData={farm}
+              play
+              className="my-auto object-fill" />
           </div>
         </div>
       </div>

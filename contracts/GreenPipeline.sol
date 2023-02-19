@@ -129,10 +129,6 @@ contract GreenPipeline {
      *************************************************************************/
 
     function createFlowIntoContract(int96 flowRate) external {
-        require(
-            msg.sender == owner || accountList[msg.sender] == true,
-            "must be authorized"
-        );
 
         cfaV1.createFlowByOperator(
             msg.sender,

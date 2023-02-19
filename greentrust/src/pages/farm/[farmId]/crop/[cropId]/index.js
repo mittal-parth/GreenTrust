@@ -52,17 +52,7 @@ const Crop = () => {
 	const [data, setData] = useState(null);
 
 	const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
-
-	const [hidden, setHidden] = useState(false);
-	const { loading, setLoading } = useContext(LoaderContext);
-	const [isFarmer, setIsFarmer] = useState(false);
-	const [farmerId, setFarmerId] = useState("");
-	const [userType, setUserType] = useState(null);
-	const [hasAccess, setHasAccess] = useState(false);
-	const [hasStaked, setHasStaked] = useState(false);
-	const [isInvalid, setIsInvalid] = useState(false);
-
-	var sensorData = [
+	var mockData = [
 		{
 		  time: 1676460952,
 		  data: {
@@ -88,6 +78,16 @@ const Crop = () => {
 		  },
 		},
 	  ];
+	const [hidden, setHidden] = useState(true);
+	const { loading, setLoading } = useContext(LoaderContext);
+	const [isFarmer, setIsFarmer] = useState(false);
+	const [farmerId, setFarmerId] = useState("");
+	const [userType, setUserType] = useState(null);
+	const [hasAccess, setHasAccess] = useState(false);
+	const [hasStaked, setHasStaked] = useState(false);
+	const [isInvalid, setIsInvalid] = useState(false);
+	const [sensorData, setSensorData] = useState(mockData);
+	
 	async function getCropDetails() {
 		setLoading(true);
 
@@ -143,8 +143,19 @@ const Crop = () => {
 					setHasAccess(true);
 				}
 			}
-
 			setData(data);
+			
+			res = await contractCall(auth, "sensors", [parseInt(data.sensors[0].id._hex)]);
+			console.log("sensors", res.data.data);
+			
+			if(res.data.data != null){
+				console.log("sensors2", res.data.data);
+
+				res = await fetch(`https://ipfs.io/ipfs/${res.data.data}`);
+				const sensorData = await res.json();
+				console.log("sensors1", sensorData);
+						setSensorData(sensorData);
+			}
 		}
 		catch (err) {
 			setSnackbarInfo({ ...snackbarInfo, open: true, message: `Error ${err.code}: ${err.message}` })

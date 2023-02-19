@@ -57,6 +57,7 @@ contract GreenTrustFarmer {
         uint256 id;
         uint256 cropId;
         string name;
+        string prevData;
         string data;
         bool isValid;
     }
@@ -132,6 +133,7 @@ contract GreenTrustFarmer {
 
     function addSensorData(uint256 _sensorId, string memory _data) public {
         require(sensors[_sensorId].isValid, "S0");
+        sensors[_sensorId].prevData = sensors[_sensorId].data;
         sensors[_sensorId].data = _data;
     }
 

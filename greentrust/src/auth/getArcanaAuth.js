@@ -6,7 +6,7 @@ const auth = new AuthProvider(APP_ADDRESS, {
   alwaysVisible: true,
     network: "testnet", // network can be testnet or mainnet - defaults to testnet
     chainConfig: {
-      chainId: CHAIN.ETHEREUM_GOERLI,
+      chainId: CHAIN.POLYGON_MUMBAI_TESTNET,
       rpcUrl: "",
     },
 });

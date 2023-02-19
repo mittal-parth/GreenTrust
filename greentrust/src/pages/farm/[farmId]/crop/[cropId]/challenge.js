@@ -10,9 +10,10 @@ import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall, uploadFile } from "@/utils";
 import { CHALLENGE_AMOUNT } from "@/config";
+import profile from '@/../../public/lotties/profile-builder.json';
 
 export default function Challenge() {
-    
+
   const { loading, setLoading } = useContext(LoaderContext);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
     const [challenge, setChallenge] = useState({});
@@ -73,7 +74,7 @@ export default function Challenge() {
             />}
             title="Raise a challenge"
             text="We appreciate your effort. Fill up the details asked and upload supporting documents. Your issue will be presented to a licensed verifier at the earliest. Thank you!"
-            image="/images/profile-builder.png"
+            image={profile}
         />
     </>)
 }

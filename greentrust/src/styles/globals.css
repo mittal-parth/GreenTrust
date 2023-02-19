@@ -30,7 +30,7 @@ body > button[style] > button[style] {
   h1 {
     @apply text-4xl font-bold text-darkPrimary mb-10;
   }
-  
+
   h2 {
     @apply text-3xl text-primary font-bold mb-8;
   }
@@ -85,5 +85,17 @@ body > button[style] > button[style] {
 
   #req-count-badge {
     @apply hidden;
+  }
+
+  div#google_translate_element>div>span {
+    @apply !hidden;
+  }
+
+  div.skiptranslate.goog-te-gadget {
+    font-size: 0;
+  }
+
+  select.goog-te-combo{
+    @apply !hidden;
   }
 }

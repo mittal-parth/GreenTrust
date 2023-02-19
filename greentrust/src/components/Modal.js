@@ -8,7 +8,7 @@ import PopupState, {
 import HoverPopover from "material-ui-popup-state/HoverPopover";
 
 
-export default function Modal({anchor, popover}) {
+export default function Modal({anchor, popover, styles}) {
   return (
     <PopupState variant="popover" popupId="demo-popup-popover">
       {(popupState) => (

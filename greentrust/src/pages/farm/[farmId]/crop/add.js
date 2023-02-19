@@ -6,6 +6,7 @@ import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";
 import FormPage from "@/components/FormPage";
 import Form from "@/components/Form";
+import plant from '@/../../public/lotties/plant.json';
 
 
 export default function Add() {
@@ -73,7 +74,7 @@ export default function Add() {
       />}
       title="Add a crop"
       text="Provide the details asked in the form."
-      image="/images/plant.png"
+      image={plant}
     />
   );
 }

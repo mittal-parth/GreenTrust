@@ -4,13 +4,16 @@ import Link from "next/link";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faLocationDot,
-	faChartPie,
-	faQrcode,
-	faCircleXmark,
-	faMoneyBillWave,
-	faCoins,
-	faPlus
+  faLocationDot,
+  faChartPie,
+  faQrcode,
+  faCircleXmark,
+  faMoneyBillWave,
+  faCoins,
+  faUnlock,
+  faHandHoldingDollar,
+  faShare,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useAuth } from "@/auth/useAuth";
@@ -27,8 +30,16 @@ import Empty from "@/components/Empty";
 import Modal from "@/components/Modal";
 import QRCard from "@/components/QRCard";
 import { HOST } from "@/config";
-import QRCode from "react-qr-code";
 
+import Highcharts from 'highcharts'
+
+import HighchartsExporting from 'highcharts/modules/exporting'
+import HighchartsReact from 'highcharts-react-official'
+import QRCode from "react-qr-code";
+import SensorGraph from "@/components/SensorGraph";
+
+import Lottie from "react-lottie-player";
+import plant from "../../../../../../public/lotties/plant.json";
 
 const Crop = () => {
 	const router = useRouter();
@@ -47,10 +58,38 @@ const Crop = () => {
 	const [userType, setUserType] = useState(null);
 	const [hasAccess, setHasAccess] = useState(false);
 	const [hasStaked, setHasStaked] = useState(false);
+	
+	var sensorData = [
+		{
+			"time": 1676460952,
+			"data" : {
+				"temperature": 30,
+				"humidity": 50,
+				"light": 120,
+			}
+		},
+		{
+			"time": 1676633752,
+			"data" : {
+				"temperature": 50,
+				"humidity": 10,
+				"light": 100,
+			}
+		},
+		{
+			"time":1676806552,
+			"data" : {
+				"temperature": 20,
+				"humidity": 50,
+				"light": 190,
+			}
+		},
+
+
+	]
 
 	async function getCropDetails() {
 		setLoading(true);
-
 		const data = {};
 
 		let res;
@@ -106,13 +145,15 @@ const Crop = () => {
 		}
 		setLoading(false);
 	}
+	
 
 	useEffect(() => {
 		if (auth.user) {
 			getCropDetails();
 		}
 	}, [auth.user, auth.loading])
-
+	console.log("debug1908", data);
+	
 	return (<>{data && (
 		<div>
 			<div>
@@ -123,10 +164,12 @@ const Crop = () => {
 				</Link>
 				<div className="flex mb-10">
 					<div className="shrink hidden md:flex">
-						<img
-							src="/images/plant.png"
-							className="mr-10 my-auto object-fill"
-						></img>
+          <Lottie
+                  loop
+                  animationData={plant}
+                  play
+                  className="my-auto object-fill mr-10"
+          />
 					</div>
 					<div className="grow">
 						<div>
@@ -136,7 +179,7 @@ const Crop = () => {
 										<h2 className="mb-0">
 											{data.crop.name}
 										</h2>
-										<Modal 
+										<Modal
 											anchor={<FontAwesomeIcon
 												icon={faQrcode}
 												className="text-gray w-[32px] h-[32px]"
@@ -171,12 +214,13 @@ const Crop = () => {
 							<h3 className="mb-0">
 								Sensors
 							</h3>
+							
 							{hasAccess && <Link href={`/farm/${farmId}/crop/${cropId}/sensor/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
 						</div>
 						<div className="grid grid-cols-1: sm:grid-cols-2 gap-10">
-							{data.sensors.length > 0 ? data.sensors.map((sensor) => <>
-								<SensorCard details={sensor} />
-							</>) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
+							{data.sensors.length > 0 ? data.sensors.map((sensor) => 
+								<Modal anchor = {<SensorCard details={sensor} />} popover={<SensorGraph sensorData={sensorData}/>}/>
+								) :  <p className="text-gray text-center max-w-[200px]">No sensor added yet!</p>}
 						</div>
 						<h3 className="mt-10 mb-0">
 							Stakeholders

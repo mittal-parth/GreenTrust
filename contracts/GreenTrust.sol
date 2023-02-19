@@ -203,8 +203,10 @@ contract GreenTrust is GreenTrustFarmer {
         }
         Challenge[] memory cropChallenges = new Challenge[](tempNumChallenges);
         for (uint256 i = 0; i < tempNumChallenges; i++) {
-            cropChallenges[j] = challenges[i];
-            j++;
+            if (challenges[i].challenged == _cropId) {
+                cropChallenges[j] = challenges[i];
+                j++;
+            }
         }
         return cropChallenges;
     }

@@ -5,12 +5,17 @@ import { useAuth } from '@/auth/useAuth';
 import { CircularProgress } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Skeleton from '@mui/material/Skeleton';
 
 import Navbar from "./Navbar";
-import classes from "../style";
 import Spinner from "./Spinner";
 import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
+import Modal from './Modal';
+import AccountCard from './AccountCard';
 
 
 export function ArcanaAuth() {
@@ -26,23 +31,14 @@ export function ArcanaAuth() {
   return (
     <>
       {auth.loading
-        ? <CircularProgress size={24} co />
-        : auth?.isLoggedIn
-          ? <button
-            className="bg-primary text-white text-xl font-medium rounded-full w-[160px] py-[8px] whitespace-normal"
-            onClick={async () => {
-              auth.logout();
-              router.push('/');
-            }}
-          >
-            Logout
-          </button>
-          : <button
-            className="bg-primary text-white text-xl font-medium rounded-full w-[160px] py-[8px] whitespace-normal"
-            onClick={() => router.push('/auth/login')}
-          >
-            Sign In
-          </button>
+        ? <Skeleton variant="circular" width={44} height={44} />
+        : <Modal
+          anchor={<div className="w-[44px] h-[44px] bg-primary rounded-full shadow-sm hover:scale-105 flex items-center justify-center"><FontAwesomeIcon
+            icon={faUser}
+            className="text-white"
+          /></div>}
+          popover={<AccountCard auth={auth} />}
+        />
       }
     </>
   )
@@ -78,8 +74,8 @@ export default function Layout({ children }) {
           <header>
             <Navbar />
           </header>
-          {(auth.loading || loading) && <Spinner></Spinner>}
           <LoaderContext.Provider value={{ loading, setLoading }}>
+            {(auth.loading || loading) && <Spinner></Spinner>}
             <main className="h-full flex justify-center px-6 md:px-[12%] mb-24 overflow-x-clip">
               <div className="mt-16 h-full max-w-[1300px] w-full">
                 {children}

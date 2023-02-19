@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
+
 import { useAuth } from "@/auth/useAuth";
-import { LoaderContext } from "@/context/loaderContext";
 import { SnackbarContext } from "@/context/snackbarContext";
 import { contractCall } from "@/utils";
 import FormPage from "@/components/FormPage";
@@ -10,7 +10,6 @@ import plant from '@/../../public/lotties/plant.json';
 
 
 export default function AddSensor() {
-  const { loading, setLoading } = useContext(LoaderContext);
   const { snackbarInfo, setSnackbarInfo } = useContext(SnackbarContext);
 
   const router = useRouter();
@@ -21,42 +20,9 @@ export default function AddSensor() {
   const [data, setData] = useState({});
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    await contractCall(auth, "addSensor", [cropId, data.name]);
 
-    setLoading(true);
-
-    if (data.name == "") {
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: "Please enter a name",
-      });
-      return;
-    }
-    if (auth.user) {
-      postSensorInfo();
-    }
-  };
-
-  const postSensorInfo = async () => {
-    try {
-      await contractCall(auth, "addSensor", [cropId, data.name]);
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: "Success",
-        severity: "success"
-      });
-
-      router.replace(`/farm/${farmId}/crop/${cropId}`);
-    } catch (err) {
-      setSnackbarInfo({
-        ...snackbarInfo,
-        open: true,
-        message: "Failure",
-      });
-    }
-    setLoading(false);
+    router.replace(`/farm/${farmId}/crop/${cropId}`);
   };
 
   return (

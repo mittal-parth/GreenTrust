@@ -22,6 +22,9 @@ export default function Challenge() {
     const {cropId} = router.query;
     const auth = useAuth();
 
+    let data = {}
+    data.proofs = []
+
     useEffect(() => {
         if (auth.user) {
             setLoading(false);
@@ -35,54 +38,15 @@ export default function Challenge() {
     }, [])
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (docsHash) => {
+        await contractCall(auth, 'addChallenge', [
+            cropId,
+            challenge.description,
+            docsHash,
+            {value: CHALLENGE_AMOUNT}
+        ]);
 
-        if (supportingDocs.length == 0) {
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: "Please upload a govt. issued ID card",
-            });
-            return;
-        }
-        const proofHashes = await uploadFile(Object.values(supportingDocs));
-        let supportingDocsHashes = ''
-        proofHashes.forEach((hash) => {
-            supportingDocsHashes += hash[0].hash + ' '
-        });
-        if(auth.user){
-            postChallengeInfo(supportingDocsHashes);
-        }
-
-        console.log('debug:', challenge, supportingDocs[0]);
-    }
-
-    const postChallengeInfo = async (supportingDocs) => {
-        setLoading(true);
-
-        try {
-
-            console.log(cropId, challenge.description, supportingDocs , "Challenge data")
-            await contractCall(auth, 'addChallenge', [
-                cropId,
-                challenge.description,
-                supportingDocs,
-                {value: CHALLENGE_AMOUNT}
-            ]);
-
-            router.replace('/dashboard');
-        }
-        catch (err) {
-            console.log(err);
-            setSnackbarInfo({
-                ...snackbarInfo,
-                open: true,
-                message: `Registration failed`,
-            });
-        }
-
-        setLoading(false);
+        router.push('/dashboard');
     };
 
     return (<>
@@ -98,9 +62,11 @@ export default function Challenge() {
                     },
                     {
                         label: 'Supporting documents',
-                        id: 'pic',
                         isFile: true,
+                        isMultiple: true,
                         setFile: setSupportingDocs,
+                        file: supportingDocs,
+                        dataLabel: 'proofs'
                     },
                 ]}
                 setData={setChallenge}

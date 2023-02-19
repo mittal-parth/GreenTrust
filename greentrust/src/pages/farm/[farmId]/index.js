@@ -14,6 +14,7 @@ import { AiFillPlusCircle } from "@react-icons/all-files/ai/AiFillPlusCircle";
 import IconButton from "@/components/IconButton";
 import Lottie from 'react-lottie-player'
 import farm from '../../../../public/lotties/farm.json'
+import Empty from "@/components/Empty";
 
 export default function FarmInfo() {
   const auth = useAuth();
@@ -98,7 +99,7 @@ export default function FarmInfo() {
               </h2>
               {hasAccess && <Link href={`/farm/${farmId}/crop/add`}><IconButton icon={faPlus} styles="!w-6 !h-6" /></Link>}
             </div>
-            {crops?.length > 0 ? cropList : <p className="text-darkGray">No crops registered yet!</p>}
+            {crops?.length > 0 ? cropList : <Empty text = "No crops registered " />}
 
           </div>
           <div className="hidden lg:flex shrink min-w-[400px]">

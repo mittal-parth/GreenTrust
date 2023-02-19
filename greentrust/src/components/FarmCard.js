@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const FarmCard = ({ farm }) => {
   let documents = JSON.parse(farm.documents);
+
   return (
     <Link href={`/farm/${farm.id}`} >
       <div className="w-full !max-w-[280px] bg-white rounded-xl shadow-lg overflow-clip hover:scale-[101%] aspect-[350/409] mr-8">

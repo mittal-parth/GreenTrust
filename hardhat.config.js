@@ -37,6 +37,11 @@ module.exports = {
         url: "https://rpc.testnet.mantle.xyz/",
         accounts: [`0x${GOERLI_PRIVATE_KEY}`],
         chainId: 5001
+    },
+    polygon: {
+        url: "https://rpc-mumbai.maticvigil.com/",
+        accounts: [`0x${GOERLI_PRIVATE_KEY}`],
+        chainId: 80001
     }
   },
   contractSizer: {

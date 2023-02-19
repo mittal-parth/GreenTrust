@@ -3,20 +3,22 @@
 
 ![Landing](https://user-images.githubusercontent.com/76661350/219805436-17bd9c16-1c68-4c98-bfe6-d8c0e7afbb21.jpg)
 
-## Tech Stack
+## Technologies Used
 
-<li>Frameworks</li>
-
-- [ReactJS](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
 - [Next Js](https://nextjs.org/)
-- [Polywrap](https://polywrap.io/)
-
-<li>Libraries/Tools</li>
-    
-- [React Icons](https://react-icons.github.io/react-icons")
-- [React Lottie](https://www.npmjs.com/package/react-lottie)
+- [Next-PWA](https://www.npmjs.com/package/next-pwa) 
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Solidity](https://soliditylang.org/)
 - [IPFS](https://ipfs.tech/)
+- [SuperFluid](https://www.superfluid.finance)
+- [Arcana](https://www.mantle.xyz/)
+- [Mantle](https://www.arcana.network/)
+- [ChainLink](https://chain.link/)
+- [Polygon](https://polygon.technology/)
+- [Push Protocol](https://push.org)
+- [Polywrap](https://polywrap.io/)
+- [Raspberry Pi (IoT)](https://www.raspberrypi.org/)
+
 
 <br/>
 
@@ -49,6 +51,35 @@ These challenges are then evaluated by a certified inspector, and if the challen
 
 Conversely, if the challenge is found to be invalid, the challenger will lose the stake they put forward to initiate the challenge.
 
+### 
+
+#### Farmer
+-  A Farmer joins the GreenTrust Platform for using the decentralized PGS system of verification for his organic Crops.
+-  The onboarding of Farmers is simplified by using Arcana Auth which provides a seamless interface from Web2 to Web3.
+-  This provides him a platform to gain credibility for his crops without paying high third party certification fees. (Incentive)
+-  In doing so, a farmer pays a nominal subscription fee in terms of Superfluid's CFA (Continuous Flow Agreement) money streaming model.
+-  The farmer can request stakes to be placed on his farm by stakeholders by clicking on Request Stake button, which sends a Push Notification to everyone subscribed to the GreenTrust Channel.
+  
+#### Verifier
+- A Verifier is an authorized Organic Crop Verifier associated with our platform.
+- The Verifier will get allocated with inspecting a Challenged Crop randomly through our system. (Future Work)
+- Since the Crop challenges will be randomly allocated the bias in the verifier's judgement will be highly reduced.
+- Verifier can either approve or reject a challenge after inspecting the challenged crop.
+- Verifier always gets the same amount (his inspection fee) irrespective of his decision which reduces his bias further.(Incentive)
+ 
+#### Stakeholder 
+- A Stakeholder is a person who vouches for the credibility of an organic crop by placing a certain amount as stake.
+- After a certain duration from the crop's harvest, the stake amount will be returned to all the stakeholders and a reward will be given using Superfluid's IDA (Instant Distribution Agreement) model automatically using Chainlink Upkeep. (Incentive)
+- Stakeholder's Rewards are generated from the farmer's subscriptions by the smart contract deployed on Polygon.
+- If a challenge on the crop is approved by a verifier, then the stakeholder loses his stake amount.
+ 
+#### Consumer
+- Consumer is the one who consumes the farmer's organic products.
+- The organic products will have QR codes which can be scanned to access the Crop details like Crop Health data (Uploaded through an IoT device), Challenges on the crop, stakeholders, etc.
+- The consumer can challenge an organic crop harvest's credibility by placing a challenge and staking a certain amount.
+- If the verifier approves the challenge, the Stakeholders' stakes are transferred to the consumer as a compensation amount and his stake (the one he placed to challenge) is transferred to the Verifier as a fee. (Incentive)
+- If the verifier rejects the challenge, the consumer loses his staked amount to the Verifier (as a fee).
+
 ## Advantages
 
 - <b>Establishing traceability</b>: Placing information regarding the lifecycle of crops on a
@@ -70,9 +101,7 @@ stakeholders, and alert stakeholders immediately of issues.
 - Figma - https://www.figma.com/file/QwfJiaDaLHx7Tav6Uwyiwf/GreenTrust?node-id=2%3A2&t=0jp5DXuTlfI99jiO-1
 
 ## Network Diagram 
-
-![gt](https://user-images.githubusercontent.com/72497928/219967298-9968fab5-1913-48ad-a7d5-13e26acd6677.png)
-
+![GreenTrustND](https://user-images.githubusercontent.com/72497928/219973576-d238d090-1636-49bb-a6d1-ea7a04fc57c3.png)
 
 ## Team Members
 - Mehul Todi
@@ -80,10 +109,9 @@ stakeholders, and alert stakeholders immediately of issues.
 - Shashank S M
 - Pranav Agarwal
 - Parth Mittal
-# GreenTrust
-A blockchain revolution for organic farming.
 
-## Setup
+## Setup 
+### Contract
 1. Touch `root/.env` file as follows:
 ```.env
 GOERLI_PRIVATE_KEY=<key>
@@ -91,3 +119,9 @@ CONTRACT_ADDRESS=0x45124
 ```
 2. `npm i`
 3. `npx hardhat run ./scripts/deploy.js --network NETWORK_NAME`
+
+### Frontend
+1. `cd greentrust`
+2. `npm i`
+3. `npm run build`
+4. `npm run start`

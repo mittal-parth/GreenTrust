@@ -23,6 +23,8 @@
     "@pushprotocol/uiembed": "^0.2.0",
     "@react-icons/all-files": "^4.1.0",
     "ethers": "^5.7.2",
+    "highcharts": "^10.3.3",
+    "highcharts-react-official": "^3.1.0",
     "ipfs-http-client-lite": "^0.3.0",
     "material-ui-popup-state": "^5.0.4",
     "next": "13.1.6",

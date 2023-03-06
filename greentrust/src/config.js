@@ -21,6 +21,17 @@ export const POLYGON_NETWORK_CONFIG = {
   rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
   blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
 };
+export const FANTOM_NETWORK_CONFIG = {
+  chainId: "0xfa2",
+  chainName: "Fantom Opera",
+  nativeCurrency: {
+    name: "FTM",
+    symbol: "FTM",
+    decimals: 18,
+  },
+  rpcUrls: ["https://rpc.ankr.com/fantom_testnet/"],
+  blockExplorerUrls: ["https://ftmscan.com/"],
+};
 export const PUSH =
   "663f25c970ed54389f0d1c55105eb952244ce90332b3d1049459a6c2e3ce574a";
 export const CHALLENGE_AMOUNT = 1000000;
@@ -28,4 +39,4 @@ export const STAKE_DURATION = 30;
 export const FLOW_RATE = 10;
 export const HOST = "localhost:3002"
 export const PIPELINE_ADDRESS = "0x3A7Ee68e244d7789754050cC9f75880324B827b7";
-export const CONTRACT_ADDRESS = "0x60B19871c5DbF423240BE920EcB4BA68010059D4"
+export const CONTRACT_ADDRESS = "0xbB8755c4CCC080653bed6C8478c523146A2c53e5"

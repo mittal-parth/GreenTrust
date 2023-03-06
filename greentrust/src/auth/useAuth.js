@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useRef, useEffect } from "react";
-import { MANTLE_NETWORK_CONFIG } from "@/config";
+import { FANTOM_NETWORK_CONFIG } from "@/config";
 
 const AuthContext = createContext(null);
 
@@ -40,7 +40,7 @@ const useProvideAuth = (auth) => {
     const info = await auth.getUser();
     setIsLoggedIn(true);
     const loggedIn = await auth.isLoggedIn();
-    if (loggedIn && auth.provider.chainId !== MANTLE_NETWORK_CONFIG.chainId) {
+    if (loggedIn && auth.provider.chainId !== FANTOM_NETWORK_CONFIG.chainId) {
       await switchNetwork();
     }
     setUser(info);
@@ -55,7 +55,7 @@ const useProvideAuth = (auth) => {
     try {
       await auth.provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: MANTLE_NETWORK_CONFIG.chainId }],
+        params: [{ chainId: FANTOM_NETWORK_CONFIG.chainId }],
       });
     } catch (error) {
       if (error.code === 4902) {
@@ -63,7 +63,7 @@ const useProvideAuth = (auth) => {
           await auth.provider.request({
             method: "wallet_addEthereumChain",
             params: [
-              MANTLE_NETWORK_CONFIG,
+              FANTOM_NETWORK_CONFIG,
             ],
           });
           await switchNetwork();
@@ -85,7 +85,7 @@ const useProvideAuth = (auth) => {
         if (loggedIn) {
           const info = await auth.getUser();
           setIsLoggedIn(true);
-          if (auth.provider.chainId !== MANTLE_NETWORK_CONFIG.chainId) {
+          if (auth.provider.chainId !== FANTOM_NETWORK_CONFIG.chainId) {
             await switchNetwork();
           }
           setUser(info);

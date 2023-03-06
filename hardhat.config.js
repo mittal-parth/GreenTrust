@@ -42,6 +42,11 @@ module.exports = {
         url: "https://rpc-mumbai.maticvigil.com/",
         accounts: [`0x${GOERLI_PRIVATE_KEY}`],
         chainId: 80001
+    },
+    fantom: {
+      url: "https://rpc.ankr.com/fantom_testnet/",
+      accounts: [`0x${GOERLI_PRIVATE_KEY}`],
+      chainId: 4002
     }
   },
   contractSizer: {

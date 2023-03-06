@@ -11,15 +11,17 @@ permissions:
 
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./greentrust
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install and build
+      - name: Install and build 🔧
         run: |
-          cd greentrust
-          npm i --legacy-peer-deps
+          npm install
           npm run export
           cd out
           touch .nojekyll
@@ -31,4 +33,3 @@ jobs:
           branch: gh-pages
           clean-exclude: |
             .nojekyll
-            CNAME

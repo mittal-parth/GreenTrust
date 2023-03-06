@@ -44,9 +44,9 @@ export default function Navar() {
           <Logo />
           <section className="flex flex-row gap-4">
 
-            <NavbarLink link="/dashboard" icon={faHouse} />
-            <NavbarLink link="/farms" icon={faTractor} />
-            {(auth?.user && !isRegistered) && <NavbarLink link="/profile/role-choice" icon={faIdCard} />}
+            <NavbarLink link="/dashboard" icon={faHouse} tooltip="Home" />
+            <NavbarLink link="/farms" icon={faTractor} tooltip="Farms" />
+            {(auth?.user && !isRegistered) && <NavbarLink link="/profile/role-choice" icon={faIdCard} tooltip="Register" />}
           </section>
         </div>
         <div className="flex flex-row gap-6 items-center">

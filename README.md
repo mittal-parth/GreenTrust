@@ -1,11 +1,7 @@
 # Green Trust
 <p> A Blockchain Revolution in Organic Farming <p/>
 
-
 https://user-images.githubusercontent.com/76661350/223676777-6f659bec-18f9-433e-a250-5a2737954ea5.mp4
-
-
-![Landing](https://user-images.githubusercontent.com/76661350/219805436-17bd9c16-1c68-4c98-bfe6-d8c0e7afbb21.jpg)
 
 ## Technologies Used
 
